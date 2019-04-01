@@ -1,3 +1,6 @@
+5.7:
+  - Improved the vault integration
+  - Logging of transactions done via Vault now happens
 5.6:
   - Add the ability to declare that mysql uses SSL
 5.5:

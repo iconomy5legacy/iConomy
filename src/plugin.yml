@@ -1,9 +1,10 @@
 name: iConomy
 main: com.iConomy.iConomy
-version: 5.06
+version: 5.07
 authors: [Nijikokun,ElgarL,LlmDl]
 softdepend: [Vault, Towny]
 load: startup
+api-version: 1.13
 commands:
     money:
         description: Controls account balances and more

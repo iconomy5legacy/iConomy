@@ -106,6 +106,8 @@ public class VaultConnector implements Economy {
         balance = getBalance(playerName);
         type = EconomyResponse.ResponseType.SUCCESS;
 
+        iConomy.getTransactions().insert("[Vault]", playerName, 0.0D, balance, 0.0D, amount, 0.0D);
+
         return new EconomyResponse(amount, balance, type, errorMessage);
 	}
 
@@ -120,6 +122,8 @@ public class VaultConnector implements Economy {
         holdings.add(amount);
         balance = getBalance(player.getName());
         type = EconomyResponse.ResponseType.SUCCESS;
+
+        iConomy.getTransactions().insert("[Vault]", player.getName(), 0.0D, balance, 0.0D, amount, 0.0D);
 
         return new EconomyResponse(amount, balance, type, errorMessage);
 	}
@@ -136,6 +140,8 @@ public class VaultConnector implements Economy {
         balance = getBalance(playerName);
         type = EconomyResponse.ResponseType.SUCCESS;
 
+        iConomy.getTransactions().insert("[Vault]", playerName, 0.0D, balance, 0.0D, amount, 0.0D);
+
         return new EconomyResponse(amount, balance, type, errorMessage);
 	}
 
@@ -150,6 +156,8 @@ public class VaultConnector implements Economy {
         holdings.add(amount);
         balance = getBalance(player.getName());
         type = EconomyResponse.ResponseType.SUCCESS;
+
+        iConomy.getTransactions().insert("[Vault]", player.getName(), 0.0D, balance, 0.0D, amount, 0.0D);
 
         return new EconomyResponse(amount, balance, type, errorMessage);
 	}
@@ -261,6 +269,9 @@ public class VaultConnector implements Economy {
             holdings.subtract(amount);
             balance = getBalance(playerName);
             type = EconomyResponse.ResponseType.SUCCESS;
+
+            iConomy.getTransactions().insert("[Vault]", playerName, 0.0D, balance, 0.0D, 0.0D, amount);
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         } else {
             amount = 0;
@@ -283,6 +294,9 @@ public class VaultConnector implements Economy {
             holdings.subtract(amount);
             balance = getBalance(player.getName());
             type = EconomyResponse.ResponseType.SUCCESS;
+
+            iConomy.getTransactions().insert("[Vault]", player.getName(), 0.0D, balance, 0.0D, 0.0D, amount);
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         } else {
             amount = 0;
@@ -305,6 +319,9 @@ public class VaultConnector implements Economy {
             holdings.subtract(amount);
             balance = getBalance(playerName);
             type = EconomyResponse.ResponseType.SUCCESS;
+
+            iConomy.getTransactions().insert("[Vault]", playerName, 0.0D, balance, 0.0D, 0.0D, amount);
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         } else {
             amount = 0;
@@ -327,6 +344,9 @@ public class VaultConnector implements Economy {
             holdings.subtract(amount);
             balance = getBalance(player.getName());
             type = EconomyResponse.ResponseType.SUCCESS;
+
+            iConomy.getTransactions().insert("[Vault]", player.getName(), 0.0D, balance, 0.0D, 0.0D, amount);
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         } else {
             amount = 0;
