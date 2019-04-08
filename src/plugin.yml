@@ -1,7 +1,7 @@
 name: iConomy
 main: com.iConomy.iConomy
 version: 5.07
-authors: [Nijikokun,ElgarL,LlmDl]
+authors: [Nijikokun, ElgarL, LlmDl, graywolf336]
 softdepend: [Vault, Towny]
 load: startup
 api-version: 1.13
