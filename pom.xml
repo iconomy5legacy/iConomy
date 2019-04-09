@@ -17,8 +17,8 @@
 		</repository>
 
 		<repository>
-			<id>repo-release</id>
-			<url>https://repo.craftyn.com/repository/internal/</url>
+			<id>articdive-repo</id>
+			<url>https://nexus.articdive.de/repository/maven-releases</url>
 		</repository>
 
 		<repository>
@@ -43,9 +43,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.palmergames.bukkit</groupId>
+			<groupId>com.palmergames</groupId>
 			<artifactId>Towny</artifactId>
-			<version>0.93.0.0</version>
+			<version>0.93.0.6</version>
 			<scope>provided</scope>
 		</dependency>
 
