@@ -161,7 +161,7 @@ public class iConomy extends JavaPlugin {
         }
 
         // Check version details before the system loads
-        update(file, Double.valueOf(pdfFile.getVersion()).doubleValue());
+        update(file, Double.valueOf(pdfFile.getVersion().split("-")[0]).doubleValue());
 
         // Initialize default systems
         Accounts = new Accounts();
