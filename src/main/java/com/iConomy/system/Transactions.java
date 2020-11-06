@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Transactions {
+	
     public void insert(String from, String to, double from_balance, double to_balance, double set, double gain, double loss) {
         if (!Constants.Logging) {
             return;
@@ -32,13 +33,11 @@ public class Transactions {
             ps.executeUpdate();
         } catch (SQLException ex) {} finally {
             if (ps != null)
-                try {
-                    ps.close();
-                } catch (SQLException ex) {}
+                try { ps.close(); } catch (SQLException ex) {}
+            
             if (rs != null)
-                try {
-                    rs.close();
-                } catch (SQLException ex) {}
+                try { rs.close(); } catch (SQLException ex) {}
+            
             iConomy.getiCoDatabase().close(conn);
         }
     }

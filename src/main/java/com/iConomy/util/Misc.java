@@ -9,6 +9,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Misc {
+	
+	/**
+     * Checks text against two variables, if it equals at least one returns true.
+     *
+     * @param text The text that we were provided with.
+     * @param against The first variable that needs to be checked against
+     * @param or The second variable that it could possibly be.
+     *
+     * @return <code>Boolean</code> - True or false based on text.
+     */
     public static boolean is(String text, String[] is) {
         for (String s : is) {
             if (text.equalsIgnoreCase(s)) {
@@ -94,6 +104,9 @@ public class Misc {
         return formatted;
     }
 
+    /**
+     * Get the player from the server (matched)
+     */
     public static Player playerMatch(String name) {
         Collection<? extends Player> online = iConomy.getBukkitServer().getOnlinePlayers();
         Player lastPlayer = null;

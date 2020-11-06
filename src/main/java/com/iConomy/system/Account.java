@@ -16,6 +16,11 @@ public class Account {
         this.name = name;
     }
 
+    /**
+     * Get the id of this Account.
+     * 
+     * @return id
+     */
     public int getId() {
         Connection conn = null;
         ResultSet rs = null;
@@ -33,25 +38,30 @@ public class Account {
             id = -1;
         } finally {
             if (ps != null)
-                try {
-                    ps.close();
-                } catch (SQLException ex) {}
+                try { ps.close(); } catch (SQLException ex) {}
+            
             if (rs != null)
-                try {
-                    rs.close();
-                } catch (SQLException ex) {}
+                try { rs.close(); } catch (SQLException ex) {}
+            
             if (conn != null)
-                try {
-                    conn.close();
-                } catch (SQLException ex) {}
+                try { conn.close();  } catch (SQLException ex) {}
         }
         return id;
     }
 
+    /**
+     * Get this Account name.
+     * 
+     * @return the name of this Account.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Get teh Holdings of this Account.
+     * @return
+     */
     public Holdings getHoldings() {
         return new Holdings(0, this.name);
     }
@@ -297,6 +307,11 @@ public class Account {
         return new Holdings(id, this.name, true);
     }
 
+    /**
+     * Get the Hidden state of this Account.
+     * 
+     * @return true if hidden.
+     */
     public boolean isHidden() {
         Connection conn = null;
         ResultSet rs = null;
@@ -315,13 +330,11 @@ public class Account {
             System.out.println("[iConomy] Failed to check status: " + ex);
         } finally {
             if (ps != null)
-                try {
-                    ps.close();
-                } catch (SQLException ex) {}
+                try { ps.close(); } catch (SQLException ex) {}
+            
             if (rs != null)
-                try {
-                    rs.close();
-                } catch (SQLException ex) {}
+                try { rs.close(); } catch (SQLException ex) {}
+            
             if (conn != null) {
                 iConomy.getiCoDatabase().close(conn);
             }
@@ -329,6 +342,12 @@ public class Account {
         return false;
     }
 
+    /**
+     * Set the Hidden flag on this account.
+     * 
+     * @param hidden	the hidden state to set.
+     * @return true if successful
+     */
     public boolean setHidden(boolean hidden) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -342,11 +361,11 @@ public class Account {
             ps.executeUpdate();
         } catch (Exception ex) {
             System.out.println("[iConomy] Failed to update status: " + ex);
+            return false;
         } finally {
             if (ps != null)
-                try {
-                    ps.close();
-                } catch (SQLException ex) {}
+                try { ps.close(); } catch (SQLException ex) {}
+            
             if (conn != null) {
                 iConomy.getiCoDatabase().close(conn);
             }
@@ -354,6 +373,12 @@ public class Account {
         return true;
     }
 
+    /**
+     * Returns the ranking number of an account
+     *
+     * @param name
+     * @return Integer
+     */
     public int getRank() {
         int i = 1;
 
@@ -386,6 +411,9 @@ public class Account {
         return -1;
     }
 
+    /**
+     * Remove this account.
+     */
     public void remove() {
     	
         AccountRemoveEvent event = new AccountRemoveEvent(this.name);

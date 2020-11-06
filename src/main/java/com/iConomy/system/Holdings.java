@@ -12,7 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 
+/**
+ * Controls player Holdings, and Bank Account holdings.
+ * 
+ * @author Nijikokun
+ */
 public class Holdings {
+	
     private String name = "";
     private boolean bank = false;
     private int bankId = 0;
@@ -32,18 +38,38 @@ public class Holdings {
         this.name = name;
     }
 
+    /**
+     * Is this a player or Bank Holding?
+     * 
+     * @return true if a Bank Holding.
+     */
     public boolean isBank() {
         return this.bank;
     }
     
+    /**
+     * Holdings name.
+     * 
+     * @return name of this Holding
+     */
     public String getName() {
     	return this.name;
     }
     
+    /**
+     * Get the Holding Id.
+     * 
+     * @return Bank id or zero if a Player Holding.
+     */
     public int getBankId() {
     	return this.bankId;
     }
 
+    /**
+     * Get the balance for this Holding.
+     * 
+     * @return the balance.
+     */
     public double balance() {
         return get();
     }
@@ -73,17 +99,13 @@ public class Holdings {
             System.out.println("[iConomy] Failed to grab holdings: " + ex);
         } finally {
             if (ps != null)
-                try {
-                    ps.close();
-                } catch (SQLException ex) {}
+                try { ps.close(); } catch (SQLException ex) {}
+            
             if (rs != null)
-                try {
-                    rs.close();
-                } catch (SQLException ex) {}
+                try { rs.close(); } catch (SQLException ex) {}
+            
             if (conn != null)
-                try {
-                    conn.close();
-                } catch (SQLException ex) {}
+                try { conn.close(); } catch (SQLException ex) {}
         }
         return balance.doubleValue();
     }
@@ -121,6 +143,9 @@ public class Holdings {
         math(amount, balance, ending);
     }
 
+    /**
+     * Reset Holdings to default, if the Event is not cancelled.
+     */
     public void reset() {
         AccountResetEvent event = new AccountResetEvent(this);
         event.schedule(event);
@@ -131,18 +156,41 @@ public class Holdings {
         event.schedule(event);
     }
 
+    /**
+     * Is this balance negative?
+     * 
+     * @return true if negative.
+     */
     public boolean isNegative() {
         return get() < 0.0D;
     }
 
+    /**
+     * Does this Holding have this amount or more?
+     * 
+     * @param amount the amount to test for.
+     * @return true if the balance is sufficient.
+     */
     public boolean hasEnough(double amount) {
         return amount <= get();
     }
 
+    /**
+     * Is the balance over the amount?
+     * 
+     * @param amount the amount to test for.
+     * @return true if balance is higher.
+     */
     public boolean hasOver(double amount) {
         return amount < get();
     }
 
+    /**
+     * Is the balance under the amount?
+     * 
+     * @param amount the amount to test for.
+     * @return true if balance is lower.
+     */
     public boolean hasUnder(double amount) {
         return amount > get();
     }

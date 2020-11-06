@@ -28,13 +28,31 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * Handles the command usage and account creation upon a
+ * player joining the server.
+ *
+ * @author Nijikokun
+ */
 public class Players implements Listener {
     private Template Template = null;
 
+    /**
+     * Initialize the class as well as the template for various
+     * messages throughout the commands.
+     *
+     * @param directory
+     */
     public Players(String directory) {
         this.Template = new Template(directory, "Template.yml");
     }
 
+    /**
+     * Help documentation for iConomy all in one method.
+     *
+     * Allows us to easily utilize all throughout the class without having multiple
+     * instances of the same help lines.
+     */
     private void getMoneyHelp(CommandSender player) {
         Messaging.send("`y ");
         Messaging.send("`w iConomy (`r" + Constants.Codename + "`w)");
@@ -96,6 +114,12 @@ public class Players implements Listener {
         Messaging.send(" ");
     }
 
+    /**
+     * Help documentation for iConomy all in one method.
+     *
+     * Allows us to easily utilize all throughout the class without having multiple
+     * instances of the same help lines.
+     */
     private void getBankHelp(CommandSender player) {
         Messaging.send("`y ");
         Messaging.send("`w iConomy (`r" + Constants.Codename + "`w)");
@@ -161,6 +185,9 @@ public class Players implements Listener {
         return iConomy.getAccount(name).setHidden(hidden);
     }
 
+    /**
+     * Account Creation
+     */
     public void createAccount(String name) {
         iConomy.getAccount(name);
         Messaging.send(this.Template.color("tag.money") + this.Template.parse("accounts.create", new String[] { "+name,+n" }, new String[] { name }));
@@ -296,6 +323,9 @@ public class Players implements Listener {
 
     }
 
+    /**
+     * Account Removal
+     */
     public void removeAccount(String name) {
         iConomy.Accounts.remove(name);
         Messaging.send(this.Template.color("tag.money") + this.Template.parse("accounts.remove", new String[] { "+name,+n" }, new String[] { name }));
@@ -324,6 +354,12 @@ public class Players implements Listener {
         Messaging.send(this.Template.color("tag.bank") + this.Template.parse("accounts.bank.remove", new String[] { "+bank,+b", "+name,+n" }, new String[] { name, player }));
     }
 
+    /**
+     * Show list of banks
+     *
+     * @param player
+     * @param name
+     */
     public void showBankList(CommandSender player, int current) {
         Connection conn = null;
         ResultSet rs = null;
@@ -383,6 +419,13 @@ public class Players implements Listener {
         }
     }
 
+    /**
+     * Shows the balance to the requesting player.
+     *
+     * @param name The name of the player we are viewing
+     * @param viewing The player who is viewing the account
+     * @param mine Is it the player who is trying to view?
+     */
     public void showBalance(String name, CommandSender viewing, boolean mine) {
         if (mine)
             Messaging.send(viewing, this.Template.color("tag.money") + this.Template.parse("personal.balance", new String[] { "+balance,+b" }, new String[] { iConomy.format(name) }));
@@ -703,6 +746,13 @@ public class Players implements Listener {
         }
     }
 
+    /**
+     * Reset a players account easily.
+     *
+     * @param resetting The player being reset. Cannot be null.
+     * @param by The player resetting the account. Cannot be null.
+     * @param notify Do we want to show the updates to each player?
+     */
     public void showPayment(String from, String to, double amount) {
         Player paymentFrom = iConomy.getBukkitServer().getPlayer(from);
         Player paymentTo = iConomy.getBukkitServer().getPlayer(to);
@@ -748,6 +798,13 @@ public class Players implements Listener {
         }
     }
 
+    /**
+     * Reset a players account, accessable via Console & In-Game
+     *
+     * @param account The account we are resetting.
+     * @param controller If set to null, won't display messages.
+     * @param console Is it sent via console?
+     */
     public void showReset(String account, Player controller, boolean console) {
         Player player = iConomy.getBukkitServer().getPlayer(account);
 
@@ -775,6 +832,13 @@ public class Players implements Listener {
             System.out.println(Messaging.bracketize("iConomy") + "Player " + account + "'s account has been reset by " + controller.getName() + ".");
     }
 
+    /**
+    *
+    * @param account
+    * @param controller If set to null, won't display messages.
+    * @param amount
+    * @param console Is it sent via console?
+    */
     public void showGrant(String name, Player controller, double amount, boolean console) {
         Player online = iConomy.getBukkitServer().getPlayer(name);
 
@@ -813,6 +877,14 @@ public class Players implements Listener {
         }
     }
 
+    /**
+     * Show the actual setting of the new balance of an account.
+     *
+     * @param account
+     * @param controller If set to null, won't display messages.
+     * @param amount
+     * @param console Is it sent via console?
+     */
     public void showSet(String name, Player controller, double amount, boolean console) {
         Player online = iConomy.getBukkitServer().getPlayer(name);
 
@@ -847,6 +919,16 @@ public class Players implements Listener {
         }
     }
 
+    /**
+     * Parses and outputs personal rank.
+     *
+     * Grabs rankings via the bank system and outputs the data,
+     * using the template variables, to the given player stated
+     * in the method.
+     *
+     * @param viewing
+     * @param player
+     */
     public void showRank(CommandSender viewing, String player) {
         Account account = iConomy.getAccount(player);
 
@@ -860,6 +942,15 @@ public class Players implements Listener {
         }
     }
 
+    /**
+     * Top ranking users by cash flow.
+     *
+     * Grabs the top amount of players and outputs the data, using the template
+     * system, to the given viewing player.
+     *
+     * @param viewing
+     * @param amount
+     */
     public void showTop(CommandSender viewing, int amount) {
         LinkedHashMap<String, Double> Ranking = iConomy.Accounts.ranking(amount);
         int count = 1;
@@ -881,6 +972,13 @@ public class Players implements Listener {
         }
     }
 
+    /**
+     * Commands sent from in game to us.
+     *
+     * @param player The player who sent the command.
+     * @param split The input line split by spaces.
+     * @return <code>boolean</code> - True denotes that the command existed, false the command doesn't.
+     */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -889,6 +987,12 @@ public class Players implements Listener {
             System.out.println("[iConomy] Error creating / grabbing account for: " + player.getName());
     }
 
+    /**
+     * Commands sent from in-game are parsed and evaluated here.
+     *
+     * @param player
+     * @param split
+     */
     public boolean onPlayerCommand(CommandSender sender, String[] split) {
         Messaging.save(sender);
         boolean isPlayer = sender instanceof Player;
@@ -937,7 +1041,10 @@ public class Players implements Listener {
                         return true;
                     }
 
-                    if (Misc.is(split[1], new String[] { "help", "?", "create", "-c", "remove", "-r", "set", "-s", "send", "->", "deposit", "-d", "join", "-j", "leave", "-l" })) {
+                    if (Misc.is(split[1], new String[] {
+                    		"help", "?", "create", "-c", "remove", "-r", "set", "-s",
+                    		"send", "->", "deposit", "-d", "join", "-j", "leave", "-l"
+                    })) {
                         getBankHelp(player);
                         return true;
                     }

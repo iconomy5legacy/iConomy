@@ -96,10 +96,25 @@ public class Template {
         }
     }
 
+    /**
+     * Grab the raw template line by the key, and don't save anything.
+     *
+     * @param key The template key we wish to grab.
+     *
+     * @return <code>String</code> - Template line / string.
+     */
     public String raw(String key) {
         return this.tpl.getString(key);
     }
 
+    /**
+     * Grab the raw template line and save data if no key existed.
+     *
+     * @param key The template key we are searching for.
+     * @param line The line to be placed if no key was found.
+     * 
+     * @return
+     */
     public String raw(String key, String line) {
         return this.tpl.getString(key, line);
     }
