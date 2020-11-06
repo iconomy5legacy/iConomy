@@ -48,7 +48,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @copyright     Copyright AniGaiku LLC (C) 2010-2011
  * @author          Nijikokun <nijikokun@gmail.com>
  * @author          Coelho <robertcoelho@live.com>
- * @author       ShadowDrakken <shadowdrakken@gmail.com>
+ * @author          ShadowDrakken <shadowdrakken@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
