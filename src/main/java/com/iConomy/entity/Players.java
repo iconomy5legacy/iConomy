@@ -994,7 +994,7 @@ public class Players implements Listener {
      * @param split
      */
     public boolean onPlayerCommand(CommandSender sender, String[] split) {
-        Messaging.save(sender);
+        
         boolean isPlayer = sender instanceof Player;
         Player player = sender instanceof Player ? (Player) sender : null;
 

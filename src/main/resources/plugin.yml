@@ -15,6 +15,7 @@ commands:
     icoimport:
         description: Imports an Essentials Economy into iConomy.
         usage: /icoimport
+        permission: iConomy.import
         
 permissions:
     iConomy.admin:
@@ -51,7 +52,9 @@ permissions:
         default: op
     iConomy.admin.set:
         default: op
-        
+    iConomy.import:
+        default: op
+    
     iConomy.access:
         default: true
     iConomy.list:

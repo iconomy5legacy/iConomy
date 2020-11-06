@@ -252,11 +252,16 @@ public class iConomy extends JavaPlugin {
         System.arraycopy(args, 0, split, 1, args.length);
         boolean isPlayer = sender instanceof Player;
 
+        /*
+         * Save the sender so we can respond.
+         */
+        Messaging.save(sender);
+        
         switch (commandLabel.toLowerCase()) {
         
         case "bank":
         	if (!Constants.Banking) {
-        		Messaging.send("`RBanking is disabled.");
+        		Messaging.send("`rBanking is disabled.");
         		return true;
         	}
 
@@ -264,8 +269,10 @@ public class iConomy extends JavaPlugin {
         	return playerListener.onPlayerCommand(sender, split);
         	
         case "icoimport":
-        	if (!isPlayer)
-        		return importEssEco();
+        	if (!isPlayer && !importEssEco()) {
+        		Messaging.send("`rImport failed.");
+        	}
+        	return true;
         }
         
         return false;
@@ -292,12 +299,11 @@ public class iConomy extends JavaPlugin {
          */
         try {
             accountsFolder = new File("plugins/Essentials/userdata/");
-        } catch (Exception e) {
-            log.warning("Essentials data not found.");
-            return false;
-        }
+            if (!accountsFolder.isDirectory())
+                throw new Exception();
 
-        if (!accountsFolder.isDirectory()) {
+        } catch (Exception e) {
+            log.warning("Essentials data not found or no permission to access.");
             return false;
         }
         
@@ -307,37 +313,42 @@ public class iConomy extends JavaPlugin {
         File townySettings = null;
         try {
         	townySettings = new File("plugins/Towny/settings/config.yml");
-        } catch (Exception e) {
-            log.warning("Towny data not found.");
-        }
+        	
+        	if (townySettings.isFile()) {
 
-        if (townySettings.isFile()) {
-
-    		try {
-    			data.load(townySettings);
-    		} catch (IOException | InvalidConfigurationException e) {
-    			log.warning("Towny data is not readable!");
-                return false;
-    		}
-            
-    		townPrefix = data.getString("economy.town_prefix", "town-");
-    		nationPrefix = data.getString("economy.nation_prefix", "nation-");
-    		debtPrefix = data.getString("economy.debt_prefix", "[Debt]-");
-    		/*
-    		 * Essentials handles all NPC accounts as lower case.
-    		 */
-    		essTownPrefix = townPrefix.replaceAll("-", "_").toLowerCase();
-    		essNationPrefix = nationPrefix.replaceAll("-", "_").toLowerCase();
-    		essDebtPrefix = debtPrefix.replaceAll("[\\[\\]-]", "_").toLowerCase();
-    		
-    		hasTowny = true;
-        }
-
-        File[] accounts = accountsFolder.listFiles(new FilenameFilter() {
-            public boolean accept(File file, String name) {
-                return name.toLowerCase().endsWith(".yml");
+        		data.load(townySettings);
+                
+        		townPrefix = data.getString("economy.town_prefix", "town-");
+        		nationPrefix = data.getString("economy.nation_prefix", "nation-");
+        		debtPrefix = data.getString("economy.debt_prefix", "[Debt]-");
+        		/*
+        		 * Essentials handles all NPC accounts as lower case.
+        		 */
+        		essTownPrefix = townPrefix.replaceAll("-", "_").toLowerCase();
+        		essNationPrefix = nationPrefix.replaceAll("-", "_").toLowerCase();
+        		essDebtPrefix = debtPrefix.replaceAll("[\\[\\]-]", "_").toLowerCase();
+        		
+        		hasTowny = true;
             }
-        });
+        	
+        } catch (Exception e) {
+            log.warning("Towny data not found or no permission to access.");
+        }
+
+        /*
+         * List all account files.
+         */
+        File[] accounts;
+        try {
+            accounts = accountsFolder.listFiles(new FilenameFilter() {
+                public boolean accept(File file, String name) {
+                    return name.toLowerCase().endsWith(".yml");
+                }
+            });
+        } catch (Exception e) {
+            log.warning("Error accessing account files.");
+            return false;
+        }
 
         log.info("Amount of accounts found:" + accounts.length);
         int i = 0;
