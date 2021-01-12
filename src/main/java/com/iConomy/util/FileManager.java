@@ -204,7 +204,7 @@ public final class FileManager {
                     this.lines.add(line);
             } catch (IOException ex) {
                 log(Level.SEVERE, ex);
-
+                input.close();
                 return false;
             }
             
