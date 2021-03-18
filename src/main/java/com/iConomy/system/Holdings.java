@@ -118,7 +118,7 @@ public class Holdings {
     }
 
     public void add(double amount) {
-		if (Bukkit.isPrimaryThread()) {
+        if (Bukkit.isPrimaryThread()) {
             double balance = get();
             double ending = balance + amount;
     
@@ -134,7 +134,7 @@ public class Holdings {
     }
 
     public void subtract(double amount) {
-		if (Bukkit.isPrimaryThread()) {
+        if (Bukkit.isPrimaryThread()) {
             double balance = get();
             double ending = balance - amount;
     
