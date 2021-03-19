@@ -143,7 +143,7 @@ public class Holdings {
             new BukkitRunnable(){
                 @Override
                 public void run(){
-                    add(amount);
+                    subtract(amount);
                 }
             }.runTask(iConomy.instance);
         }
