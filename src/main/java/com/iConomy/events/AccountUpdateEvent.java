@@ -17,7 +17,7 @@ public class AccountUpdateEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 
 	public AccountUpdateEvent(Holdings account, double previous, double balance, double amount) {
-		super();
+		super(!Bukkit.isPrimaryThread());
 		this.account = account;
 		this.previous = previous;
 		this.balance = balance;
@@ -66,18 +66,8 @@ public class AccountUpdateEvent extends Event {
 	}
 
 	public void schedule(AccountUpdateEvent event) {
-
-		if (Bukkit.isPrimaryThread()) {
-			update(event);
-
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
-
-			@Override
-			public void run() {
-				update(event);
-			}
-		}, 1) == -1)
-			System.out.println("[iConomy] Could not schedule Account Update Event.");
+		
+		update(event);
 	}
 
 	private void update(AccountUpdateEvent event) {

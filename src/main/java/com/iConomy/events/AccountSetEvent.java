@@ -19,7 +19,7 @@ public class AccountSetEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 
 	public AccountSetEvent(Holdings account, double balance) {
-		super();
+		super(!Bukkit.isPrimaryThread());
 		this.account = account;
 		this.balance = balance;
 	}
@@ -45,18 +45,8 @@ public class AccountSetEvent extends Event {
 	}
 
 	public void schedule(AccountSetEvent event) {
-
-		if (Bukkit.isPrimaryThread()) {
-			setBalance(event);
-
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
-
-			@Override
-			public void run() {
-				setBalance(event);
-			}
-		}, 1) == -1)
-			iConomy.instance.getServer().getLogger().warning("Could not schedule Account Set Event.");
+		
+		setBalance(event);
 	}
 
 	private void setBalance(AccountSetEvent event) {
