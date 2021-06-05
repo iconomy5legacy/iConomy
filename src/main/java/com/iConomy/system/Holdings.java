@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Controls player Holdings, and Bank Account holdings.
@@ -116,17 +118,35 @@ public class Holdings {
     }
 
     public void add(double amount) {
-        double balance = get();
-        double ending = balance + amount;
-
-        math(amount, balance, ending);
+        if (Bukkit.isPrimaryThread()) {
+            double balance = get();
+            double ending = balance + amount;
+    
+            math(amount, balance, ending);
+        }else{
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+                    add(amount);
+                }
+            }.runTask(iConomy.instance);
+        }
     }
 
     public void subtract(double amount) {
-        double balance = get();
-        double ending = balance - amount;
-
-        math(amount, balance, ending);
+        if (Bukkit.isPrimaryThread()) {
+            double balance = get();
+            double ending = balance - amount;
+    
+            math(amount, balance, ending);
+        }else{
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+                    subtract(amount);
+                }
+            }.runTask(iConomy.instance);
+        }
     }
 
     public void divide(double amount) {
