@@ -5,6 +5,10 @@ api-version: ${project.bukkitAPIVersion}
 authors: [Nijikokun, ElgarL, LlmDl, graywolf336]
 softdepend: [Vault]
 load: startup
+
+libraries:
+    - com.h2database:h2:1.3.159
+
 commands:
     money:
         description: Controls account balances and more

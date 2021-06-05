@@ -1,3 +1,7 @@
+5.11:
+  - Add support for Spigots new Libraries for dependencies.
+  - Refactor so we only create folders and download dependencies on pre 1.16.5 MC versions.
+  - Force a restart if running on Java 16+ with pre 1.16.5 MC and no dependencies.
 5.10:
   - Remove Towny dependency and blind convert town/nation accounts.
   - Refactor event system to support pre 1.14 servers.

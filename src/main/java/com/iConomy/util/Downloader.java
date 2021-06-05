@@ -33,6 +33,7 @@ public class Downloader {
             Bukkit.getLogger().info("   - " + filename + " finished.");
             
             this.addURLToClassLoader(dest.toURI().toURL());
+            
         } catch (IOException ex) {
             Bukkit.getLogger().severe("[iConomy] Error Downloading File: " + ex);
         }
@@ -81,9 +82,11 @@ public class Downloader {
             Method method = sysclass.getDeclaredMethod("addURL", parameters);
             method.setAccessible(true);
             method.invoke(sysloader, new Object[] { u });
+            
         } catch (Throwable t) {
             t.printStackTrace();
-            throw new IOException("Error, could not add the library to system classloader");
+            // Restart the server as we must be on Java 16+
+            Bukkit.spigot().restart();
         }
     }
 }

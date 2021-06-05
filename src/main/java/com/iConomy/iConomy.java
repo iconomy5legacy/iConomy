@@ -1,21 +1,10 @@
 package com.iConomy;
 
-import com.iConomy.entity.Players;
-import com.iConomy.net.Database;
-import com.iConomy.system.Account;
-import com.iConomy.system.Accounts;
-import com.iConomy.system.Bank;
-import com.iConomy.system.Banks;
-import com.iConomy.system.Interest;
-import com.iConomy.system.Transactions;
-import com.iConomy.util.Constants;
-import com.iConomy.util.Downloader;
-import com.iConomy.util.FileManager;
-import com.iConomy.util.Messaging;
-import com.iConomy.util.Misc;
-import com.iConomy.util.VaultConnector;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -28,8 +17,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
-
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -41,6 +28,22 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.iConomy.entity.Players;
+import com.iConomy.net.Database;
+import com.iConomy.system.Account;
+import com.iConomy.system.Accounts;
+import com.iConomy.system.Bank;
+import com.iConomy.system.Banks;
+import com.iConomy.system.Interest;
+import com.iConomy.system.Transactions;
+import com.iConomy.util.Constants;
+import com.iConomy.util.FileManager;
+import com.iConomy.util.Messaging;
+import com.iConomy.util.Misc;
+import com.iConomy.util.VaultConnector;
+
+import net.milkbowl.vault.economy.Economy;
 
 /**
  * iConomy by Team iCo
@@ -89,11 +92,6 @@ public class iConomy extends JavaPlugin {
         // Get the server
         Server = getServer();
 
-        // Lib Directory
-        new File("lib" + File.separator).mkdir();
-        new File("lib" + File.separator).setWritable(true);
-        new File("lib" + File.separator).setExecutable(true);
-
         // Plugin Directory
         getDataFolder().mkdir();
         getDataFolder().setWritable(true);
@@ -119,16 +117,6 @@ public class iConomy extends JavaPlugin {
             log.info("[iConomy] Failed to retrieve configuration from directory.");
             log.info("[iConomy] Please back up your current settings and let iConomy recreate it.");
             return;
-        }
-
-        // Download dependencies.
-        Downloader down = new Downloader();
-        if (Constants.isDatabaseTypeH2()) {
-            if (!new File("lib" + File.separator, "h2.jar").exists()) {
-                down.install(Constants.H2_Jar_Location, "h2.jar");
-            }
-        } else if (!new File("lib" + File.separator, "mysql-connector-java-bin.jar").exists()) {
-            down.install(Constants.MySQL_Jar_Location, "mysql-connector-java-bin.jar");
         }
 
         // Register as a ServiceProvider and with Vault.

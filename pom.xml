@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iConomy</groupId>
 	<artifactId>iConomy</artifactId>
-	<version>5.10</version>
+	<version>5.11</version>
 	<name>iConomy 5</name>
 	<description>The good ole iConomy 5</description>
 	<url>https://github.com/iconomy5legacy/iConomy</url>
@@ -21,11 +21,6 @@
 			<id>spigotmc-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/groups/public</url>
 		</repository>
-        
-        <repository>
-			<id>repo-release</id>
-			<url>https://repo.craftyn.com/repository/internal/</url>
-		</repository>
 		
 		<repository>
 			<id>jitpack.io</id>
@@ -37,7 +32,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.199</version>
+			<version>1.3.159</version>
 			<scope>provided</scope>
 		</dependency>
 

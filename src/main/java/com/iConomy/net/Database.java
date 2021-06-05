@@ -1,7 +1,5 @@
 package com.iConomy.net;
 
-import com.iConomy.util.Constants;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -11,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.h2.jdbcx.JdbcConnectionPool;
+
+import com.iConomy.util.Constants;
+import com.iConomy.util.Downloader;
 
 public class Database {
     private JdbcConnectionPool h2pool;
@@ -37,11 +38,27 @@ public class Database {
             throw new Exception("Invalid database type!");
         }
 
+        // Check we have a driver.
         try {
-            Class.forName(this.driver).newInstance();
+            Class.forName(this.driver);
+            
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("[iConomy] Driver error: " + e);
+            
+            // Create Lib Directory
+            new File("lib" + File.separator).mkdir();
+            new File("lib" + File.separator).setWritable(true);
+            new File("lib" + File.separator).setExecutable(true);
+            
+            // Download dependencies as we are running an old version.
+            Downloader down = new Downloader();
+            if (Constants.isDatabaseTypeH2()) {
+                if (!new File("lib" + File.separator, "h2.jar").exists()) {
+                    down.install(Constants.H2_Jar_Location, "h2.jar");
+                }
+            } else if (!new File("lib" + File.separator, "mysql-connector-java-bin.jar").exists()) {
+                down.install(Constants.MySQL_Jar_Location, "mysql-connector-java-bin.jar");
+            }
         }
 
         if (Constants.isDatabaseTypeH2() && this.h2pool == null)
