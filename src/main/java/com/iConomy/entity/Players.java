@@ -53,65 +53,65 @@ public class Players implements Listener {
      * Allows us to easily utilize all throughout the class without having multiple
      * instances of the same help lines.
      */
-    private void getMoneyHelp(CommandSender player) {
-        Messaging.send("`y ");
-        Messaging.send("`w iConomy (`r" + Constants.Codename + "`w)");
-        Messaging.send("`y ");
-        Messaging.send("`w [] Required, () Optional");
-        Messaging.send(" ");
-        Messaging.send("`G  /money `y Check your balance");
-        Messaging.send("`G  /money `g? `y For help & Information");
+    private void getMoneyHelp(CommandSender sender) {
+        Messaging.send(sender, "`y ");
+        Messaging.send(sender, "`w iConomy (`r" + Constants.Codename + "`w)");
+        Messaging.send(sender, "`y ");
+        Messaging.send(sender, "`w [] Required, () Optional");
+        Messaging.send(sender, " ");
+        Messaging.send(sender, "`G  /money `y Check your balance");
+        Messaging.send(sender, "`G  /money `g? `y For help & Information");
 
-        if (iConomy.hasPermissions(player, "iConomy.rank")) {
-            Messaging.send("`G  /money `grank `G(`wplayer`G) `y Rank on the topcharts.   ");
+        if (iConomy.hasPermissions(sender, "iConomy.rank")) {
+            Messaging.send(sender, "`G  /money `grank `G(`wplayer`G) `y Rank on the topcharts.   ");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.list")) {
-            Messaging.send("`G  /money `gtop `G(`wamount`G) `y Richest players listing.  ");
+        if (iConomy.hasPermissions(sender, "iConomy.list")) {
+            Messaging.send(sender, "`G  /money `gtop `G(`wamount`G) `y Richest players listing.  ");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.payment")) {
-            Messaging.send("`G  /money `gpay `G[`wplayer`G] [`wamount`G] `y Send money to a player.");
+        if (iConomy.hasPermissions(sender, "iConomy.payment")) {
+            Messaging.send(sender, "`G  /money `gpay `G[`wplayer`G] [`wamount`G] `y Send money to a player.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.grant")) {
-            Messaging.send("`G  /money `ggrant `G[`wplayer`G] [`wamount`G] `y Give money.");
-            Messaging.send("`G  /money `ggrant `G[`wplayer`G] -[`wamount`G] `y Take money.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.grant")) {
+            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] [`wamount`G] `y Give money.");
+            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] -[`wamount`G] `y Take money.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.set")) {
-            Messaging.send("`G  /money `gset `G[`wplayer`G] [`wamount`G] `y Sets a players balance.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.set")) {
+            Messaging.send(sender, "`G  /money `gset `G[`wplayer`G] [`wamount`G] `y Sets a players balance.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.hide")) {
-            Messaging.send("`G  /money `ghide `G[`wplayer`G] `wtrue`G/`wfalse `y Hide or show an account.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.hide")) {
+            Messaging.send(sender, "`G  /money `ghide `G[`wplayer`G] `wtrue`G/`wfalse `y Hide or show an account.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.account.create")) {
-            Messaging.send("`G  /money `gcreate `G[`wplayer`G] `y Create player account.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.account.create")) {
+            Messaging.send(sender, "`G  /money `gcreate `G[`wplayer`G] `y Create player account.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.account.remove")) {
-            Messaging.send("`G  /money `gremove `G[`wplayer`G] `y Remove player account.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.account.remove")) {
+            Messaging.send(sender, "`G  /money `gremove `G[`wplayer`G] `y Remove player account.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.reset")) {
-            Messaging.send("`G  /money `greset `G[`wplayer`G] `y Reset player account.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.reset")) {
+            Messaging.send(sender, "`G  /money `greset `G[`wplayer`G] `y Reset player account.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.purge")) {
-            Messaging.send("`G  /money `gpurge `y Remove all accounts with inital holdings.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.purge")) {
+            Messaging.send(sender, "`G  /money `gpurge `y Remove all accounts with inital holdings.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.empty")) {
-            Messaging.send("`G  /money `gempty `y Empties database.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.empty")) {
+            Messaging.send(sender, "`G  /money `gempty `y Empties database.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.stats")) {
-            Messaging.send("`G  /money `gstats `y Check all economic stats.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.stats")) {
+            Messaging.send(sender, "`G  /money `gstats `y Check all economic stats.");
         }
 
-        Messaging.send(" ");
+        Messaging.send(sender, " ");
     }
 
     /**
@@ -120,65 +120,65 @@ public class Players implements Listener {
      * Allows us to easily utilize all throughout the class without having multiple
      * instances of the same help lines.
      */
-    private void getBankHelp(CommandSender player) {
-        Messaging.send("`y ");
-        Messaging.send("`w iConomy (`r" + Constants.Codename + "`w)");
-        Messaging.send("`y ");
-        Messaging.send("`w [] Required, () Optional");
-        Messaging.send(" ");
-        Messaging.send("`G  /bank `y Check your bank accounts");
-        Messaging.send("`G  /bank `g? `y For help & Information");
+    private void getBankHelp(CommandSender sender) {
+        Messaging.send(sender, "`y ");
+        Messaging.send(sender, "`w iConomy (`r" + Constants.Codename + "`w)");
+        Messaging.send(sender, "`y ");
+        Messaging.send(sender, "`w [] Required, () Optional");
+        Messaging.send(sender, " ");
+        Messaging.send(sender, "`G  /bank `y Check your bank accounts");
+        Messaging.send(sender, "`G  /bank `g? `y For help & Information");
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.list")) {
-            Messaging.send("`G  /bank `glist `G(`w#`G) `y Paged list of banks.");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.list")) {
+            Messaging.send(sender, "`G  /bank `glist `G(`w#`G) `y Paged list of banks.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.main")) {
-            Messaging.send("`G  /bank `gmain `y View your main bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.main")) {
+            Messaging.send(sender, "`G  /bank `gmain `y View your main bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.main.view")) {
-            Messaging.send("`G  /bank `gmain `G[`waccount`G] `y View an accounts main bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.main.view")) {
+            Messaging.send(sender, "`G  /bank `gmain `G[`waccount`G] `y View an accounts main bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.main.set")) {
-            Messaging.send("`G  /bank `gmain set `G[`wbank`G] `y Set your main bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.main.set")) {
+            Messaging.send(sender, "`G  /bank `gmain set `G[`wbank`G] `y Set your main bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.join")) {
-            Messaging.send("`G  /bank `gjoin `G[`wbank`G] `y Create an account with a bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.join")) {
+            Messaging.send(sender, "`G  /bank `gjoin `G[`wbank`G] `y Create an account with a bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.leave")) {
-            Messaging.send("`G  /bank `gleave `G[`wbank`G] `y Close an account with a bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.leave")) {
+            Messaging.send(sender, "`G  /bank `gleave `G[`wbank`G] `y Close an account with a bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.transfer")) {
-            Messaging.send("`G  /bank `gsend `G[`wto`G] `r[`wamount`r] `y Send money to another players bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.transfer")) {
+            Messaging.send(sender, "`G  /bank `gsend `G[`wto`G] `r[`wamount`r] `y Send money to another players bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.transfer.multiple")) {
-            Messaging.send("`G  /bank `G[`wfrom-bank`G] `gsend `G[`wto`G] `G[`wamount`G]");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.transfer.multiple")) {
+            Messaging.send(sender, "`G  /bank `G[`wfrom-bank`G] `gsend `G[`wto`G] `G[`wamount`G]");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.bank.transfer.multiple")) {
-            Messaging.send("`G  /bank `G[`wfrom-bank`G] `gsend `G[`wto-bank`G] `G[`wto`G] `G[`wamount`G]");
+        if (iConomy.hasPermissions(sender, "iConomy.bank.transfer.multiple")) {
+            Messaging.send(sender, "`G  /bank `G[`wfrom-bank`G] `gsend `G[`wto-bank`G] `G[`wto`G] `G[`wamount`G]");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.bank.create")) {
-            Messaging.send("`G  /bank `gcreate `G[`wbank`G] `y Create a bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.bank.create")) {
+            Messaging.send(sender, "`G  /bank `gcreate `G[`wbank`G] `y Create a bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.bank.remove")) {
-            Messaging.send("`G  /bank `gremove `G[`wbank`G] `y Close a bank.");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.bank.remove")) {
+            Messaging.send(sender, "`G  /bank `gremove `G[`wbank`G] `y Close a bank.");
         }
 
-        if (iConomy.hasPermissions(player, "iConomy.admin.bank.set")) {
-            Messaging.send("`G  /bank `G[`wbank`G] `gset `G[`wkey`G] `G[`wvalue`G] `y Create a bank.");
-            Messaging.send("`y   Keys: `Yname`y, `Yinitial`y, `Ymajor`y, `Yminor`y, `Yfee");
+        if (iConomy.hasPermissions(sender, "iConomy.admin.bank.set")) {
+            Messaging.send(sender, "`G  /bank `G[`wbank`G] `gset `G[`wkey`G] `G[`wvalue`G] `y Create a bank.");
+            Messaging.send(sender, "`y   Keys: `Yname`y, `Yinitial`y, `Ymajor`y, `Yminor`y, `Yfee");
         }
 
-        Messaging.send(" ");
+        Messaging.send(sender, " ");
     }
 
     public boolean setHidden(String name, boolean hidden) {
@@ -188,9 +188,9 @@ public class Players implements Listener {
     /**
      * Account Creation
      */
-    public void createAccount(String name) {
+    public void createAccount(CommandSender sender, String name) {
         iConomy.getAccount(name);
-        Messaging.send(this.Template.color("tag.money") + this.Template.parse("accounts.create", new String[] { "+name,+n" }, new String[] { name }));
+        Messaging.send(sender, this.Template.color("tag.money") + this.Template.parse("accounts.create", new String[] { "+name,+n" }, new String[] { name }));
     }
 
     public void createBank(CommandSender sender, String bank) {
@@ -326,41 +326,41 @@ public class Players implements Listener {
     /**
      * Account Removal
      */
-    public void removeAccount(String name) {
+    public void removeAccount(CommandSender sender, String name) {
         iConomy.Accounts.remove(name);
-        Messaging.send(this.Template.color("tag.money") + this.Template.parse("accounts.remove", new String[] { "+name,+n" }, new String[] { name }));
+        Messaging.send(sender, this.Template.color("tag.money") + this.Template.parse("accounts.remove", new String[] { "+name,+n" }, new String[] { name }));
     }
 
     public void removeBankAccount(CommandSender sender, String name, String player) {
         Bank bank = iConomy.getBank(name);
 
         if (!iConomy.hasAccount(player)) {
-            Messaging.send(this.Template.color("error.bank.account.none"));
+            Messaging.send(sender, this.Template.color("error.bank.account.none"));
             return;
         }
 
         if (bank == null) {
-            Messaging.send(this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+b,+n" }, new String[] { name }));
+            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+b,+n" }, new String[] { name }));
             return;
         }
 
         if (!bank.hasAccount(player)) {
-            Messaging.send(this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { player }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { player }));
             return;
         }
 
         bank.removeAccount(player);
 
-        Messaging.send(this.Template.color("tag.bank") + this.Template.parse("accounts.bank.remove", new String[] { "+bank,+b", "+name,+n" }, new String[] { name, player }));
+        Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse("accounts.bank.remove", new String[] { "+bank,+b", "+name,+n" }, new String[] { name, player }));
     }
 
     /**
      * Show list of banks
      *
-     * @param player
+     * @param sender
      * @param name
      */
-    public void showBankList(CommandSender player, int current) {
+    public void showBankList(CommandSender sender, int current) {
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -375,8 +375,8 @@ public class Players implements Listener {
         page = page > totalPages ? totalPages : page;
 
         if (total == -1) {
-            Messaging.send(player, this.Template.parse("list.banks.opening", new String[] { "+amount,+a", "+total,+t" }, new Object[] { Integer.valueOf(0), Integer.valueOf(0) }));
-            Messaging.send(player, this.Template.color("list.banks.empty"));
+            Messaging.send(sender, this.Template.parse("list.banks.opening", new String[] { "+amount,+a", "+total,+t" }, new Object[] { Integer.valueOf(0), Integer.valueOf(0) }));
+            Messaging.send(sender, this.Template.color("list.banks.empty"));
             return;
         }
         try {
@@ -402,12 +402,12 @@ public class Players implements Listener {
                 } catch (SQLException ex) {}
         }
         if (banks.isEmpty()) {
-            Messaging.send(player, this.Template.parse("list.banks.opening", new String[] { "+amount,+a", "+total,+t" }, new Object[] { Integer.valueOf(0), Integer.valueOf(0) }));
-            Messaging.send(player, this.Template.color("list.banks.empty"));
+            Messaging.send(sender, this.Template.parse("list.banks.opening", new String[] { "+amount,+a", "+total,+t" }, new Object[] { Integer.valueOf(0), Integer.valueOf(0) }));
+            Messaging.send(sender, this.Template.color("list.banks.empty"));
             return;
         }
 
-        Messaging.send(player, this.Template.parse("list.banks.opening", new String[] { "+amount,+a", "+total,+t" }, new Object[] { Integer.valueOf(page), Integer.valueOf(totalPages) }));
+        Messaging.send(sender, this.Template.parse("list.banks.opening", new String[] { "+amount,+a", "+total,+t" }, new Object[] { Integer.valueOf(page), Integer.valueOf(totalPages) }));
 
         for (Bank bank : banks) {
             if (bank == null)
@@ -415,7 +415,7 @@ public class Players implements Listener {
             String major = bank.getMajor().get(1);
             String minor = bank.getMinor().get(1);
 
-            Messaging.send(player, this.Template.parse(entry, new String[] { "+name,+bank,+b,+n", "+fee,+f", "+initial,+holdings,+i,+h", "+major", "+minor" }, new Object[] { bank.getName(), iConomy.format(bank.getFee()), iConomy.format(bank.getInitialHoldings()), major, minor }));
+            Messaging.send(sender, this.Template.parse(entry, new String[] { "+name,+bank,+b,+n", "+fee,+f", "+initial,+holdings,+i,+h", "+major", "+minor" }, new Object[] { bank.getName(), iConomy.format(bank.getFee()), iConomy.format(bank.getInitialHoldings()), major, minor }));
         }
     }
 
@@ -433,26 +433,26 @@ public class Players implements Listener {
             Messaging.send(viewing, this.Template.color("tag.money") + this.Template.parse("player.balance", new String[] { "+balance,+b", "+name,+n" }, new String[] { iConomy.format(name), name }));
     }
 
-    public void showBankAccounts(CommandSender player, String name) {
+    public void showBankAccounts(CommandSender sender, String name) {
         List<BankAccount> Accounts = null;
-        boolean self = Misc.isSelf(player, name);
+        boolean self = Misc.isSelf(sender, name);
 
         if (!iConomy.hasAccount(name)) {
-            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { name }));
+            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { name }));
             return;
         }
 
         Accounts = iConomy.getAccount(name).getBankAccounts();
 
         if (Accounts == null || Accounts.isEmpty()) {
-            Messaging.send(this.Template.color("error.bank.account.none"));
+            Messaging.send(sender, this.Template.color("error.bank.account.none"));
             return;
         }
 
         for (BankAccount account : Accounts) {
             if (account == null)
                 continue;
-            Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse(self ? "personal.bank.balance" : "player.bank.balance", new String[] { "+balance,+holdings,+h", "+bank,+b", "+name,+n" }, new String[] { account.getHoldings().toString(), account.getBankName(), name }));
+            Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse(self ? "personal.bank.balance" : "player.bank.balance", new String[] { "+balance,+holdings,+h", "+bank,+b", "+name,+n" }, new String[] { account.getHoldings().toString(), account.getBankName(), name }));
         }
     }
 
@@ -491,9 +491,9 @@ public class Players implements Listener {
         Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse(self ? "personal.bank.balance" : "player.bank.balance", new String[] { "+balance,+holdings,+h", "+bank,+b", "+name,+n" }, new String[] { holdings.toString(), account.getBankName(), name }));
     }
 
-    public void showBankWithdrawal(CommandSender player, String bank, String name, double amount) {
+    public void showBankWithdrawal(CommandSender sender, String bank, String name, double amount) {
         if (!iConomy.hasAccount(name)) {
-            Messaging.send(this.Template.color("error.bank.account.none"));
+            Messaging.send(sender, this.Template.color("error.bank.account.none"));
             return;
         }
 
@@ -504,26 +504,26 @@ public class Players implements Listener {
         Holdings held = null;
 
         if (!iConomy.Banks.exists(bank)) {
-            Messaging.send(player, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
+            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
             return;
         }
 
         Bank = iConomy.getBank(bank);
 
         if (Bank == null) {
-            Messaging.send(player, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
+            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
             return;
         }
 
         if (!Bank.hasAccount(name)) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
             return;
         }
 
         account = Bank.getAccount(name);
 
         if (account == null) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
             return;
         }
 
@@ -533,8 +533,8 @@ public class Players implements Listener {
         Double balance = Double.valueOf(holdings.balance());
 
         if (balance.doubleValue() < 0.0D || !holdings.hasEnough(amount)) {
-            if (player != null)
-                Messaging.send(player, this.Template.color("error.bank.account.funds"));
+            if (sender != null)
+                Messaging.send(sender, this.Template.color("error.bank.account.funds"));
         } else {
             holdings.subtract(amount);
             held.add(amount);
@@ -545,18 +545,18 @@ public class Players implements Listener {
             iConomy.getTransactions().insert("[Bank] " + bank, name, balance.doubleValue(), onHand.doubleValue(), 0.0D, 0.0D, amount);
             iConomy.getTransactions().insert(name, "[Bank] " + bank, onHand.doubleValue(), balance.doubleValue(), 0.0D, amount, 0.0D);
 
-            if (player != null) {
-                Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse("personal.bank.withdraw", new String[] { "+bank,+b,+name,+n", "+amount,+a" }, new String[] { bank, iConomy.format(amount) }));
+            if (sender != null) {
+                Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse("personal.bank.withdraw", new String[] { "+bank,+b,+name,+n", "+amount,+a" }, new String[] { bank, iConomy.format(amount) }));
 
-                showBalance(name, player, true);
-                showBankAccount(player, bank, name);
+                showBalance(name, sender, true);
+                showBankAccount(sender, bank, name);
             }
         }
     }
 
-    public void showBankDeposit(CommandSender player, String bank, String name, double amount) {
+    public void showBankDeposit(CommandSender sender, String bank, String name, double amount) {
         if (!iConomy.hasAccount(name)) {
-            Messaging.send(this.Template.color("error.bank.account.none"));
+            Messaging.send(sender, this.Template.color("error.bank.account.none"));
             return;
         }
 
@@ -567,26 +567,26 @@ public class Players implements Listener {
         Holdings held = null;
 
         if (!iConomy.Banks.exists(bank)) {
-            Messaging.send(player, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
+            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
             return;
         }
 
         Bank = iConomy.getBank(bank);
 
         if (Bank == null) {
-            Messaging.send(player, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
+            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { bank }));
             return;
         }
 
         if (!Bank.hasAccount(name)) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
             return;
         }
 
         account = Bank.getAccount(name);
 
         if (account == null) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+bank,+b", "+name,+n" }, new String[] { bank, name }));
             return;
         }
 
@@ -596,8 +596,8 @@ public class Players implements Listener {
         Double balance = Double.valueOf(holdings.balance());
 
         if (onHand.doubleValue() < 0.0D || !held.hasEnough(amount)) {
-            if (player != null)
-                Messaging.send(player, this.Template.color("error.funds"));
+            if (sender != null)
+                Messaging.send(sender, this.Template.color("error.funds"));
         } else {
             held.subtract(amount);
             holdings.add(amount);
@@ -608,23 +608,23 @@ public class Players implements Listener {
             iConomy.getTransactions().insert(name, "[Bank] " + bank, onHand.doubleValue(), balance.doubleValue(), 0.0D, 0.0D, amount);
             iConomy.getTransactions().insert("[Bank] " + bank, name, balance.doubleValue(), onHand.doubleValue(), 0.0D, amount, 0.0D);
 
-            if (player != null) {
-                Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse("personal.bank.deposit", new String[] { "+bank,+b,+name,+n", "+amount,+a" }, new String[] { bank, iConomy.format(amount) }));
+            if (sender != null) {
+                Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse("personal.bank.deposit", new String[] { "+bank,+b,+name,+n", "+amount,+a" }, new String[] { bank, iConomy.format(amount) }));
 
-                showBalance(name, player, true);
-                showBankAccount(player, bank, name);
+                showBalance(name, sender, true);
+                showBankAccount(sender, bank, name);
             }
         }
     }
 
-    public void showBankTransaction(CommandSender player, String from, String to, double amount) {
+    public void showBankTransaction(CommandSender sender, String from, String to, double amount) {
         if (from.toLowerCase().equalsIgnoreCase(to.toLowerCase())) {
-            Messaging.send(player, this.Template.color("payment.self"));
+            Messaging.send(sender, this.Template.color("payment.self"));
             return;
         }
 
         if (!iConomy.hasAccount(from) || !iConomy.hasAccount(to)) {
-            Messaging.send(player, this.Template.color("error.bank.account.none"));
+            Messaging.send(sender, this.Template.color("error.bank.account.none"));
             return;
         }
 
@@ -638,12 +638,12 @@ public class Players implements Listener {
         Holdings to_holdings = null;
 
         if (from_bank == null || from_account == null) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { from }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { from }));
             return;
         }
 
         if (to_bank == null || from_account == null) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { to }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { to }));
             return;
         }
 
@@ -651,8 +651,8 @@ public class Players implements Listener {
         to_holdings = to_account.getHoldings();
 
         if (from_holdings.balance() < 0.0D || !from_holdings.hasEnough(amount)) {
-            if (player != null)
-                Messaging.send(player, this.Template.color("error.bank.account.funds"));
+            if (sender != null)
+                Messaging.send(sender, this.Template.color("error.bank.account.funds"));
         } else {
             from_holdings.subtract(amount);
             to_holdings.add(amount);
@@ -663,17 +663,17 @@ public class Players implements Listener {
             iConomy.getTransactions().insert(from, to, to_current.doubleValue(), from_current.doubleValue(), 0.0D, 0.0D, amount);
             iConomy.getTransactions().insert(to, from, from_current.doubleValue(), to_current.doubleValue(), 0.0D, amount, 0.0D);
 
-            if (player != null) {
-                Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse(from.equalsIgnoreCase(to) ? "personal.bank.transfer" : "personal.bank.between", new String[] { "+bank,+b", "+bankAlt,+ba,+bA", "+name,+n", "+amount,+a" }, new String[] { from_bank_name, to_bank_name, to, iConomy.format(amount) }));
+            if (sender != null) {
+                Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse(from.equalsIgnoreCase(to) ? "personal.bank.transfer" : "personal.bank.between", new String[] { "+bank,+b", "+bankAlt,+ba,+bA", "+name,+n", "+amount,+a" }, new String[] { from_bank_name, to_bank_name, to, iConomy.format(amount) }));
 
-                showBankAccount(player, from_bank_name, from);
+                showBankAccount(sender, from_bank_name, from);
             }
 
             if (!from.equalsIgnoreCase(to)) {
                 Player playerTo = iConomy.getBukkitServer().getPlayer(to);
 
                 if (playerTo != null) {
-                    Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse("personal.bank.recieved", new String[] { "+bank,+b", "+amount,+a" }, new String[] { to_bank_name, iConomy.format(amount) }));
+                    Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse("personal.bank.recieved", new String[] { "+bank,+b", "+amount,+a" }, new String[] { to_bank_name, iConomy.format(amount) }));
 
                     showBankAccount(playerTo, to_bank_name, to);
                 }
@@ -681,19 +681,19 @@ public class Players implements Listener {
         }
     }
 
-    public void showBankTransfer(CommandSender player, String from, String from_bank, String to, String to_bank, double amount) {
+    public void showBankTransfer(CommandSender sender, String from, String from_bank, String to, String to_bank, double amount) {
         Bank fBank = iConomy.getBank(from_bank);
         Bank tBank = iConomy.getBank(to_bank);
         Holdings from_holdings = null;
         Holdings to_holdings = null;
 
         if (fBank == null) {
-            Messaging.send(player, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { from_bank }));
+            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { from_bank }));
             return;
         }
 
         if (tBank == null) {
-            Messaging.send(player, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { to_bank }));
+            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+n,+b" }, new String[] { to_bank }));
             return;
         }
 
@@ -701,12 +701,12 @@ public class Players implements Listener {
         BankAccount tAccount = iConomy.getAccount(to).getMainBankAccount();
 
         if (fAccount == null) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { from }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { from }));
             return;
         }
 
         if (tAccount == null) {
-            Messaging.send(player, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { to }));
+            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { to }));
             return;
         }
 
@@ -716,8 +716,8 @@ public class Players implements Listener {
         to_holdings = tAccount.getHoldings();
 
         if (from_holdings.balance() < 0.0D || !from_holdings.hasEnough(amount)) {
-            if (player != null)
-                Messaging.send(player, this.Template.color("error.bank.account.funds"));
+            if (sender != null)
+                Messaging.send(sender, this.Template.color("error.bank.account.funds"));
         } else {
             from_holdings.subtract(amount);
             to_holdings.add(amount);
@@ -728,17 +728,17 @@ public class Players implements Listener {
             iConomy.getTransactions().insert(from, to, to_current.doubleValue(), from_current.doubleValue(), 0.0D, 0.0D, amount);
             iConomy.getTransactions().insert(to, from, from_current.doubleValue(), to_current.doubleValue(), 0.0D, amount, 0.0D);
 
-            if (player != null) {
-                Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse(from.equalsIgnoreCase(to) ? "personal.bank.transfer" : "personal.bank.between", new String[] { "+bank,+b", "+bankAlt,+ba,+bA", "+name,+n", "+amount,+a" }, new String[] { from_bank_name, to_bank_name, to, iConomy.format(amount) }));
+            if (sender != null) {
+                Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse(from.equalsIgnoreCase(to) ? "personal.bank.transfer" : "personal.bank.between", new String[] { "+bank,+b", "+bankAlt,+ba,+bA", "+name,+n", "+amount,+a" }, new String[] { from_bank_name, to_bank_name, to, iConomy.format(amount) }));
 
-                showBankAccount(player, from_bank_name, from);
+                showBankAccount(sender, from_bank_name, from);
             }
 
             if (!from.equalsIgnoreCase(to)) {
                 Player playerTo = iConomy.getBukkitServer().getPlayer(to);
 
                 if (playerTo != null) {
-                    Messaging.send(player, this.Template.color("tag.bank") + this.Template.parse("personal.bank.recieved", new String[] { "+bank,+b", "+amount,+a" }, new String[] { to_bank_name, iConomy.format(amount) }));
+                    Messaging.send(sender, this.Template.color("tag.bank") + this.Template.parse("personal.bank.recieved", new String[] { "+bank,+b", "+amount,+a" }, new String[] { to_bank_name, iConomy.format(amount) }));
 
                     showBankAccount(playerTo, to_bank_name, to);
                 }
@@ -805,7 +805,7 @@ public class Players implements Listener {
      * @param controller If set to null, won't display messages.
      * @param console Is it sent via console?
      */
-    public void showReset(String account, Player controller, boolean console) {
+    public void showReset(CommandSender sender, String account, Player controller, boolean console) {
         Player player = iConomy.getBukkitServer().getPlayer(account);
 
         if (player != null) {
@@ -823,7 +823,7 @@ public class Players implements Listener {
         }
 
         if (controller != null) {
-            Messaging.send(this.Template.parse("player.reset", new String[] { "+name,+n" }, new String[] { account }));
+            Messaging.send(sender, this.Template.parse("player.reset", new String[] { "+name,+n" }, new String[] { account }));
         }
 
         if (console)
@@ -839,7 +839,7 @@ public class Players implements Listener {
     * @param amount
     * @param console Is it sent via console?
     */
-    public void showGrant(String name, Player controller, double amount, boolean console) {
+    public void showGrant(CommandSender sender, String name, Player controller, double amount, boolean console) {
         Player online = iConomy.getBukkitServer().getPlayer(name);
 
         if (online != null) {
@@ -867,7 +867,7 @@ public class Players implements Listener {
             }
 
             if (controller != null) {
-                Messaging.send(this.Template.color("tag.money") + this.Template.parse(amount < 0.0D ? "player.debit" : "player.credit", new String[] { "+name,+n", "+amount,+a" }, new String[] { name, iConomy.format(amount < 0.0D ? amount * -1.0D : amount) }));
+                Messaging.send(sender, this.Template.color("tag.money") + this.Template.parse(amount < 0.0D ? "player.debit" : "player.credit", new String[] { "+name,+n", "+amount,+a" }, new String[] { name, iConomy.format(amount < 0.0D ? amount * -1.0D : amount) }));
             }
 
             if (console)
@@ -885,7 +885,7 @@ public class Players implements Listener {
      * @param amount
      * @param console Is it sent via console?
      */
-    public void showSet(String name, Player controller, double amount, boolean console) {
+    public void showSet(CommandSender sender, String name, Player controller, double amount, boolean console) {
         Player online = iConomy.getBukkitServer().getPlayer(name);
 
         if (online != null) {
@@ -909,7 +909,7 @@ public class Players implements Listener {
             }
 
             if (controller != null) {
-                Messaging.send(this.Template.color("tag.money") + this.Template.parse("player.set", new String[] { "+name,+n", "+amount,+a" }, new String[] { name, iConomy.format(amount) }));
+                Messaging.send(sender, this.Template.color("tag.money") + this.Template.parse("player.set", new String[] { "+name,+n", "+amount,+a" }, new String[] { name, iConomy.format(amount) }));
             }
 
             if (console)
@@ -1004,7 +1004,7 @@ public class Players implements Listener {
                     if (isPlayer)
                         showBankAccounts(sender, player.getName());
                     else {
-                        Messaging.send("`RCannot show bank list without an organism.");
+                        Messaging.send(sender, "`RCannot show bank list without an organism.");
                     }
 
                     return true;
@@ -1032,10 +1032,10 @@ public class Players implements Listener {
                                 if (bank != null)
                                     showBankAccount(sender, bank.getName(), player.getName());
                                 else
-                                    Messaging.send(this.Template.color("error.bank.account.none"));
+                                    Messaging.send(sender, this.Template.color("error.bank.account.none"));
                             }
                         } else {
-                            Messaging.send(ChatColor.RED + "Cannot show main bank without an organism.");
+                            Messaging.send(sender, ChatColor.RED + "Cannot show main bank without an organism.");
                         }
 
                         return true;
@@ -1098,10 +1098,10 @@ public class Players implements Listener {
                                 if (bank != null)
                                     showBankAccount(sender, bank.getName(), name);
                                 else
-                                    Messaging.send(this.Template.color("error.bank.account.none"));
+                                    Messaging.send(sender, this.Template.color("error.bank.account.none"));
                             }
                         } else {
-                            Messaging.send(ChatColor.RED + "Player name was empty or invalid.");
+                            Messaging.send(sender, ChatColor.RED + "Player name was empty or invalid.");
                         }
 
                         return true;
@@ -1144,7 +1144,7 @@ public class Players implements Listener {
                         String bank = iConomy.getAccount(name).getMainBankAccount().getBankName();
 
                         if (bank == null || bank.isEmpty()) {
-                            Messaging.send(this.Template.color("error.bank.account.none"));
+                            Messaging.send(sender, this.Template.color("error.bank.account.none"));
                             return true;
                         }
                         try {
@@ -1153,8 +1153,8 @@ public class Players implements Listener {
                             if (amount.doubleValue() < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount` `f" + amount);
-                            Messaging.send("`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
+                            Messaging.send(sender, "`rInvalid amount` `f" + amount);
+                            Messaging.send(sender, "`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
 
                             return true;
                         }
@@ -1173,7 +1173,7 @@ public class Players implements Listener {
                         String bank = iConomy.getAccount(name).getMainBankAccount().getBankName();
 
                         if (bank == null || bank.isEmpty()) {
-                            Messaging.send(this.Template.color("error.bank.account.none"));
+                            Messaging.send(sender, this.Template.color("error.bank.account.none"));
                             return true;
                         }
                         try {
@@ -1182,8 +1182,8 @@ public class Players implements Listener {
                             if (amount.doubleValue() < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount` `f" + amount);
-                            Messaging.send("`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
+                            Messaging.send(sender, "`rInvalid amount` `f" + amount);
+                            Messaging.send(sender, "`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
 
                             return true;
                         }
@@ -1205,7 +1205,7 @@ public class Players implements Listener {
                         if (iConomy.hasAccount(split[2])) {
                             name = split[2];
                         } else {
-                            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
+                            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
                             return true;
                         }
                         try {
@@ -1214,8 +1214,8 @@ public class Players implements Listener {
                             if (amount < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount: `w" + amount);
-                            Messaging.send("`rUsage: `w/bank `Rsend `r[`waccount`r] `r[`wamount`r]");
+                            Messaging.send(sender, "`rInvalid amount: `w" + amount);
+                            Messaging.send(sender, "`rUsage: `w/bank `Rsend `r[`waccount`r] `r[`wamount`r]");
                             return true;
                         }
 
@@ -1237,8 +1237,8 @@ public class Players implements Listener {
                             if (amount.doubleValue() < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount` `f" + amount);
-                            Messaging.send("`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
+                            Messaging.send(sender, "`rInvalid amount` `f" + amount);
+                            Messaging.send(sender, "`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
 
                             return true;
                         }
@@ -1261,8 +1261,8 @@ public class Players implements Listener {
                             if (amount.doubleValue() < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount` `f" + amount);
-                            Messaging.send("`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
+                            Messaging.send(sender, "`rInvalid amount` `f" + amount);
+                            Messaging.send(sender, "`rUsage: `w/bank `r[`wbank-name`r] `Rdeposit `r[`wamount`r]");
 
                             return true;
                         }
@@ -1284,20 +1284,20 @@ public class Players implements Listener {
                         Bank bank = iConomy.getBank(split[3]);
 
                         if (bank == null) {
-                            Messaging.send(this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+b,+n" }, new String[] { split[3] }));
+                            Messaging.send(sender, this.Template.parse("error.bank.doesnt", new String[] { "+bank,+name,+b,+n" }, new String[] { split[3] }));
                             return true;
                         }
 
                         if (!bank.hasAccount(name)) {
-                            Messaging.send(this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { name }));
+                            Messaging.send(sender, this.Template.parse("error.bank.account.doesnt", new String[] { "+name,+n" }, new String[] { name }));
                             return true;
                         }
 
                         account.setMainBank(bank.getId());
-                        Messaging.send(this.Template.parse("personal.bank.change", new String[] { "+bank,+name,+b,+n" }, new String[] { split[3] }));
+                        Messaging.send(sender, this.Template.parse("personal.bank.change", new String[] { "+bank,+name,+b,+n" }, new String[] { split[3] }));
                     } else {
-                        Messaging.send("`RInvalid key given possible keys:");
-                        Messaging.send("`r  set");
+                        Messaging.send(sender, "`RInvalid key given possible keys:");
+                        Messaging.send(sender, "`r  set");
                     }
 
                     return true;
@@ -1310,8 +1310,8 @@ public class Players implements Listener {
                         if (Misc.is(split[3], new String[] { "name", "initial", "major", "minor", "fee" })) {
                             setBankValue(sender, split[1], split[3].toLowerCase(), split[4]);
                         } else {
-                            Messaging.send("`RInvalid key given possible keys:");
-                            Messaging.send("`r  name`R, `rinitial`R, `rmajor`R, `rminor`R, `rfee");
+                            Messaging.send(sender, "`RInvalid key given possible keys:");
+                            Messaging.send(sender, "`r  name`R, `rinitial`R, `rmajor`R, `rminor`R, `rfee");
                         }
 
                         return true;
@@ -1331,7 +1331,7 @@ public class Players implements Listener {
                             name = split[3];
                             tBank = iConomy.getAccount(name).getMainBankAccount().getBankName();
                         } else {
-                            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[3] }));
+                            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[3] }));
                             return true;
                         }
                         try {
@@ -1340,8 +1340,8 @@ public class Players implements Listener {
                             if (amount < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount: `w" + amount);
-                            Messaging.send("`rUsage: `w/bank`r[`wfrom-bank`r] `Rsend `r[`wto-account`r] `r[`wamount`r]");
+                            Messaging.send(sender, "`rInvalid amount: `w" + amount);
+                            Messaging.send(sender, "`rUsage: `w/bank`r[`wfrom-bank`r] `Rsend `r[`wto-account`r] `r[`wamount`r]");
                             return true;
                         }
 
@@ -1366,8 +1366,8 @@ public class Players implements Listener {
                             if (amount < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount: `w" + amount);
-                            Messaging.send("`rUsage: `w/bank`r[`wfrom-bank`r] `Rsend `r[`wto-bank`r] `r[`wto-account`r] `r[`wamount`r]");
+                            Messaging.send(sender, "`rInvalid amount: `w" + amount);
+                            Messaging.send(sender, "`rUsage: `w/bank`r[`wfrom-bank`r] `Rsend `r[`wto-bank`r] `r[`wto-account`r] `r[`wamount`r]");
                             return true;
                         }
 
@@ -1383,7 +1383,7 @@ public class Players implements Listener {
                     if (isPlayer)
                         showBalance(player.getName(), player, true);
                     else {
-                        Messaging.send("`RCannot show balance without an organism.");
+                        Messaging.send(sender, "`RCannot show balance without an organism.");
                     }
 
                     return true;
@@ -1413,7 +1413,7 @@ public class Players implements Listener {
 
                         iConomy.Accounts.emptyDatabase();
 
-                        Messaging.send(this.Template.color("accounts.empty"));
+                        Messaging.send(sender, this.Template.color("accounts.empty"));
                         return true;
                     }
 
@@ -1423,7 +1423,7 @@ public class Players implements Listener {
                         }
 
                         iConomy.Accounts.purge();
-                        Messaging.send(this.Template.color("accounts.purge"));
+                        Messaging.send(sender, this.Template.color("accounts.purge"));
                         return true;
                     }
 
@@ -1455,16 +1455,16 @@ public class Players implements Listener {
                             TCOH += ((Double) o).doubleValue();
                         }
 
-                        Messaging.send(this.Template.color("statistics.opening"));
+                        Messaging.send(sender, this.Template.color("statistics.opening"));
 
-                        Messaging.send(this.Template.parse("statistics.total", new String[] { "+currency,+c", "+amount,+money,+a,+m" }, new Object[] { Constants.Major.get(1), iConomy.format(TCOH) }));
+                        Messaging.send(sender, this.Template.parse("statistics.total", new String[] { "+currency,+c", "+amount,+money,+a,+m" }, new Object[] { Constants.Major.get(1), iConomy.format(TCOH) }));
 
-                        Messaging.send(this.Template.parse("statistics.average", new String[] { "+currency,+c", "+amount,+money,+a,+m" }, new Object[] { Constants.Major.get(1), iConomy.format(TCOH / totalAccounts) }));
+                        Messaging.send(sender, this.Template.parse("statistics.average", new String[] { "+currency,+c", "+amount,+money,+a,+m" }, new Object[] { Constants.Major.get(1), iConomy.format(TCOH / totalAccounts) }));
 
-                        Messaging.send(this.Template.parse("statistics.accounts", new String[] { "+currency,+c", "+amount,+accounts,+a" }, new Object[] { Constants.Major.get(1), Integer.valueOf(accounts) }));
+                        Messaging.send(sender, this.Template.parse("statistics.accounts", new String[] { "+currency,+c", "+amount,+accounts,+a" }, new Object[] { Constants.Major.get(1), Integer.valueOf(accounts) }));
 
                         if (Constants.Banking) {
-                            Messaging.send(this.Template.parse("statistics.bank.accounts", new String[] { "+currency,+c", "+amount,+accounts,+a" }, new Object[] { Constants.Major.get(1), Integer.valueOf(bankAccounts) }));
+                            Messaging.send(sender, this.Template.parse("statistics.bank.accounts", new String[] { "+currency,+c", "+amount,+accounts,+a" }, new Object[] { Constants.Major.get(1), Integer.valueOf(bankAccounts) }));
                         }
 
                         return true;
@@ -1487,7 +1487,7 @@ public class Players implements Listener {
                     if (iConomy.hasAccount(split[1]))
                         showBalance(split[1], sender, false);
                     else {
-                        Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[1] }));
+                        Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[1] }));
                     }
 
                     return true;
@@ -1500,7 +1500,7 @@ public class Players implements Listener {
                         if (iConomy.hasAccount(split[2]))
                             showRank(sender, split[2]);
                         else {
-                            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
+                            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
                         }
 
                         return true;
@@ -1526,9 +1526,9 @@ public class Players implements Listener {
                         }
 
                         if (!iConomy.hasAccount(split[2]))
-                            createAccount(split[2]);
+                            createAccount(sender, split[2]);
                         else {
-                            Messaging.send(this.Template.parse("error.exists", new String[] { "+name,+n" }, new String[] { split[2] }));
+                            Messaging.send(sender, this.Template.parse("error.exists", new String[] { "+name,+n" }, new String[] { split[2] }));
                         }
 
                         return true;
@@ -1540,9 +1540,9 @@ public class Players implements Listener {
                         }
 
                         if (iConomy.hasAccount(split[2]))
-                            removeAccount(split[2]);
+                            removeAccount(sender, split[2]);
                         else {
-                            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
+                            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
                         }
 
                         return true;
@@ -1556,11 +1556,11 @@ public class Players implements Listener {
 
                     if (iConomy.hasAccount(split[2])) {
                         if (isPlayer)
-                            showReset(split[2], player, false);
+                            showReset(sender, split[2], player, false);
                         else
-                            showReset(split[2], null, true);
+                            showReset(sender, split[2], null, true);
                     } else {
-                        Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
+                        Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
                     }
 
                     return true;
@@ -1576,7 +1576,7 @@ public class Players implements Listener {
                         if (iConomy.hasAccount(split[2])) {
                             name = split[2];
                         } else {
-                            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
+                            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
                             return true;
                         }
                         try {
@@ -1585,8 +1585,8 @@ public class Players implements Listener {
                             if (amount < 0.01D)
                                 throw new NumberFormatException();
                         } catch (NumberFormatException ex) {
-                            Messaging.send("`rInvalid amount: `w" + amount);
-                            Messaging.send("`rUsage: `w/money `r[`w-p`r|`wpay`r] <`wplayer`r> `r<`wamount`r>");
+                            Messaging.send(sender, "`rInvalid amount: `w" + amount);
+                            Messaging.send(sender, "`rUsage: `w/money `r[`w-p`r|`wpay`r] <`wplayer`r> `r<`wamount`r>");
                             return true;
                         }
 
@@ -1605,7 +1605,7 @@ public class Players implements Listener {
 
                         if (split[2].startsWith("g:")) {
 
-                            Messaging.send(Messaging.colorize("<rose>Sorry, this feature is disabled with superperms."));
+                            Messaging.send(sender, Messaging.colorize("<rose>Sorry, this feature is disabled with superperms."));
                             return true;
 
                         } else {
@@ -1621,25 +1621,25 @@ public class Players implements Listener {
                             if (iConomy.hasAccount(name)) {
                                 accounts.add(name);
                             } else {
-                                Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { name }));
+                                Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { name }));
                                 return true;
                             }
                         }
                         try {
                             amount = Double.parseDouble(split[3]);
                         } catch (NumberFormatException e) {
-                            Messaging.send("`rInvalid amount: `w" + split[3]);
-                            Messaging.send("`rUsage: `w/money `r[`w-g`r|`wgrant`r] <`wplayer`r> (`w-`r)`r<`wamount`r>");
+                            Messaging.send(sender, "`rInvalid amount: `w" + split[3]);
+                            Messaging.send(sender, "`rUsage: `w/money `r[`w-g`r|`wgrant`r] <`wplayer`r> (`w-`r)`r<`wamount`r>");
                             return true;
                         }
 
                         if (accounts.size() < 1 || accounts.isEmpty()) {
-                            Messaging.send(this.Template.color("<rose>Grant Query returned 0 accounts to alter."));
+                            Messaging.send(sender, this.Template.color("<rose>Grant Query returned 0 accounts to alter."));
                             return true;
                         }
 
                         for (String name : accounts) {
-                            showGrant(name, player, amount, console);
+                            showGrant(sender, name, player, amount, console);
                         }
 
                         return true;
@@ -1661,7 +1661,7 @@ public class Players implements Listener {
                         }
 
                         if (!iConomy.hasAccount(name)) {
-                            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
+                            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
                             return true;
                         }
 
@@ -1670,9 +1670,9 @@ public class Players implements Listener {
                         }
 
                         if (!setHidden(name, hidden))
-                            Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { name }));
+                            Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { name }));
                         else {
-                            Messaging.send(this.Template.parse("accounts.status", new String[] { "+status,+s" }, new String[] { hidden ? "hidden" : "visible" }));
+                            Messaging.send(sender, this.Template.parse("accounts.status", new String[] { "+status,+s" }, new String[] { hidden ? "hidden" : "visible" }));
                         }
 
                         return true;
@@ -1696,21 +1696,21 @@ public class Players implements Listener {
                     }
 
                     if (!iConomy.hasAccount(name)) {
-                        Messaging.send(this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
+                        Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { split[2] }));
                         return true;
                     }
                     try {
                         amount = Double.parseDouble(split[3]);
                     } catch (NumberFormatException e) {
-                        Messaging.send("`rInvalid amount: `w" + split[3]);
-                        Messaging.send("`rUsage: `w/money `r[`w-g`r|`wgrant`r] <`wplayer`r> (`w-`r)`r<`wamount`r>");
+                        Messaging.send(sender, "`rInvalid amount: `w" + split[3]);
+                        Messaging.send(sender, "`rUsage: `w/money `r[`w-g`r|`wgrant`r] <`wplayer`r> (`w-`r)`r<`wamount`r>");
                         return true;
                     }
 
                     if (isPlayer)
-                        showSet(name, player, amount, false);
+                        showSet(sender, name, player, amount, false);
                     else {
-                        showSet(name, null, amount, true);
+                        showSet(sender, name, null, amount, true);
                     }
 
                     return true;
