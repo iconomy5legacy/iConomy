@@ -239,17 +239,12 @@ public class iConomy extends JavaPlugin {
         split[0] = cmd.getName().toLowerCase();
         System.arraycopy(args, 0, split, 1, args.length);
         boolean isPlayer = sender instanceof Player;
-
-        /*
-         * Save the sender so we can respond.
-         */
-        Messaging.save(sender);
         
         switch (commandLabel.toLowerCase()) {
         
         case "bank":
         	if (!Constants.Banking) {
-        		Messaging.send("`rBanking is disabled.");
+        		Messaging.send(sender, "`rBanking is disabled.");
         		return true;
         	}
 
@@ -258,7 +253,7 @@ public class iConomy extends JavaPlugin {
         	
         case "icoimport":
         	if (!isPlayer && !importEssEco()) {
-        		Messaging.send("`rImport failed.");
+        		Messaging.send(sender, "`rImport failed.");
         	}
         	return true;
         }

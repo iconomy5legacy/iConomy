@@ -23,8 +23,6 @@ import org.bukkit.entity.Player;
  */
 public class Messaging {
 	
-    private static CommandSender sender = null;
-
     /**
      * Converts a list of arguments into points.
      *
@@ -109,36 +107,6 @@ public class Messaging {
     }
 
     /**
-     * Save the player to be sent messages later. Ease of use sending messages.
-     * <br /><br />
-     * Example:
-     * <blockquote><pre>
-     * Messaging.save(player);
-     * Messaging.send("This will go to the player saved.");
-     * </pre></blockquote>
-     *
-     * @param player The player we wish to save for later.
-     */
-    public static void save(Player player) {
-        sender = player;
-    }
-
-    /**
-     * Save the entity to be sent messages later. Ease of use sending messages.
-     * <br /><br />
-     * Example:
-     * <blockquote><pre>
-     * Messaging.save(sender);
-     * Messaging.voice("This will go to the entity saved.");
-     * </pre></blockquote>
-     *
-     * @param player The player we wish to save for later.
-     */
-    public static void save(CommandSender sender) {
-        Messaging.sender = sender;
-    }
-
-    /**
      * Sends a message to a specific player.
      * <br /><br />
      * Example:
@@ -166,17 +134,6 @@ public class Messaging {
      */
     public static void send(CommandSender sender, String message) {
         sender.sendMessage(parse(message));
-    }
-
-    /**
-     * Sends a message to the stored entity.
-     *
-     * @param message The message to be sent.
-     * @see Messaging#save(CommandSender)
-     */
-    public static void send(String message) {
-        if (sender != null)
-            sender.sendMessage(parse(message));
     }
 
     /**
