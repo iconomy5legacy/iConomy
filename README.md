@@ -8,21 +8,21 @@ You will find that this plugin does not use UUIDs (*it's a really old plugin*) t
 
 Town and Nation bank accounts will not reset using this economy plugin.
 
-####Requirements:
+#### Requirements:
 This plugin requires Vault and Towny.
 
 If you use Towny older than 0.96.5.2 you will also need TownyNameUpdater. 
 
 
-####Conversion:
+#### Conversion:
 Convert from other economy plugins using the Vault command:
 
 `/vault-convert {economyplugin} iconomy5.11` (replace 5.11 with the iConomy version number.)
 
-####Commands:
+#### Commands:
 <img src=https://user-images.githubusercontent.com/879756/66089320-606ffe80-e544-11e9-86fa-d324a384aaeb.png>
 
-####Permission Nodes:
+#### Permission Nodes:
 Permission nodes can be gotten from the [plugin.yml](https://github.com/iconomy5legacy/iConomy/blob/master/src/main/resources/plugin.yml) They are already given out by default for the most part.
 <br><br><br><br><br><br>
 
