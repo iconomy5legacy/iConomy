@@ -215,9 +215,9 @@ public class iConomy extends JavaPlugin {
                 Database.connectionPool().dispose();
             }
 
-            System.out.println("[iConomy] Plugin disabled.");
+            log.info("[iConomy] Plugin disabled.");
         } catch (Exception e) {
-            System.out.println("[iConomy] Plugin disabled.");
+            log.severe("[iConomy] Plugin disabled.");
         } finally {
             if (Interest_Timer != null) {
                 Interest_Timer.cancel();
