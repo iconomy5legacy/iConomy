@@ -832,7 +832,7 @@ public class Players implements Listener {
         if (console)
             log.info("Player " + account + "'s account has been reset.");
         else
-            log.info(Messaging.bracketize("iConomy") + "Player " + account + "'s account has been reset by " + controller.getName() + ".");
+            log.info("Player " + account + "'s account has been reset by " + controller.getName() + ".");
     }
 
     /**
@@ -918,7 +918,7 @@ public class Players implements Listener {
             if (console)
                 log.info("Player " + account + "'s account had " + iConomy.format(amount) + " set to it.");
             else
-                log.info(Messaging.bracketize("iConomy") + "Player " + account + "'s account had " + iConomy.format(amount) + " set to it by " + controller.getName() + ".");
+                log.info("Player " + account + "'s account had " + iConomy.format(amount) + " set to it by " + controller.getName() + ".");
         }
     }
 
