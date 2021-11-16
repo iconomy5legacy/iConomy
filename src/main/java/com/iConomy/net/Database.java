@@ -30,7 +30,7 @@ public class Database {
             
         } else if (Constants.DatabaseType.equalsIgnoreCase("mysql")) {
             this.driver = "com.mysql.jdbc.Driver";
-            this.dsn = "jdbc:mysql://" + Constants.SQLHostname + ":" + Constants.SQLPort + "/" + Constants.SQLDatabase + "?useSSL=" + Constants.SQLUseSSL;
+            this.dsn = "jdbc:mysql://" + Constants.SQLHostname + ":" + Constants.SQLPort + "/" + Constants.SQLDatabase + Constants.SQLFlags;
             this.username = Constants.SQLUsername;
             this.password = Constants.SQLPassword;
             
