@@ -43,5 +43,5 @@ target/
 /dependency-reduced-pom.xml
 /global.yml
 /data.yml
-iConomy.iml
-.idea/
+/.idea
+*.iml
