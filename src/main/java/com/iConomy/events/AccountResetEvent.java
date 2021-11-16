@@ -8,11 +8,15 @@ import com.iConomy.iConomy;
 import com.iConomy.system.Holdings;
 import com.iConomy.util.Constants;
 
+import java.util.logging.Logger;
+
 public class AccountResetEvent extends Event {
 
 	private final Holdings account;
 	private boolean cancelled = false;
 	private static final HandlerList handlers = new HandlerList();
+
+	Logger log = iConomy.instance.getLogger();
 
 	public AccountResetEvent(Holdings account) {
 		super();
@@ -55,7 +59,7 @@ public class AccountResetEvent extends Event {
 				reset(event);
 			}
 		}, 1) == -1)
-			System.out.println("[iConomy] Could not schedule Account Reset Event.");
+			log.warning("Could not schedule Account Reset Event.");
 	}
 
 	private void reset(AccountResetEvent event) {

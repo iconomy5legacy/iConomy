@@ -7,7 +7,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
+import com.iConomy.iConomy;
 import org.h2.jdbcx.JdbcConnectionPool;
 
 import com.iConomy.util.Constants;
@@ -19,6 +21,8 @@ public class Database {
     private String dsn;
     private String username;
     private String password;
+
+    Logger log = iConomy.instance.getLogger();
 
     public Database() throws Exception {
     	
@@ -43,7 +47,7 @@ public class Database {
             Class.forName(this.driver);
             
         } catch (Exception e) {
-            System.out.println("[iConomy] Driver error: " + e);
+            log.warning("Driver error: " + e);
             
             // Create Lib Directory
             new File("lib" + File.separator).mkdir();
@@ -76,7 +80,7 @@ public class Database {
             }
             return DriverManager.getConnection(this.dsn, this.username, this.password);
         } catch (SQLException e) {
-            System.out.println("[iConomy] Could not create connection: " + e);
+            log.severe("Could not create connection: " + e);
         }
         return null;
     }
@@ -118,7 +122,7 @@ public class Database {
             rs = dbm.getTables(null, null, Constants.SQLTable + "_Banks", null);
 
             if (!rs.next()) {
-                System.out.println("[iConomy] Creating table: " + Constants.SQLTable + "_Banks");
+                log.info("Creating table: " + Constants.SQLTable + "_Banks");
 
                 ps = conn.prepareStatement(
                 		"CREATE TABLE " + Constants.SQLTable + "_Banks(" 
@@ -133,7 +137,7 @@ public class Database {
 
                 ps.executeUpdate();
 
-                System.out.println("[iConomy] Table Created.");
+                log.info("Table Created.");
             }
         }
 
@@ -177,7 +181,7 @@ public class Database {
             rs = dbm.getTables(null, null, Constants.SQLTable + "_BankRelations", null);
 
             if (!rs.next()) {
-                System.out.println("[iConomy] Creating table: " + Constants.SQLTable + "_BankRelations");
+                log.info("Creating table: " + Constants.SQLTable + "_BankRelations");
 
                 ps = conn.prepareStatement(
                 		"CREATE TABLE " + Constants.SQLTable + "_BankRelations(" 
@@ -193,7 +197,7 @@ public class Database {
 
                 ps.executeUpdate();
 
-                System.out.println("[iConomy] Table Created.");
+                log.info("Table Created.");
             }
         }
 
@@ -236,7 +240,7 @@ public class Database {
             rs = dbm.getTables(null, null, Constants.SQLTable, null);
 
             if (!rs.next()) {
-                System.out.println("[iConomy] Creating table: " + Constants.SQLTable);
+                log.info("Creating table: " + Constants.SQLTable);
 
                 ps = conn.prepareStatement(
                 		"CREATE TABLE " + Constants.SQLTable + " (" 
@@ -253,7 +257,7 @@ public class Database {
                     ps.executeUpdate();
                 }
 
-                System.out.println("[iConomy] Table Created.");
+                log.info("Table Created.");
             }
         }
 
@@ -297,7 +301,7 @@ public class Database {
                 rs = dbm.getTables(null, null, Constants.SQLTable + "_Transactions", null);
 
                 if (!rs.next()) {
-                    System.out.println("[iConomy] Creating logging database.. [" + Constants.SQLTable + "_Transactions]");
+                    log.info("Creating logging database.. [" + Constants.SQLTable + "_Transactions]");
                     ps = conn.prepareStatement(
                     		"CREATE TABLE " + Constants.SQLTable + "_Transactions (" 
                     				+ "`id` INT(255) NOT NULL AUTO_INCREMENT, " 
@@ -315,13 +319,13 @@ public class Database {
 
                     if (ps != null) {
                         ps.executeUpdate();
-                        System.out.println("[iConomy] Database Created.");
+                        log.info("Database Created.");
                     }
                 }
-                System.out.println("[iConomy] Logging enabled.");
+                log.info("Logging enabled.");
             }
         } else
-            System.out.println("[iConomy] Logging is currently disabled.");
+            log.info("Logging is currently disabled.");
 
         if (ps != null)
             try { ps.close(); } catch (SQLException ex) {}

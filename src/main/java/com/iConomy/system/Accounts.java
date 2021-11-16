@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 /**
@@ -18,6 +19,8 @@ import java.util.List;
  * @author Nijikokun
  */
 public class Accounts {
+
+    Logger log = iConomy.instance.getLogger();
 	
 	/**
 	 * Check if an Account exists with this name.
@@ -237,7 +240,7 @@ public class Accounts {
             while (rs.next())
                 Ranking.put(rs.getString("username"), Double.valueOf(rs.getDouble("balance")));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
             return null;
         } finally {
             if (ps != null)

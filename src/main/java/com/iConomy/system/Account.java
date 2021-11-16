@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class Account {
     private String name;
@@ -15,6 +16,8 @@ public class Account {
     public Account(String name) {
         this.name = name;
     }
+
+    Logger log = iConomy.instance.getLogger();
 
     /**
      * Get the id of this Account.
@@ -183,7 +186,7 @@ public class Account {
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            log.info(ex.getMessage());
         } finally {
             if (ps != null)
                 try {
@@ -214,7 +217,7 @@ public class Account {
             if (rs.next())
                 bank = new Bank(rs.getInt("bank_id"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.info(e.getMessage());
             return null;
         } finally {
             if (ps != null)
@@ -327,7 +330,7 @@ public class Account {
                 return bool;
             }
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to check status: " + ex);
+            log.warning("Failed to check status: " + ex);
         } finally {
             if (ps != null)
                 try { ps.close(); } catch (SQLException ex) {}
@@ -360,7 +363,7 @@ public class Account {
 
             ps.executeUpdate();
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to update status: " + ex);
+            log.warning("Failed to update status: " + ex);
             return false;
         } finally {
             if (ps != null)

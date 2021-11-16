@@ -81,7 +81,7 @@ public class iConomy extends JavaPlugin {
     public static iConomy instance = null;
     public static Economy economy = null;
 
-    Logger log = getServer().getLogger();
+    Logger log = this.getLogger();
 
     @Override
     public void onEnable() {
@@ -114,8 +114,8 @@ public class iConomy extends JavaPlugin {
             Constants.load(new File(getDataFolder(), "Config.yml"));
         } catch (Exception e) {
             Server.getPluginManager().disablePlugin(this);
-            log.info("[iConomy] Failed to retrieve configuration from directory.");
-            log.info("[iConomy] Please back up your current settings and let iConomy recreate it.");
+            log.warning("Failed to retrieve configuration from directory.");
+            log.info("Please back up your current settings and let iConomy recreate it.");
             return;
         }
 
@@ -135,7 +135,7 @@ public class iConomy extends JavaPlugin {
                 Database.setupBankRelationTable();
             }
         } catch (Exception e) {
-            log.severe("[iConomy] Database initialization failed: " + e);
+            log.severe("Database initialization failed: " + e);
             Server.getPluginManager().disablePlugin(this);
             return;
         }
@@ -145,7 +145,7 @@ public class iConomy extends JavaPlugin {
             Transactions = new Transactions();
             Database.setupTransactionTable();
         } catch (Exception e) {
-            log.info("[iConomy] Could not load transaction logger: " + e);
+            log.info("Could not load transaction logger: " + e);
         }
 
         // Check version details before the system loads
@@ -166,7 +166,7 @@ public class iConomy extends JavaPlugin {
                 Interest_Timer.scheduleAtFixedRate(new Interest(getDataFolder().getPath()), time, time);
             }
         } catch (Exception e) {
-            log.severe("[iConomy] Failed to start interest system: " + e);
+            log.severe("Failed to start interest system: " + e);
             Server.getPluginManager().disablePlugin(this);
             return;
         }
@@ -178,8 +178,8 @@ public class iConomy extends JavaPlugin {
         getServer().getPluginManager().registerEvents(playerListener, this);
 
         // Console details.
-        log.info("[iConomy] v" + pdfFile.getVersion() + " (" + Constants.Codename + ") loaded.");
-        log.info("[iConomy] Developed by: " + pdfFile.getAuthors());
+        log.info("v" + pdfFile.getVersion() + " (" + Constants.Codename + ") loaded.");
+        log.info("Developed by: " + pdfFile.getAuthors());
     }
 
     /**
@@ -192,7 +192,7 @@ public class iConomy extends JavaPlugin {
         if (Server.getPluginManager().isPluginEnabled("Vault")) {
             final ServicesManager sm = Server.getServicesManager();
             sm.register(Economy.class, new VaultConnector(this), this, ServicePriority.Highest);
-            log.info("[iConomy] Registered Vault interface.");
+            log.info("Registered Vault interface.");
 
             RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
             
@@ -203,7 +203,7 @@ public class iConomy extends JavaPlugin {
             return true;
         } else {
             PluginDescriptionFile pdfFile = getDescription();
-            log.severe("[iConomy] Vault not found. Please download Vault to use iConomy " + pdfFile.getVersion().toString());
+            log.severe("Vault not found. Please download Vault to use iConomy " + pdfFile.getVersion().toString());
             return false;
         }
     }
@@ -215,9 +215,9 @@ public class iConomy extends JavaPlugin {
                 Database.connectionPool().dispose();
             }
 
-            log.info("[iConomy] Plugin disabled.");
+            log.info("Plugin disabled.");
         } catch (Exception e) {
-            log.severe("[iConomy] Plugin disabled.");
+            log.severe("Plugin disabled.");
         } finally {
             if (Interest_Timer != null) {
                 Interest_Timer.cancel();
@@ -366,17 +366,17 @@ public class iConomy extends JavaPlugin {
                 if (hasTowny) {
                 	if (name.startsWith(essTownPrefix)) {
                         actualName = name.substring(essTownPrefix.length());
-                        log.info("[iConomy] Import: Town account found: " + actualName);
+                        log.info("Import: Town account found: " + actualName);
                         name = townPrefix + actualName;
                         
                     } else if (name.startsWith(essNationPrefix)) {
                         actualName = name.substring(essNationPrefix.length());
-                        log.info("[iConomy] Import: Nation account found: " + actualName);
+                        log.info("Import: Nation account found: " + actualName);
                         name = nationPrefix + actualName;
                         
                     } else if (name.startsWith(essDebtPrefix)) {
                         actualName = name.substring(essDebtPrefix.length());
-                        log.info("[iConomy] Import: Debt account found: " + actualName);
+                        log.info("Import: Debt account found: " + actualName);
                         name = debtPrefix + actualName;
                     }
                 }
@@ -401,7 +401,7 @@ public class iConomy extends JavaPlugin {
                 i++;
                 
             } catch (Exception e) {
-                log.warning("[iConomy] Importer could not parse account for " + account.getName());
+                log.warning("Importer could not parse account for " + account.getName());
             }
         }
 
@@ -472,7 +472,7 @@ public class iConomy extends JavaPlugin {
 
                             log.info(" + Database Update Complete.");
                         } catch (SQLException ex) {
-                            log.warning("[iConomy] Error updating database: " + ex.getMessage());
+                            log.warning("Error updating database: " + ex.getMessage());
                         } finally {
                             if (stmt != null)
                                 try {
@@ -490,7 +490,7 @@ public class iConomy extends JavaPlugin {
                     fileManager.write(Double.valueOf(version));
                 }
             } catch (Exception e) {
-                log.warning("[iConomy] Error on version check: ");
+                log.warning("Error on version check: ");
                 e.printStackTrace();
                 fileManager.delete();
             }
@@ -533,7 +533,7 @@ public class iConomy extends JavaPlugin {
 
                     fileManager.write(Double.valueOf(version));
                 } catch (SQLException ex) {
-                    log.warning("[iConomy] Error updating database: " + ex.getMessage());
+                    log.warning("Error updating database: " + ex.getMessage());
                     
                 } finally {
                     if (ps != null)
@@ -569,7 +569,7 @@ public class iConomy extends JavaPlugin {
                         output.write(buf, 0, length);
                     }
 
-                    log.info("[iConomy] Default setup file written: " + name);
+                    log.info("Default setup file written: " + name);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

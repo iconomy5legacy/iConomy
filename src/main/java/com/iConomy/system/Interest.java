@@ -16,11 +16,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
 
 public class Interest extends TimerTask {
     Template Template = null;
+    Logger log = iConomy.instance.getLogger();
 
     public Interest(String directory) {
         this.Template = new Template(directory, "Template.yml");
@@ -75,7 +77,7 @@ public class Interest extends TimerTask {
                     bankPlayers.put(rs.getString("account_name"), Integer.valueOf(rs.getInt("bank_id")));
                 }
             } catch (Exception E) {
-                System.out.println("[iConomy] Error executing query for interest: " + E.getMessage());
+                log.warning("Error executing query for interest: " + E.getMessage());
             } finally {
                 if (conn != null) {
                 	try {
@@ -106,7 +108,7 @@ public class Interest extends TimerTask {
                 else
                     amount = max.doubleValue();
             } catch (NumberFormatException e) {
-                System.out.println("[iConomy] Invalid Interest: " + e);
+                log.warning("Invalid Interest: " + e);
             }
         }
         try {
@@ -202,9 +204,9 @@ public class Interest extends TimerTask {
 
             ps.clearBatch();
         } catch (BatchUpdateException ex) {
-            System.out.println(ex);
+            log.warning(ex.getMessage());
         } catch (SQLException ex) {
-            System.out.println(ex);
+            log.warning(ex.getMessage());
         } finally {
             if (ps != null)
                 try {

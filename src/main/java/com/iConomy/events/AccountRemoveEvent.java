@@ -3,6 +3,7 @@ package com.iConomy.events;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -16,6 +17,8 @@ public class AccountRemoveEvent extends Event {
 	private final String account;
 	private boolean cancelled = false;
 	private static final HandlerList handlers = new HandlerList();
+
+	Logger log = iConomy.instance.getLogger();
 
 	public AccountRemoveEvent(String account) {
 		super();
@@ -70,7 +73,7 @@ public class AccountRemoveEvent extends Event {
 				ps.setString(1, event.getAccountName());
 				ps.executeUpdate();
 			} catch (Exception ex) {
-				System.out.println("[iConomy] Failed to remove account: " + ex);
+				log.warning("Failed to remove account: " + ex);
 			} finally {
 				if (ps != null)
 					try {

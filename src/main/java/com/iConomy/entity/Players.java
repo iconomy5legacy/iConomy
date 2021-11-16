@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -36,6 +37,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
  */
 public class Players implements Listener {
     private Template Template = null;
+
+    Logger log = iConomy.instance.getLogger();
 
     /**
      * Initialize the class as well as the template for various
@@ -389,7 +392,7 @@ public class Players implements Listener {
             while (rs.next())
                 banks.add(new Bank(rs.getString("name")));
         } catch (Exception e) {
-            System.out.println("[iConomy] Error while listing banks: " + e.getMessage());
+            log.warning("Error while listing banks: " + e.getMessage());
             return;
         } finally {
             if (ps != null)
@@ -827,9 +830,9 @@ public class Players implements Listener {
         }
 
         if (console)
-            System.out.println("Player " + account + "'s account has been reset.");
+            log.info("Player " + account + "'s account has been reset.");
         else
-            System.out.println(Messaging.bracketize("iConomy") + "Player " + account + "'s account has been reset by " + controller.getName() + ".");
+            log.info(Messaging.bracketize("iConomy") + "Player " + account + "'s account has been reset by " + controller.getName() + ".");
     }
 
     /**
@@ -871,9 +874,9 @@ public class Players implements Listener {
             }
 
             if (console)
-                System.out.println("Player " + account.getName() + "'s account had " + (amount < 0.0D ? "negative " : "") + iConomy.format(amount < 0.0D ? amount * -1.0D : amount) + " grant to it.");
+                log.info("Player " + account.getName() + "'s account had " + (amount < 0.0D ? "negative " : "") + iConomy.format(amount < 0.0D ? amount * -1.0D : amount) + " grant to it.");
             else
-                System.out.println(Messaging.bracketize("iConomy") + "Player " + account.getName() + "'s account had " + (amount < 0.0D ? "negative " : "") + iConomy.format(amount < 0.0D ? amount * -1.0D : amount) + " grant to it by " + controller.getName() + ".");
+                log.info("Player " + account.getName() + "'s account had " + (amount < 0.0D ? "negative " : "") + iConomy.format(amount < 0.0D ? amount * -1.0D : amount) + " grant to it by " + controller.getName() + ".");
         }
     }
 
@@ -913,9 +916,9 @@ public class Players implements Listener {
             }
 
             if (console)
-                System.out.println("Player " + account + "'s account had " + iConomy.format(amount) + " set to it.");
+                log.info("Player " + account + "'s account had " + iConomy.format(amount) + " set to it.");
             else
-                System.out.println(Messaging.bracketize("iConomy") + "Player " + account + "'s account had " + iConomy.format(amount) + " set to it by " + controller.getName() + ".");
+                log.info(Messaging.bracketize("iConomy") + "Player " + account + "'s account had " + iConomy.format(amount) + " set to it by " + controller.getName() + ".");
         }
     }
 
@@ -984,7 +987,7 @@ public class Players implements Listener {
         Player player = event.getPlayer();
 
         if (iConomy.getAccount(player.getName()) == null)
-            System.out.println("[iConomy] Error creating / grabbing account for: " + player.getName());
+            log.warning("Error creating / grabbing account for: " + player.getName());
     }
 
     /**

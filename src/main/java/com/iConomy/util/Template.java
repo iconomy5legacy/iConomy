@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.logging.Logger;
 
+import com.iConomy.iConomy;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,6 +14,7 @@ public class Template {
     private YamlConfiguration tpl = null;
 
     File file = null;
+    Logger log = iConomy.instance.getLogger();
 
     public Template(String directory, String filename) {
         this.tpl = new YamlConfiguration();
@@ -82,17 +85,17 @@ public class Template {
         }
 
         if (!nodes.isEmpty()) {
-            System.out.println(" - Upgrading Template.yml");
+            log.info(" - Upgrading Template.yml");
             int count = 1;
 
             for (String node : nodes.keySet()) {
-                System.out.println("   Adding node [" + node + "] #" + count + " of " + nodes.size());
+                log.info("   Adding node [" + node + "] #" + count + " of " + nodes.size());
                 this.tpl.set(node, nodes.get(node));
                 count++;
             }
 
             this.tpl.save(file);
-            System.out.println(" + Messages Upgrade Complete.");
+            log.info(" + Messages Upgrade Complete.");
         }
     }
 
