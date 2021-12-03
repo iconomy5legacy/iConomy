@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -24,6 +26,7 @@ public class Holdings {
     private String name = "";
     private boolean bank = false;
     private int bankId = 0;
+    Logger log = iConomy.instance.getLogger();
 
     public Holdings(String name) {
         this.name = name;
@@ -98,7 +101,7 @@ public class Holdings {
             if (rs.next())
                 balance = Double.valueOf(this.bankId == 0 ? rs.getDouble("balance") : rs.getDouble("holdings"));
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to grab holdings: " + ex);
+            log.warning("Failed to grab holdings: " + ex);
         } finally {
             if (ps != null)
                 try { ps.close(); } catch (SQLException ex) {}

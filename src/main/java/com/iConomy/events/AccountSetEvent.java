@@ -3,6 +3,7 @@ package com.iConomy.events;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -17,6 +18,8 @@ public class AccountSetEvent extends Event {
 	private final Holdings account;
 	private double balance;
 	private static final HandlerList handlers = new HandlerList();
+
+	Logger log = iConomy.instance.getLogger();
 
 	public AccountSetEvent(Holdings account, double balance) {
 		super();
@@ -81,7 +84,7 @@ public class AccountSetEvent extends Event {
 
 			ps.executeUpdate();
 		} catch (Exception ex) {
-			System.out.println("[iConomy] Failed to set holdings: " + ex);
+			log.warning("Failed to set holdings: " + ex);
 		} finally {
 			if (ps != null)
 				try {

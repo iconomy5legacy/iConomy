@@ -8,10 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Bank {
     private int id = 0;
     private String name = "";
+    Logger log = iConomy.instance.getLogger();
 
     public Bank(String name) {
         Connection conn = null;
@@ -227,7 +229,7 @@ public class Bank {
 
             this.name = name;
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to update bank name: ");
+            log.warning("Failed to update bank name: ");
             ex.printStackTrace();
         } finally {
             if (ps != null)
@@ -253,7 +255,7 @@ public class Bank {
 
             ps.executeUpdate();
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to update bank major: ");
+            log.warning("Failed to update bank major: ");
             ex.printStackTrace();
         } finally {
             if (ps != null)
@@ -279,7 +281,7 @@ public class Bank {
 
             ps.executeUpdate();
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to update bank minor: ");
+            log.warning("Failed to update bank minor: ");
             ex.printStackTrace();
         } finally {
             if (ps != null)
@@ -305,7 +307,7 @@ public class Bank {
 
             ps.executeUpdate();
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to update bank initial amount: ");
+            log.warning("Failed to update bank initial amount: ");
             ex.printStackTrace();
         } finally {
             if (ps != null)
@@ -330,7 +332,7 @@ public class Bank {
             ps.setInt(2, this.id);
             ps.executeUpdate();
         } catch (Exception ex) {
-            System.out.println("[iConomy] Failed to update bank fee: ");
+            log.warning("Failed to update bank fee: ");
             ex.printStackTrace();
         } finally {
             if (ps != null)
@@ -425,7 +427,7 @@ public class Bank {
                 ps.setDouble(3, getInitialHoldings());
                 ps.executeUpdate();
             } catch (Exception e) {
-                System.out.println("[iConomy] Error inserting bank account: " + e);
+                log.warning("Error inserting bank account: " + e);
                 return false;
             } finally {
                 if (ps != null)
@@ -455,7 +457,7 @@ public class Bank {
                 ps.setDouble(3, holdings);
                 ps.executeUpdate();
             } catch (Exception e) {
-                System.out.println("[iConomy] Error inserting bank account: " + e);
+                log.warning("Error inserting bank account: " + e);
                 return false;
             } finally {
                 if (ps != null)

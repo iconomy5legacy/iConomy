@@ -7,6 +7,8 @@ import org.bukkit.event.HandlerList;
 import com.iConomy.iConomy;
 import com.iConomy.system.Holdings;
 
+import java.util.logging.Logger;
+
 public class AccountUpdateEvent extends Event {
 
 	private final Holdings account;
@@ -15,6 +17,8 @@ public class AccountUpdateEvent extends Event {
 	private double amount;
 	private boolean cancelled = false;
 	private static final HandlerList handlers = new HandlerList();
+
+	Logger log = iConomy.instance.getLogger();
 
 	public AccountUpdateEvent(Holdings account, double previous, double balance, double amount) {
 		super();
@@ -77,7 +81,7 @@ public class AccountUpdateEvent extends Event {
 				update(event);
 			}
 		}, 1) == -1)
-			System.out.println("[iConomy] Could not schedule Account Update Event.");
+			log.warning("Could not schedule Account Update Event.");
 	}
 
 	private void update(AccountUpdateEvent event) {

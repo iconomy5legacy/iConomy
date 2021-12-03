@@ -43,3 +43,5 @@ target/
 /dependency-reduced-pom.xml
 /global.yml
 /data.yml
+/.idea
+*.iml

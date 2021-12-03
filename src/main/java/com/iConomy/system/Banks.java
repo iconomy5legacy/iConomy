@@ -8,8 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Banks {
+    Logger log = iConomy.instance.getLogger();
+
     public boolean exists(int id) {
         if (!Constants.Banking) {
             return false;
@@ -115,7 +118,7 @@ public class Banks {
 
                 ps.executeUpdate();
             } catch (Exception ex) {
-                System.out.println("[iConomy] Failed to set holdings balance: " + ex);
+                log.warning("Failed to set holdings balance: " + ex);
             } finally {
                 if (ps != null)
                     try {
@@ -151,7 +154,7 @@ public class Banks {
 
                 ps.executeUpdate();
             } catch (Exception ex) {
-                System.out.println("[iConomy] Failed to set holdings balance: " + ex);
+                log.warning("Failed to set holdings balance: " + ex);
             } finally {
                 if (ps != null)
                     try {
