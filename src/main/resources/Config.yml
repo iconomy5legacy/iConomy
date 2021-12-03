@@ -94,3 +94,4 @@ System:
               Password: 'pass'
               Hostname: 'localhost'
               Port: 3306
+              Flags: '?verifyServerCertificate=false&useSSL=false'

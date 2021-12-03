@@ -55,7 +55,7 @@ public class Constants {
     public static String SQLPort = "3306";
     public static String SQLUsername = "root";
     public static String SQLPassword = "";
-    public static boolean SQLUseSSL = false;
+    public static String SQLFlags = "?verifyServerCertificate=false&useSSL=false";
 
     // SQL Generics
     public static String SQLDatabase = "minecraft";
@@ -116,7 +116,7 @@ public class Constants {
             SQLPort = config.getString("System.Database.Settings.MySQL.Port", SQLPort);
             SQLUsername = config.getString("System.Database.Settings.MySQL.Username", SQLUsername);
             SQLPassword = config.getString("System.Database.Settings.MySQL.Password", SQLPassword);
-            SQLUseSSL = config.getBoolean("System.Database.Settings.MySQL.UseSSL", false);
+            SQLFlags = config.getString("System.Database.Settings.MySQL.Flags", SQLFlags);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
