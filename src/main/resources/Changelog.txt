@@ -1,5 +1,6 @@
 5.14:
   - Add configurable SQLFlags to the config. You will have to regenerate your config.yml for it to appear.
+  - Remove all the sysout/syserr's that weren't removed in the last version, courtesy of Momshroom with PR #26.
 5.13:
   - Removes all sysout/syserr's that made paper unhappy.
 5.12:
