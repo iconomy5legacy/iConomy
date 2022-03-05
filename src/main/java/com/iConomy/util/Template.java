@@ -128,14 +128,14 @@ public class Template {
     }
 
     public String color(String key) {
-        return Messaging.parse(Messaging.colorize(raw(key)));
+        return Messaging.parse(raw(key));
     }
 
     public String parse(String key, Object[] argument, Object[] points) {
-        return Messaging.parse(Messaging.colorize(Messaging.argument(raw(key), argument, points)));
+        return Messaging.parse(Messaging.argument(raw(key), argument, points));
     }
 
     public String parse(String key, String line, Object[] argument, Object[] points) {
-        return Messaging.parse(Messaging.colorize(Messaging.argument(raw(key, line), argument, points)));
+        return Messaging.parse(Messaging.argument(raw(key, line), argument, points));
     }
 }
