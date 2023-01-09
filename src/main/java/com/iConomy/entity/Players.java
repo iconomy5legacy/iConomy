@@ -842,7 +842,7 @@ public class Players implements Listener {
     * @param amount
     * @param console Is it sent via console?
     */
-    public void showGrant(CommandSender sender, String name, Player controller, double amount, boolean console) {
+    public void showGrant(CommandSender sender, String name, Player controller, double amount, boolean console, boolean silent) {
         Player online = iConomy.getBukkitServer().getPlayer(name);
 
         if (online != null) {
@@ -863,7 +863,7 @@ public class Players implements Listener {
                 iConomy.getTransactions().insert("[System]", name, 0.0D, balance.doubleValue(), 0.0D, amount, 0.0D);
             }
 
-            if (online != null) {
+            if (online != null && !silent) {
                 Messaging.send(online, this.Template.color("tag.money") + this.Template.parse(amount < 0.0D ? "personal.debit" : "personal.credit", new String[] { "+by", "+amount,+a" }, new String[] { console ? "console" : controller.getName(), iConomy.format(amount < 0.0D ? amount * -1.0D : amount) }));
 
                 showBalance(name, online, true);
@@ -1568,6 +1568,7 @@ public class Players implements Listener {
 
                     return true;
                 case 4:
+                case 5:
                     if (Misc.is(split[1], new String[] { "pay", "-p" })) {
                         if (!iConomy.hasPermissions(sender, "iConomy.payment") || !isPlayer) {
                             return false;
@@ -1636,13 +1637,15 @@ public class Players implements Listener {
                             return true;
                         }
 
+                        boolean silent = split.length == 5 && Misc.is(split[4], new String[] { "silent", "-s" });
+
                         if (accounts.size() < 1 || accounts.isEmpty()) {
                             Messaging.send(sender, this.Template.color("<rose>Grant Query returned 0 accounts to alter."));
                             return true;
                         }
 
                         for (String name : accounts) {
-                            showGrant(sender, name, player, amount, console);
+                            showGrant(sender, name, player, amount, console, silent);
                         }
 
                         return true;
