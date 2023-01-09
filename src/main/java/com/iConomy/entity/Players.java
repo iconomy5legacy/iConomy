@@ -78,8 +78,8 @@ public class Players implements Listener {
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.grant")) {
-            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] [`wamount`G] `y Give money.");
-            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] -[`wamount`G] `y Take money.");
+            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] [`wamount`G] {`wsilent`G} `y Give money, optionally silent.");
+            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] -[`wamount`G] {`wsilent`G} `y Take money, optionally silent.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.set")) {
