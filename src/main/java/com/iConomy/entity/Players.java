@@ -57,12 +57,18 @@ public class Players implements Listener {
      * instances of the same help lines.
      */
     private void getMoneyHelp(CommandSender sender) {
+        boolean isPlayer = sender instanceof Player;
+        
         Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w iConomy (`r" + Constants.Codename + "`w)");
         Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w [] Required, () Optional");
         Messaging.send(sender, " ");
-        Messaging.send(sender, "`G  /money `y Check your balance");
+        
+        if(isPlayer){
+            Messaging.send(sender, "`G  /money `y Check your balance");
+        }
+        
         Messaging.send(sender, "`G  /money `g? `y For help & Information");
 
         if (iConomy.hasPermissions(sender, "iConomy.rank")) {
@@ -124,12 +130,18 @@ public class Players implements Listener {
      * instances of the same help lines.
      */
     private void getBankHelp(CommandSender sender) {
+        boolean isPlayer = sender instanceof Player;
+        
         Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w iConomy (`r" + Constants.Codename + "`w)");
         Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w [] Required, () Optional");
         Messaging.send(sender, " ");
-        Messaging.send(sender, "`G  /bank `y Check your bank accounts");
+       
+        if(isPlayer){
+            Messaging.send(sender, "`G  /bank `y Check your bank accounts");
+        }
+        
         Messaging.send(sender, "`G  /bank `g? `y For help & Information");
 
         if (iConomy.hasPermissions(sender, "iConomy.bank.list")) {
@@ -1048,7 +1060,7 @@ public class Players implements Listener {
                     		"help", "?", "create", "-c", "remove", "-r", "set", "-s",
                     		"send", "->", "deposit", "-d", "join", "-j", "leave", "-l"
                     })) {
-                        getBankHelp(player);
+                        getBankHelp(sender);
                         return true;
                     }
                     if (!iConomy.hasPermissions(sender, "iConomy.bank.access")) {
@@ -1474,7 +1486,7 @@ public class Players implements Listener {
                     }
 
                     if (Misc.is(split[1], new String[] { "help", "?", "grant", "-g", "reset", "-x", "set", "-s", "pay", "-p", "create", "-c", "remove", "-v", "hide", "-h" })) {
-                        getMoneyHelp(player);
+                        getMoneyHelp(sender);
                         return true;
                     }
                     if (!iConomy.hasPermissions(sender, "iConomy.access")) {
@@ -1722,7 +1734,7 @@ public class Players implements Listener {
                     return true;
             }
 
-            getMoneyHelp(player);
+            getMoneyHelp(sender);
         }
 
         return false;
