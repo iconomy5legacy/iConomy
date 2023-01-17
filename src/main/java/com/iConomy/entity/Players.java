@@ -138,7 +138,7 @@ public class Players implements Listener {
         Messaging.send(sender, "`w [] Required, () Optional");
         Messaging.send(sender, " ");
        
-        if(isPlayer){
+        if(sender instanceof Player){
             Messaging.send(sender, "`G  /bank `y Check your bank accounts");
         }
         
