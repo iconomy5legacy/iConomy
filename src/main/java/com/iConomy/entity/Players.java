@@ -130,8 +130,6 @@ public class Players implements Listener {
      * instances of the same help lines.
      */
     private void getBankHelp(CommandSender sender) {
-        boolean isPlayer = sender instanceof Player;
-        
         Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w iConomy (`r" + Constants.Codename + "`w)");
         Messaging.send(sender, "`y ");
