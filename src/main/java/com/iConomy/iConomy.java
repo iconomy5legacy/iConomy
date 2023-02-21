@@ -119,12 +119,6 @@ public class iConomy extends JavaPlugin {
             return;
         }
 
-        // Register as a ServiceProvider and with Vault.
-        if (!registerEconomy()) {
-            this.getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
         // Setup database and connections.
         try {
             Database = new Database();
@@ -182,6 +176,15 @@ public class iConomy extends JavaPlugin {
         log.info("Developed by: " + pdfFile.getAuthors());
     }
 
+    @Override
+    public void onLoad() {
+        // Register as a ServiceProvider and with Vault.
+        if (!registerEconomy()) {
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+    }
+
     /**
      * Register as a ServiceProvider, and with Vault.
      * 
@@ -189,8 +192,8 @@ public class iConomy extends JavaPlugin {
      */
     private boolean registerEconomy() {
     	
-        if (Server.getPluginManager().isPluginEnabled("Vault")) {
-            final ServicesManager sm = Server.getServicesManager();
+        if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
+            final ServicesManager sm = this.getServer().getServicesManager();
             sm.register(Economy.class, new VaultConnector(this), this, ServicePriority.Highest);
             log.info("Registered Vault interface.");
 
@@ -199,11 +202,9 @@ public class iConomy extends JavaPlugin {
             if (rsp != null) {
                 economy = rsp.getProvider();
             }
-            //log.info("[Vault] [Economy] " + economy.getName() + " found: Waiting.");
             return true;
         } else {
-            PluginDescriptionFile pdfFile = getDescription();
-            log.severe("Vault not found. Please download Vault to use iConomy " + pdfFile.getVersion().toString());
+            log.severe("Vault not found. Please download Vault to use iConomy " + getDescription().getVersion().toString() + ".");
             return false;
         }
     }
