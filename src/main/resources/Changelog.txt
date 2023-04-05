@@ -1,3 +1,5 @@
+5.18:
+  - Synchronize Holdings transactions instead of using new tasks.
 5.17:
   - Register with Vault onLoad instead of onEnable for better compatibility.
 5.16:

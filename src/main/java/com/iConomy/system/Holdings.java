@@ -13,9 +13,6 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
-
 /**
  * Controls player Holdings, and Bank Account holdings.
  * 
@@ -120,46 +117,28 @@ public class Holdings {
         event.schedule(event);
     }
 
-    public void add(double amount) {
-        if (Bukkit.isPrimaryThread()) {
-            double balance = get();
-            double ending = balance + amount;
-    
-            math(amount, balance, ending);
-        }else{
-            new BukkitRunnable(){
-                @Override
-                public void run(){
-                    add(amount);
-                }
-            }.runTask(iConomy.instance);
-        }
+    public synchronized void add(double amount) {
+        double balance = get();
+        double ending = balance + amount;
+
+        math(amount, balance, ending);
     }
 
-    public void subtract(double amount) {
-        if (Bukkit.isPrimaryThread()) {
-            double balance = get();
-            double ending = balance - amount;
-    
-            math(amount, balance, ending);
-        }else{
-            new BukkitRunnable(){
-                @Override
-                public void run(){
-                    subtract(amount);
-                }
-            }.runTask(iConomy.instance);
-        }
+    public synchronized void subtract(double amount) {
+        double balance = get();
+        double ending = balance - amount;
+
+        math(amount, balance, ending);
     }
 
-    public void divide(double amount) {
+    public synchronized void divide(double amount) {
         double balance = get();
         double ending = balance / amount;
 
         math(amount, balance, ending);
     }
 
-    public void multiply(double amount) {
+    public synchronized void multiply(double amount) {
         double balance = get();
         double ending = balance * amount;
 
