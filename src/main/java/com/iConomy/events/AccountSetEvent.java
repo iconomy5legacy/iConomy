@@ -66,16 +66,9 @@ public class AccountSetEvent extends Event {
 		try {
 			conn = iConomy.getiCoDatabase().getConnection();
 
-			if (event.getAccount().getBankId() == 0) {
-				ps = conn.prepareStatement("UPDATE " + Constants.SQLTable + " SET balance = ? WHERE username = ?");
-				ps.setDouble(1, balance);
-				ps.setString(2, event.getAccountName());
-			} else {
-				ps = conn.prepareStatement("UPDATE " + Constants.SQLTable + "_BankRelations SET holdings = ? WHERE account_name = ? AND bank_id = ?");
-				ps.setDouble(1, balance);
-				ps.setString(2, event.getAccountName());
-				ps.setInt(3, event.getAccount().getBankId());
-			}
+			ps = conn.prepareStatement("UPDATE " + Constants.SQLTable + " SET balance = ? WHERE username = ?");
+			ps.setDouble(1, balance);
+			ps.setString(2, event.getAccountName());
 
 			ps.executeUpdate();
 		} catch (Exception ex) {

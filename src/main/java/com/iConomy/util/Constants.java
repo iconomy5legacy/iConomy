@@ -20,15 +20,6 @@ public class Constants {
     public static List<String> Major = new LinkedList<String>();
     public static List<String> Minor = new LinkedList<String>();
     public static double Holdings = 30.0D;
-    
-    // iConomy Bank
-    public static boolean Banking = false;
-    public static boolean BankingMultiple = true;
-    public static String BankName = "iConomy";
-    public static List<String> BankMajor = new LinkedList<String>();
-    public static List<String> BankMinor = new LinkedList<String>();
-    public static double BankHoldings = 30.0D;
-    public static double BankFee = 20.0D;
 
     // System formatting
     public static boolean FormatMinor = false;
@@ -68,23 +59,11 @@ public class Constants {
 
             Major.add("Dollar"); Major.add("Dollars");
             Minor.add("Coin"); Minor.add("Coins");
-            
-            BankMajor.add("Dollar"); BankMajor.add("Dollars");
-            BankMinor.add("Coin"); BankMinor.add("Coins");
 
             // System Configuration
             Major = config.getStringList("System.Default.Currency.Major");
             Minor = config.getStringList("System.Default.Currency.Minor");
             Holdings = config.getDouble("System.Default.Account.Holdings", Holdings);
-
-            // System Bank
-            Banking = config.getBoolean("System.Banking.Enabled", Banking);
-            BankingMultiple = config.getBoolean("System.Banking.Accounts.Multiple", BankingMultiple);
-            BankName = config.getString("System.Default.Bank.Name", BankName);
-            BankMajor = config.getStringList("System.Default.Bank.Currency.Major");
-            BankMinor = config.getStringList("System.Default.Bank.Currency.Minor");
-            BankHoldings = config.getDouble("System.Default.Bank.Account.Holdings", BankHoldings);
-            BankFee = config.getDouble("System.Default.Bank.Account.Fee", BankFee);
 
             // System Logging
             Logging = config.getBoolean("System.Logging.Enabled", Logging);
@@ -96,7 +75,7 @@ public class Constants {
             // System Interest
             Interest = config.getBoolean("System.Interest.Enabled", Interest);
             InterestOnline = config.getBoolean("System.Interest.Online", InterestOnline);
-            InterestType = config.getString("System.Interest.Amount.On", InterestType);
+//            InterestType = config.getString("System.Interest.Amount.On", InterestType);
             InterestAnn = config.getBoolean("System.Interest.Announce.Enabled", InterestAnn);
             InterestSeconds = config.getInt("System.Interest.Interval.Seconds", InterestSeconds);
             InterestPercentage = config.getDouble("System.Interest.Amount.Percent", InterestPercentage);
