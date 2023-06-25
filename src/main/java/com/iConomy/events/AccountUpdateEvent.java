@@ -74,14 +74,9 @@ public class AccountUpdateEvent extends Event {
 		if (Bukkit.isPrimaryThread()) {
 			update(event);
 
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
-
-			@Override
-			public void run() {
-				update(event);
-			}
-		}, 1) == -1)
-			log.warning("Could not schedule Account Update Event.");
+		} else {
+			iConomy.instance.getScheduler().runLater(() -> update(event), 1);
+		}
 	}
 
 	private void update(AccountUpdateEvent event) {
