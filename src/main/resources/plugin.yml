@@ -3,8 +3,10 @@ main: com.iConomy.iConomy
 version: ${project.version}
 api-version: ${project.bukkitAPIVersion}
 authors: [Nijikokun, ElgarL, LlmDl, graywolf336]
+depend: [Towny]
 softdepend: [Vault]
 load: startup
+folia-supported: true
 
 libraries:
     - com.h2database:h2:1.3.159

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iConomy</groupId>
 	<artifactId>iConomy</artifactId>
-	<version>5.18</version>
+	<version>5.19</version>
 	<name>iConomy 5</name>
 	<description>The good ole iConomy 5</description>
 	<url>https://github.com/iconomy5legacy/iConomy</url>
@@ -25,6 +25,10 @@
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
+		</repository>
+		<repository>
+			<id>glaremasters repo</id>
+			<url>https://repo.glaremasters.me/repository/towny/</url>
 		</repository>
 	</repositories>
 
@@ -47,6 +51,13 @@
 			<groupId>com.github.MilkBowl</groupId>
 			<artifactId>VaultAPI</artifactId>
 			<version>1.7</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.TownyAdvanced</groupId>
+			<artifactId>Towny</artifactId>
+			<version>0.99.2.0</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

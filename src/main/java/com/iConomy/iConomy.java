@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -42,6 +43,10 @@ import com.iConomy.util.FileManager;
 import com.iConomy.util.Messaging;
 import com.iConomy.util.Misc;
 import com.iConomy.util.VaultConnector;
+import com.palmergames.bukkit.towny.Towny;
+import com.palmergames.bukkit.towny.scheduling.TaskScheduler;
+import com.palmergames.bukkit.towny.scheduling.impl.BukkitTaskScheduler;
+import com.palmergames.bukkit.towny.scheduling.impl.FoliaTaskScheduler;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -82,11 +87,22 @@ public class iConomy extends JavaPlugin {
     public static Economy economy = null;
 
     Logger log = this.getLogger();
+    private final Object scheduler;
+    private static String requiredTownyVersion = "0.99.2.0";
+
+    public iConomy() {
+        instance = this;
+        this.scheduler = townyVersionCheck() ? isFoliaClassPresent() ? new FoliaTaskScheduler(this) : new BukkitTaskScheduler(this) : null;
+    }
 
     @Override
     public void onEnable() {
-    	
-        instance = this;
+
+        if(!townyVersionCheck()) {
+            disableWithMessage("Towny version does not meet required minimum version: " + requiredTownyVersion.toString());
+            return;
+        }
+
         Locale.setDefault(Locale.US);
         
         // Get the server
@@ -207,6 +223,12 @@ public class iConomy extends JavaPlugin {
             log.severe("Vault not found. Please download Vault to use iConomy " + getDescription().getVersion().toString() + ".");
             return false;
         }
+    }
+
+    private void disableWithMessage(String message) {
+        getLogger().severe(message);
+        getLogger().severe("Disabling TownyChat...");
+        Bukkit.getPluginManager().disablePlugin(this);
     }
 
     @Override
@@ -703,4 +725,25 @@ public class iConomy extends JavaPlugin {
     public static Server getBukkitServer() {
         return Server;
     }
+
+    private boolean townyVersionCheck() {
+		try {
+			return Towny.isTownyVersionSupported(requiredTownyVersion);
+		} catch (NoSuchMethodError e) {
+			return false;
+		}
+	}
+
+	public TaskScheduler getScheduler() {
+		return (TaskScheduler) this.scheduler;
+	}
+
+	private static boolean isFoliaClassPresent() {
+		try {
+			Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+			return true;
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+	}
 }

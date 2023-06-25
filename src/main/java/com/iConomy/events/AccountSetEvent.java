@@ -52,14 +52,9 @@ public class AccountSetEvent extends Event {
 		if (Bukkit.isPrimaryThread()) {
 			setBalance(event);
 
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
-
-			@Override
-			public void run() {
-				setBalance(event);
-			}
-		}, 1) == -1)
-			iConomy.instance.getServer().getLogger().warning("Could not schedule Account Set Event.");
+		} else {
+			iConomy.instance.getScheduler().runLater(() -> setBalance(event), 1);
+		}
 	}
 
 	private void setBalance(AccountSetEvent event) {

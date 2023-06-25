@@ -1,3 +1,5 @@
+5.19:
+  - Add support for Folia servers, iConomy now requires Towny 0.99.2.0 or newer to be installed.
 5.18:
   - Synchronize Holdings transactions instead of using new tasks.
 5.17:

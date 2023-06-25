@@ -50,14 +50,10 @@ public class AccountRemoveEvent extends Event {
 		if (Bukkit.isPrimaryThread()) {
 			remove(event);
 
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
+		} else {
+			iConomy.instance.getScheduler().runLater(() -> remove(event), 1);
+		}
 
-			@Override
-			public void run() {
-				remove(event);
-			}
-		}, 1) == -1)
-			iConomy.instance.getServer().getLogger().warning("Could not schedule Account Remove Event.");
 	}
 
 	private void remove(AccountRemoveEvent event) {

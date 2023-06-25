@@ -52,14 +52,9 @@ public class AccountResetEvent extends Event {
 		if (Bukkit.isPrimaryThread()) {
 			reset(event);
 
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
-
-			@Override
-			public void run() {
-				reset(event);
-			}
-		}, 1) == -1)
-			log.warning("Could not schedule Account Reset Event.");
+		} else {
+			iConomy.instance.getScheduler().runLater(() -> reset(event), 1);
+		}
 	}
 
 	private void reset(AccountResetEvent event) {
