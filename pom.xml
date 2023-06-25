@@ -104,6 +104,12 @@
 									<include>com.github.Anon8281:UniversalScheduler</include>
 								</includes>
 							</artifactSet>
+							<relocations>
+								<relocation>
+									<pattern>com.github.Anon8281.universalScheduler</pattern>
+									<shadedPattern>com.iConomy.universalScheduler</shadedPattern> <!-- Replace this -->
+								</relocation>
+							</relocations>
 						</configuration>
 					</execution>
 				</executions>
