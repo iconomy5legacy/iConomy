@@ -4,6 +4,7 @@ version: ${project.version}
 api-version: ${project.bukkitAPIVersion}
 authors: [Nijikokun, ElgarL, LlmDl, graywolf336]
 softdepend: [Vault]
+folia-supported: true
 load: startup
 
 libraries:

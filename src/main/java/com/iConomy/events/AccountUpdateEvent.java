@@ -11,84 +11,83 @@ import java.util.logging.Logger;
 
 public class AccountUpdateEvent extends Event {
 
-	private final Holdings account;
-	private double balance;
-	private double previous;
-	private double amount;
-	private boolean cancelled = false;
-	private static final HandlerList handlers = new HandlerList();
+    private final Holdings account;
+    private double balance;
+    private double previous;
+    private double amount;
+    private boolean cancelled = false;
+    private static final HandlerList handlers = new HandlerList();
 
-	Logger log = iConomy.instance.getLogger();
+    Logger log = iConomy.instance.getLogger();
 
-	public AccountUpdateEvent(Holdings account, double previous, double balance, double amount) {
-		super();
-		this.account = account;
-		this.previous = previous;
-		this.balance = balance;
-		this.amount = amount;
-	}
+    public AccountUpdateEvent(Holdings account, double previous, double balance, double amount) {
+        super();
+        this.account = account;
+        this.previous = previous;
+        this.balance = balance;
+        this.amount = amount;
+    }
 
-	public String getAccountName() {
-		return this.account.getName();
-	}
+    public String getAccountName() {
+        return this.account.getName();
+    }
 
-	public Holdings getAccount() {
-		return account;
-	}
+    public Holdings getAccount() {
+        return account;
+    }
 
-	public double getAmount() {
-		return this.amount;
-	}
+    public double getAmount() {
+        return this.amount;
+    }
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-		this.balance = this.previous + amount;
-	}
+    public void setAmount(double amount) {
+        this.amount = amount;
+        this.balance = this.previous + amount;
+    }
 
-	public double getPrevious() {
-		return this.previous;
-	}
+    public double getPrevious() {
+        return this.previous;
+    }
 
-	public double getBalance() {
-		return this.balance;
-	}
+    public double getBalance() {
+        return this.balance;
+    }
 
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
+    public boolean isCancelled() {
+        return this.cancelled;
+    }
 
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
-	public void schedule(AccountUpdateEvent event) {
+    public void schedule(AccountUpdateEvent event) {
 
-		if (Bukkit.isPrimaryThread()) {
-			update(event);
+        if (Bukkit.isPrimaryThread()) {
+            update(event);
 
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
+        } else {
+            try {
+                iConomy.getScheduler().runTaskLater(() -> update(event), 1);
+            } catch (Exception e) {
+                log.warning("Could not schedule Account Update Event.");
+            }
+        }
+    }
 
-			@Override
-			public void run() {
-				update(event);
-			}
-		}, 1) == -1)
-			log.warning("Could not schedule Account Update Event.");
-	}
+    private void update(AccountUpdateEvent event) {
 
-	private void update(AccountUpdateEvent event) {
+        iConomy.instance.getServer().getPluginManager().callEvent(event);
 
-		iConomy.instance.getServer().getPluginManager().callEvent(event);
-
-		if (!event.isCancelled())
-			account.set(event.getBalance());
-	}
+        if (!event.isCancelled())
+            account.set(event.getBalance());
+    }
 }

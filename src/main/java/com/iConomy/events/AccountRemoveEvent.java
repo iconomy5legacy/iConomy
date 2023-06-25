@@ -14,74 +14,74 @@ import com.iConomy.util.Constants;
 
 public class AccountRemoveEvent extends Event {
 
-	private final String account;
-	private boolean cancelled = false;
-	private static final HandlerList handlers = new HandlerList();
+    private final String account;
+    private boolean cancelled = false;
+    private static final HandlerList handlers = new HandlerList();
 
-	Logger log = iConomy.instance.getLogger();
+    Logger log = iConomy.instance.getLogger();
 
-	public AccountRemoveEvent(String account) {
-		super();
-		this.account = account;
-	}
+    public AccountRemoveEvent(String account) {
+        super();
+        this.account = account;
+    }
 
-	public String getAccountName() {
-		return this.account;
-	}
+    public String getAccountName() {
+        return this.account;
+    }
 
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
+    public boolean isCancelled() {
+        return this.cancelled;
+    }
 
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
-	public void schedule(AccountRemoveEvent event) {
+    public void schedule(AccountRemoveEvent event) {
 
-		if (Bukkit.isPrimaryThread()) {
-			remove(event);
+        if (Bukkit.isPrimaryThread()) {
+            remove(event);
+        } else {
+            try {
+                iConomy.getScheduler().runTaskLater(() -> remove(event), 1);
+            } catch (Exception e) {
+                iConomy.instance.getServer().getLogger().warning("Could not schedule Account Remove Event.");
+            }
+        }
 
-		} else if (iConomy.instance.getServer().getScheduler().scheduleSyncDelayedTask(iConomy.instance, new Runnable() {
+    }
 
-			@Override
-			public void run() {
-				remove(event);
-			}
-		}, 1) == -1)
-			iConomy.instance.getServer().getLogger().warning("Could not schedule Account Remove Event.");
-	}
+    private void remove(AccountRemoveEvent event) {
 
-	private void remove(AccountRemoveEvent event) {
+        iConomy.instance.getServer().getPluginManager().callEvent(event);
 
-		iConomy.instance.getServer().getPluginManager().callEvent(event);
-
-		if (!event.isCancelled()) {
-			Connection conn = null;
-			PreparedStatement ps = null;
-			try {
-				conn = iConomy.getiCoDatabase().getConnection();
-				ps = conn.prepareStatement("DELETE FROM " + Constants.SQLTable + " WHERE username = ?");
-				ps.setString(1, event.getAccountName());
-				ps.executeUpdate();
-			} catch (Exception ex) {
-				log.warning("Failed to remove account: " + ex);
-			} finally {
-				if (ps != null)
-					try {
-						ps.close();
-					} catch (SQLException ex) {}
-				if (conn != null)
-					iConomy.getiCoDatabase().close(conn);
-			}
-		}
-	}
+        if (!event.isCancelled()) {
+            Connection conn = null;
+            PreparedStatement ps = null;
+            try {
+                conn = iConomy.getiCoDatabase().getConnection();
+                ps = conn.prepareStatement("DELETE FROM " + Constants.SQLTable + " WHERE username = ?");
+                ps.setString(1, event.getAccountName());
+                ps.executeUpdate();
+            } catch (Exception ex) {
+                log.warning("Failed to remove account: " + ex);
+            } finally {
+                if (ps != null)
+                    try {
+                        ps.close();
+                    } catch (SQLException ex) {
+                    }
+                if (conn != null)
+                    iConomy.getiCoDatabase().close(conn);
+            }
+        }
+    }
 }

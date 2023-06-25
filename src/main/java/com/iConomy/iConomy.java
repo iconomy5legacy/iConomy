@@ -17,6 +17,8 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.logging.Logger;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,47 +50,50 @@ import net.milkbowl.vault.economy.Economy;
 /**
  * iConomy by Team iCo
  *
- * @copyright     Copyright AniGaiku LLC (C) 2010-2011
- * @author          Nijikokun <nijikokun@gmail.com>
- * @author          Coelho <robertcoelho@live.com>
- * @author          ShadowDrakken <shadowdrakken@gmail.com>
- *
+ * @author Nijikokun <nijikokun@gmail.com>
+ * @author Coelho <robertcoelho@live.com>
+ * @author ShadowDrakken <shadowdrakken@gmail.com>
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * @copyright Copyright AniGaiku LLC (C) 2010-2011
  */
 public class iConomy extends JavaPlugin {
-	
+
     public static Banks Banks = null;
     public static Accounts Accounts = null;
 
     private static Server Server = null;
     private static Database Database = null;
     private static Transactions Transactions = null;
-    
+
     private static Players playerListener = null;
     private static Timer Interest_Timer = null;
 
     public static iConomy instance = null;
     public static Economy economy = null;
 
+    private static TaskScheduler scheduler;
+
     Logger log = this.getLogger();
 
     @Override
     public void onEnable() {
-    	
+
         instance = this;
+        scheduler = UniversalScheduler.getScheduler(instance);
         Locale.setDefault(Locale.US);
-        
+
         // Get the server
         Server = getServer();
 
@@ -109,7 +114,7 @@ public class iConomy extends JavaPlugin {
         // Default Files
         extract("Config.yml");
         extract("Template.yml");
-        
+
         try {
             Constants.load(new File(getDataFolder(), "Config.yml"));
         } catch (Exception e) {
@@ -187,18 +192,18 @@ public class iConomy extends JavaPlugin {
 
     /**
      * Register as a ServiceProvider, and with Vault.
-     * 
+     *
      * @return true if successful.
      */
     private boolean registerEconomy() {
-    	
+
         if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
             final ServicesManager sm = this.getServer().getServicesManager();
             sm.register(Economy.class, new VaultConnector(this), this, ServicePriority.Highest);
             log.info("Registered Vault interface.");
 
             RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-            
+
             if (rsp != null) {
                 economy = rsp.getProvider();
             }
@@ -240,36 +245,36 @@ public class iConomy extends JavaPlugin {
         split[0] = cmd.getName().toLowerCase();
         System.arraycopy(args, 0, split, 1, args.length);
         boolean isPlayer = sender instanceof Player;
-        
-        switch (commandLabel.toLowerCase()) {
-        
-        case "bank":
-        	if (!Constants.Banking) {
-        		Messaging.send(sender, "`rBanking is disabled.");
-        		return true;
-        	}
 
-        case "money":	// Allow bank to fall through to this case.
-        	return playerListener.onPlayerCommand(sender, split);
-        	
-        case "icoimport":
-        	if (!isPlayer && !importEssEco()) {
-        		Messaging.send(sender, "`rImport failed.");
-        	}
-        	return true;
+        switch (commandLabel.toLowerCase()) {
+
+            case "bank":
+                if (!Constants.Banking) {
+                    Messaging.send(sender, "`rBanking is disabled.");
+                    return true;
+                }
+
+            case "money":    // Allow bank to fall through to this case.
+                return playerListener.onPlayerCommand(sender, split);
+
+            case "icoimport":
+                if (!isPlayer && !importEssEco()) {
+                    Messaging.send(sender, "`rImport failed.");
+                }
+                return true;
         }
-        
+
         return false;
     }
 
     /**
      * Import any EssentialsEco data.
-     * 
+     *
      * @return
      */
     private boolean importEssEco() {
-    	
-    	YamlConfiguration data = new YamlConfiguration();
+
+        YamlConfiguration data = new YamlConfiguration();
         File accountsFolder = null;
         boolean hasTowny = false;
         String townPrefix = "";
@@ -290,31 +295,31 @@ public class iConomy extends JavaPlugin {
             log.warning("Essentials data not found or no permission to access.");
             return false;
         }
-        
+
         /*
          * Read Towny settings.
          */
         File townySettings = null;
         try {
-        	townySettings = new File("plugins/Towny/settings/config.yml");
-        	
-        	if (townySettings.isFile()) {
+            townySettings = new File("plugins/Towny/settings/config.yml");
 
-        		data.load(townySettings);
-                
-        		townPrefix = data.getString("economy.town_prefix", "town-");
-        		nationPrefix = data.getString("economy.nation_prefix", "nation-");
-        		debtPrefix = data.getString("economy.debt_prefix", "[Debt]-");
-        		/*
-        		 * Essentials handles all NPC accounts as lower case.
-        		 */
-        		essTownPrefix = townPrefix.replaceAll("-", "_").toLowerCase();
-        		essNationPrefix = nationPrefix.replaceAll("-", "_").toLowerCase();
-        		essDebtPrefix = debtPrefix.replaceAll("[\\[\\]-]", "_").toLowerCase();
-        		
-        		hasTowny = true;
+            if (townySettings.isFile()) {
+
+                data.load(townySettings);
+
+                townPrefix = data.getString("economy.town_prefix", "town-");
+                nationPrefix = data.getString("economy.nation_prefix", "nation-");
+                debtPrefix = data.getString("economy.debt_prefix", "[Debt]-");
+                /*
+                 * Essentials handles all NPC accounts as lower case.
+                 */
+                essTownPrefix = townPrefix.replaceAll("-", "_").toLowerCase();
+                essNationPrefix = nationPrefix.replaceAll("-", "_").toLowerCase();
+                essDebtPrefix = debtPrefix.replaceAll("[\\[\\]-]", "_").toLowerCase();
+
+                hasTowny = true;
             }
-        	
+
         } catch (Exception e) {
             log.warning("Towny data not found or no permission to access.");
         }
@@ -336,45 +341,45 @@ public class iConomy extends JavaPlugin {
 
         log.info("Amount of accounts found:" + accounts.length);
         int i = 0;
-        
+
         for (File account : accounts) {
             String uuid = null;
             String name = "";
             double money = 0;
-            
+
             try {
-            	data = new YamlConfiguration();
-    			data.load(account);
-    		} catch (IOException | InvalidConfigurationException e) {
+                data = new YamlConfiguration();
+                data.load(account);
+            } catch (IOException | InvalidConfigurationException e) {
                 continue;
-    		}
-            
+            }
+
             if (account.getName().contains("-")) {
                 uuid = account.getName().replace(".yml", "");
             }
-            
+
             if (uuid != null) {
-            	name = data.getString("lastAccountName", "");
-            	try {
-            		money = Double.parseDouble(data.getString("money", "0"));
-	            } catch (NumberFormatException e) {
-	                money = 0;
-	            }
+                name = data.getString("lastAccountName", "");
+                try {
+                    money = Double.parseDouble(data.getString("money", "0"));
+                } catch (NumberFormatException e) {
+                    money = 0;
+                }
                 String actualName;
                 /*
                  * Check for Town/Nation accounts.
                  */
                 if (hasTowny) {
-                	if (name.startsWith(essTownPrefix)) {
+                    if (name.startsWith(essTownPrefix)) {
                         actualName = name.substring(essTownPrefix.length());
                         log.info("Import: Town account found: " + actualName);
                         name = townPrefix + actualName;
-                        
+
                     } else if (name.startsWith(essNationPrefix)) {
                         actualName = name.substring(essNationPrefix.length());
                         log.info("Import: Nation account found: " + actualName);
                         name = nationPrefix + actualName;
-                        
+
                     } else if (name.startsWith(essDebtPrefix)) {
                         actualName = name.substring(essDebtPrefix.length());
                         log.info("Import: Debt account found: " + actualName);
@@ -382,7 +387,7 @@ public class iConomy extends JavaPlugin {
                     }
                 }
             }
-            
+
             try {
                 if (money > 0) {
                     if (Accounts.exists(name)) {
@@ -395,12 +400,12 @@ public class iConomy extends JavaPlugin {
                         Accounts.get(name).getHoldings().set(money);
                     }
                 }
-                
+
                 if ((i > 0) && (i % 10 == 0)) {
                     log.info(i + " accounts read...");
                 }
                 i++;
-                
+
             } catch (Exception e) {
                 log.warning("Importer could not parse account for " + account.getName());
             }
@@ -412,15 +417,15 @@ public class iConomy extends JavaPlugin {
 
     /**
      * Update old databases to current.
-     * 
+     *
      * @param fileManager
      * @param version
      */
     private void update(FileManager fileManager, double version) {
-    	
-    	/*
-    	 * Does a VERSION file exist?
-    	 */
+
+        /*
+         * Does a VERSION file exist?
+         */
         if (fileManager.exists()) {
             fileManager.read();
             try {
@@ -434,15 +439,15 @@ public class iConomy extends JavaPlugin {
                  */
                 if (current != version) {
 
-                	/*
-                	 * Add updates oldest to newest so
-                	 * the database is updated in order.
-                	 */
-                	if (current < 4.62D) {
+                    /*
+                     * Add updates oldest to newest so
+                     * the database is updated in order.
+                     */
+                    if (current < 4.62D) {
                         MySQL.add("ALTER IGNORE TABLE " + Constants.SQLTable + " ADD UNIQUE INDEX(username(32));");
                         GENERIC.add("ALTER TABLE " + Constants.SQLTable + " ADD UNIQUE(username);");
                     }
-                	
+
                     if (current < 4.64D) {
                         MySQL.add("ALTER TABLE " + Constants.SQLTable + " ADD hidden boolean DEFAULT '0';");
                         GENERIC.add("ALTER TABLE " + Constants.SQLTable + " ADD HIDDEN BOOLEAN DEFAULT '0';");
@@ -478,16 +483,18 @@ public class iConomy extends JavaPlugin {
                             if (stmt != null)
                                 try {
                                     stmt.close();
-                                } catch (SQLException ex) {}
+                                } catch (SQLException ex) {
+                                }
                             if (rs != null)
                                 try {
                                     rs.close();
-                                } catch (SQLException ex) {}
+                                } catch (SQLException ex) {
+                                }
                             getiCoDatabase().close(conn);
                         }
                     }
                 } else {
-                	// This should not be needed.
+                    // This should not be needed.
                     fileManager.write(Double.valueOf(version));
                 }
             } catch (Exception e) {
@@ -496,15 +503,15 @@ public class iConomy extends JavaPlugin {
                 fileManager.delete();
             }
         } else {
-        	/*
-        	 * No VERSION file.
-        	 */
+            /*
+             * No VERSION file.
+             */
             if (!Constants.DatabaseType.equalsIgnoreCase("flatfile")) {
                 String[] SQL = new String[0];
 
-                String[] MySQL = { "DROP TABLE " + Constants.SQLTable + ";", "RENAME TABLE ibalances TO " + Constants.SQLTable + ";", "ALTER TABLE " + Constants.SQLTable + " CHANGE  player  username TEXT NOT NULL, CHANGE balance balance DECIMAL(64, 2) NOT NULL;" };
+                String[] MySQL = {"DROP TABLE " + Constants.SQLTable + ";", "RENAME TABLE ibalances TO " + Constants.SQLTable + ";", "ALTER TABLE " + Constants.SQLTable + " CHANGE  player  username TEXT NOT NULL, CHANGE balance balance DECIMAL(64, 2) NOT NULL;"};
 
-                String[] SQLite = { "DROP TABLE " + Constants.SQLTable + ";", "CREATE TABLE '" + Constants.SQLTable + "' ('id' INT ( 10 ) PRIMARY KEY , 'username' TEXT , 'balance' DECIMAL ( 64 , 2 ));", "INSERT INTO " + Constants.SQLTable + "(id, username, balance) SELECT id, player, balance FROM ibalances;", "DROP TABLE ibalances;" };
+                String[] SQLite = {"DROP TABLE " + Constants.SQLTable + ";", "CREATE TABLE '" + Constants.SQLTable + "' ('id' INT ( 10 ) PRIMARY KEY , 'username' TEXT , 'balance' DECIMAL ( 64 , 2 ));", "INSERT INTO " + Constants.SQLTable + "(id, username, balance) SELECT id, player, balance FROM ibalances;", "DROP TABLE ibalances;"};
 
                 Connection conn = null;
                 ResultSet rs = null;
@@ -535,16 +542,18 @@ public class iConomy extends JavaPlugin {
                     fileManager.write(Double.valueOf(version));
                 } catch (SQLException ex) {
                     log.warning("Error updating database: " + ex.getMessage());
-                    
+
                 } finally {
                     if (ps != null)
                         try {
                             ps.close();
-                        } catch (SQLException ex) {}
+                        } catch (SQLException ex) {
+                        }
                     if (rs != null)
                         try {
                             rs.close();
-                        } catch (SQLException ex) {}
+                        } catch (SQLException ex) {
+                        }
                     if (conn != null) {
                         getiCoDatabase().close(conn);
                     }
@@ -577,11 +586,13 @@ public class iConomy extends JavaPlugin {
                     try {
                         if (input != null)
                             input.close();
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
                     try {
                         if (output != null)
                             output.close();
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
                 }
             }
         }
@@ -664,6 +675,7 @@ public class iConomy extends JavaPlugin {
 
     /**
      * Grabs Database controller.
+     *
      * @return iDatabase
      */
     public static Database getiCoDatabase() {
@@ -672,7 +684,7 @@ public class iConomy extends JavaPlugin {
 
     /**
      * Grabs Transaction Log Controller.
-     *
+     * <p>
      * Used to log transactions between a player and anything. Such as the
      * system or another player or just environment.
      *
@@ -698,9 +710,14 @@ public class iConomy extends JavaPlugin {
 
     /**
      * Grab the server so we can do various activities if needed.
+     *
      * @return Server
      */
     public static Server getBukkitServer() {
         return Server;
+    }
+
+    public static TaskScheduler getScheduler() {
+        return scheduler;
     }
 }
