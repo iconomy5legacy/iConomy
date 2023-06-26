@@ -227,7 +227,7 @@ public class iConomy extends JavaPlugin {
 
     private void disableWithMessage(String message) {
         getLogger().severe(message);
-        getLogger().severe("Disabling TownyChat...");
+        getLogger().severe("Disabling iConomy...");
         Bukkit.getPluginManager().disablePlugin(this);
     }
 
