@@ -114,8 +114,17 @@ public class Players implements Listener {
         Messaging.send(sender, " ");
     }
 
-    private boolean setHidden(String name, boolean hidden) {
-        return iConomy.getAccount(name).setHidden(hidden);
+    /**
+     * Listens to the PlayerJoinEvent in order to create new Accounts for players who have not logged in.
+     *
+     * @param event PlayerJoinEvent we listen to.
+     */
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        if (iConomy.getAccount(player.getName()) == null)
+            log.warning("Error creating / grabbing account for: " + player.getName());
     }
 
     /**
@@ -132,6 +141,17 @@ public class Players implements Listener {
     private void removeAccount(CommandSender sender, String name) {
         iConomy.Accounts.remove(name);
         Messaging.send(sender, this.Template.color("tag.money") + this.Template.parse("accounts.remove", new String[] { "+name,+n" }, new String[] { name }));
+    }
+
+    /**
+     * Account Hidden stat, hiding the account from the top list.
+     * 
+     * @param name Name of the account to hide.
+     * @param hidden True to make the accont hidden.
+     * @return true if successful.
+     */
+    private boolean setHidden(String name, boolean hidden) {
+        return iConomy.getAccount(name).setHidden(hidden);
     }
 
     /**
@@ -372,19 +392,6 @@ public class Players implements Listener {
 
             count++;
         }
-    }
-
-    /**
-     * Listens to the PlayerJoinEvent in order to create new Accounts for players who have not logged in.
-     *
-     * @param event PlayerJoinEvent we listen to.
-     */
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-
-        if (iConomy.getAccount(player.getName()) == null)
-            log.warning("Error creating / grabbing account for: " + player.getName());
     }
 
     /**
