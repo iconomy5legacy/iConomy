@@ -21,6 +21,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -92,6 +93,10 @@ public class iConomy extends JavaPlugin {
         this.scheduler = townyVersionCheck() ? isFoliaClassPresent() ? new FoliaTaskScheduler(this) : new BukkitTaskScheduler(this) : null;
     }
 
+    public static Players getPlayerListener() {
+        return playerListener;
+    }
+
     @Override
     public void onEnable() {
 
@@ -101,7 +106,12 @@ public class iConomy extends JavaPlugin {
         }
 
         Locale.setDefault(Locale.US);
-        
+       
+        MoneyCommand commandExec = new MoneyCommand();
+        PluginCommand command = getCommand("money");
+        command.setExecutor(commandExec);
+        command.setTabCompleter(commandExec);
+
         // Get the server
         Server = getServer();
 
