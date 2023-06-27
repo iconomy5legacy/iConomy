@@ -420,6 +420,7 @@ public class Players implements Listener {
 			return;
 		}
 
+		String name = split[0];
 		String command = split[0].toLowerCase(Locale.ROOT);
 		split = StringMgmt.remFirstArg(split);
 		switch (command) {
@@ -436,7 +437,7 @@ public class Players implements Listener {
 		case "set" -> parseMoneySetCommand(player, sender, isPlayer, split);
 		case "stats", "-s" -> parseMoneyStatsCommand(sender);
 		case "top", "-t" -> parseMoneyTopCommand(player, sender, split);
-		default -> parseMoneyPlayerName(sender, split[0]);
+		default -> parseMoneyPlayerName(sender, name);
 		}
 	}
 
@@ -452,22 +453,22 @@ public class Players implements Listener {
 		String name = "";
 		double amount = 0.0D;
 
-		Player check = Misc.playerMatch(args[1]);
+		Player check = Misc.playerMatch(args[0]);
 
 		if (check != null)
 			name = check.getName();
 		else
-			name = args[1];
+			name = args[0];
 
 		if (!iConomy.hasAccount(name)) {
-			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[1] }));
+			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[0] }));
 			return;
 		}
 
 		try {
-			amount = Double.parseDouble(args[2]);
+			amount = Double.parseDouble(args[1]);
 		} catch (NumberFormatException e) {
-			Messaging.send(sender, "`rInvalid amount: `w" + args[2]);
+			Messaging.send(sender, "`rInvalid amount: `w" + args[1]);
 			Messaging.send(sender, "`rUsage: `w/money `r[`w-g`r|`wgrant`r] <`wplayer`r> (`w-`r)`r<`wamount`r>");
 			return;
 		}
@@ -479,21 +480,21 @@ public class Players implements Listener {
 		if (!iConomy.hasPermissions(sender, "iConomy.admin.hide"))
 			return;
 
-		if (args.length == 0) {
+		if (args.length != 2) {
 			getMoneyHelp(sender);
 			return;
 		}
 
 		String name = "";
-		Player check = Misc.playerMatch(args[1]);
+		Player check = Misc.playerMatch(args[0]);
 
 		if (check != null)
 			name = check.getName();
 		else
-			name = args[1];
+			name = args[0];
 
 		if (!iConomy.hasAccount(name)) {
-			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[1] }));
+			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[0] }));
 			return;
 		}
 
@@ -520,13 +521,13 @@ public class Players implements Listener {
 		boolean console = !isPlayer;
 		double amount = 0.0D;
 
-		Player check = Misc.playerMatch(args[1]);
+		Player check = Misc.playerMatch(args[0]);
 		String name = "";
 
 		if (check != null)
 			name = check.getName();
 		else
-			name = args[1];
+			name = args[0];
 
 		if (iConomy.hasAccount(name)) {
 			accounts.add(name);
@@ -541,14 +542,14 @@ public class Players implements Listener {
 		}
 
 		try {
-			amount = Double.parseDouble(args[2]);
+			amount = Double.parseDouble(args[1]);
 		} catch (NumberFormatException e) {
-			Messaging.send(sender, "`rInvalid amount: `w" + args[2]);
+			Messaging.send(sender, "`rInvalid amount: `w" + args[1]);
 			Messaging.send(sender, "`rUsage: `w/money `r[`w-g`r|`wgrant`r] <`wplayer`r> (`w-`r)`r<`wamount`r>");
 			return;
 		}
 
-		boolean silent = args.length == 4 && Misc.is(args[3], new String[] { "silent", "-s" });
+		boolean silent = args.length == 3 && Misc.is(args[2], new String[] { "silent", "-s" });
 
 		for (String accountName : accounts)
 			showGrant(sender, accountName, player, amount, console, silent);
@@ -572,15 +573,15 @@ public class Players implements Listener {
 		String name = "";
 		double amount = 0.0D;
 
-		if (iConomy.hasAccount(args[1])) {
-			name = args[1];
+		if (iConomy.hasAccount(args[0])) {
+			name = args[0];
 		} else {
-			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[1] }));
+			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[0] }));
 			return;
 		}
 
 		try {
-			amount = Double.parseDouble(args[2]);
+			amount = Double.parseDouble(args[1]);
 
 			if (amount < 0.01D)
 				throw new NumberFormatException();
@@ -602,10 +603,10 @@ public class Players implements Listener {
 			return;
 		}
 
-		if (iConomy.hasAccount(args[1]))
-			showReset(sender, args[1], player, isPlayer);
+		if (iConomy.hasAccount(args[0]))
+			showReset(sender, args[0], player, isPlayer);
 		else
-			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[1] }));
+			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[0] }));
 	}
 
 	private void parseMoneyRemoveCommand(CommandSender sender, String[] args) {
@@ -617,10 +618,10 @@ public class Players implements Listener {
 			return;
 		}
 
-		if (iConomy.hasAccount(args[1]))
-			removeAccount(sender, args[1]);
+		if (iConomy.hasAccount(args[0]))
+			removeAccount(sender, args[0]);
 		else
-			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[1] }));
+			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[0] }));
 	}
 
 	private void parseMoneyCreateCommand(CommandSender sender, String[] args) {
@@ -632,10 +633,10 @@ public class Players implements Listener {
 			return;
 		}
 
-		if (!iConomy.hasAccount(args[1]))
-			createAccount(sender, args[1]);
+		if (!iConomy.hasAccount(args[0]))
+			createAccount(sender, args[0]);
 		else
-			Messaging.send(sender, this.Template.parse("error.exists", new String[] { "+name,+n" }, new String[] { args[1] }));
+			Messaging.send(sender, this.Template.parse("error.exists", new String[] { "+name,+n" }, new String[] { args[0] }));
 	}
 
 	private void parseMoneyPlayerName(CommandSender sender, String name) {
@@ -705,7 +706,7 @@ public class Players implements Listener {
 		}
 
 		try {
-			int top = Integer.parseInt(args[1]);
+			int top = Integer.parseInt(args[0]);
 			showTop(sender, top > 100 ? 100 : top < 0 ? 5 : top);
 		} catch (Exception e) {
 			showTop(sender, 5);
@@ -726,9 +727,9 @@ public class Players implements Listener {
 			return;
 		}
 
-		if (iConomy.hasAccount(args[1]))
-			showRank(sender, args[1]);
+		if (iConomy.hasAccount(args[0]))
+			showRank(sender, args[0]);
 		else
-			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[1] }));
+			Messaging.send(sender, this.Template.parse("error.account", new String[] { "+name,+n" }, new String[] { args[0] }));
 	}
 }

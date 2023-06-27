@@ -64,7 +64,7 @@ permissions:
     iConomy.access:
         default: true
     iConomy.list:
-        default: false
+        default: op
     iConomy.payment:
         default: true
     iConomy.rank:
