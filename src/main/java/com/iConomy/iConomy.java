@@ -101,11 +101,8 @@ public class iConomy extends JavaPlugin {
         }
 
         Locale.setDefault(Locale.US);
-        
-        MoneyCommand commandExec = new MoneyCommand();
-        PluginCommand command = getCommand("money");
-        command.setExecutor(commandExec);
-        command.setTabCompleter(commandExec);
+
+        registerCommands();
 
         // Get the server
         Server = getServer();
@@ -186,7 +183,17 @@ public class iConomy extends JavaPlugin {
         log.info("Developed by: " + pdfFile.getAuthors());
     }
 
-    @Override
+	private void registerCommands() {
+		MoneyCommand commandExec = new MoneyCommand();
+		PluginCommand command = getCommand("money");
+		command.setExecutor(commandExec);
+		command.setTabCompleter(commandExec);
+		command = getCommand("icoimport");
+		command.setExecutor(commandExec);
+		command.setTabCompleter(commandExec);
+	}
+
+	@Override
     public void onLoad() {
         // Register as a ServiceProvider and with Vault.
         if (!registerEconomy()) {

@@ -26,24 +26,20 @@ public class MoneyCommand implements TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		String[] split = new String[args.length + 1];
-		split[0] = cmd.getName().toLowerCase();
-		System.arraycopy(args, 0, split, 1, args.length);
-		boolean isPlayer = sender instanceof Player;
-
-		switch (commandLabel.toLowerCase()) {
-
-		case "money":
-			return iConomy.getPlayerListener().onPlayerCommand(sender, split);
-
-		case "icoimport":
-			if (!isPlayer && !importEssEco()) {
-				Messaging.send(sender, "`rImport failed.");
-			}
-			return true;
+		switch (commandLabel.toLowerCase(Locale.ROOT)) {
+		case "money" -> iConomy.getPlayerListener().onPlayerCommand(sender, args);
+		case "icoimport" -> parseImport(sender);
 		}
+		return true;
+	}
 
-		return false;
+	private void parseImport(CommandSender sender) {
+		if (sender instanceof Player) {
+			Messaging.send(sender, "`rThis command is available from the console only.");
+			return;
+		}
+		if (!importEssEco())
+			Messaging.send(sender, "`rImport failed.");
 	}
 
 	/**
@@ -194,7 +190,7 @@ public class MoneyCommand implements TabExecutor {
 	}
 
 	private final List<String> SUB_CMDS = Arrays.asList("?", "rank", "top", "pay", "grant", "set", "hide", "create",
-			"remove", "preset", "purge", "empty", "stats");
+			"remove", "preset", "purge", "empty", "stats", "help", "?");
 	private final List<String> PLAYER_CMDS = Arrays.asList("rank", "pay", "grant", "set", "hide", "create", "remove",
 			"reset");
 	private final List<String> AMOUNT_CMDS = Arrays.asList("pay", "grant", "set");

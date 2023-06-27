@@ -8,6 +8,7 @@ import com.iConomy.util.Messaging;
 import com.iConomy.util.Misc;
 import com.iConomy.util.StringMgmt;
 import com.iConomy.util.Template;
+import com.palmergames.bukkit.towny.confirmations.Confirmation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -401,9 +402,7 @@ public class Players implements Listener {
      * @param split
      */
     public boolean onPlayerCommand(CommandSender sender, String[] split) {
-        switch (split[0].toLowerCase(Locale.ROOT)) {
-        case "money" -> parseMoneyCommand(sender, StringMgmt.remFirstArg(split));
-        }
+        parseMoneyCommand(sender, split);
         return true;
     }
 
@@ -684,8 +683,10 @@ public class Players implements Listener {
 		if (!iConomy.hasPermissions(sender, "iConomy.admin.purge"))
 			return;
 
-		iConomy.Accounts.purge();
-		Messaging.send(sender, this.Template.color("accounts.purge"));
+		Confirmation.runOnAccept(()-> {
+			iConomy.Accounts.purge();
+			Messaging.send(sender, this.Template.color("accounts.purge"));
+		}).sendTo(sender);
 	}
 
 	private void parseMoneyEmptyCommand(CommandSender sender) {
