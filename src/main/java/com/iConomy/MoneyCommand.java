@@ -27,7 +27,7 @@ public class MoneyCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		switch (commandLabel.toLowerCase(Locale.ROOT)) {
-		case "money" -> iConomy.getPlayerListener().onPlayerCommand(sender, args);
+		case "money" -> iConomy.getPlayerListener().parseMoneyCommand(sender, args);
 		case "icoimport" -> parseImport(sender);
 		}
 		return true;

@@ -398,15 +398,10 @@ public class Players implements Listener {
     /**
      * Commands sent from in-game are parsed and evaluated here.
      *
-     * @param player
+     * @param sender
      * @param split
      */
-    public boolean onPlayerCommand(CommandSender sender, String[] split) {
-        parseMoneyCommand(sender, split);
-        return true;
-    }
-
-	private void parseMoneyCommand(CommandSender sender, String[] split) {
+	public void parseMoneyCommand(CommandSender sender, String[] split) {
 		boolean isPlayer = sender instanceof Player;
 		Player player = isPlayer ? (Player) sender : null;
 
@@ -693,8 +688,10 @@ public class Players implements Listener {
 		if (!iConomy.hasPermissions(sender, "iConomy.admin.empty"))
 			return;
 
-		iConomy.Accounts.emptyDatabase();
-		Messaging.send(sender, this.Template.color("accounts.empty"));
+		Confirmation.runOnAccept(()-> {
+			iConomy.Accounts.emptyDatabase();
+			Messaging.send(sender, this.Template.color("accounts.empty"));
+		}).sendTo(sender);
 	}
 
 	private void parseMoneyTopCommand(Player player, CommandSender sender, String[] args) {
