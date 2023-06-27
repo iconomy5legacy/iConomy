@@ -205,7 +205,7 @@ public class MoneyCommand implements TabExecutor {
 			return SUB_CMDS.stream().filter(s -> s.startsWith(subCmdArg)).collect(Collectors.toList());
 		} else if (args.length == 2) {
 			if (PLAYER_CMDS.contains(subCmdArg))	
-				return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+				return null;
 			if (subCmdArg.equals("top"))
 				return Arrays.asList("amount");
 		} else if (args.length == 3) {
