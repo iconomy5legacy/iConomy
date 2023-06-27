@@ -193,7 +193,6 @@ public class MoneyCommand implements TabExecutor {
 			"remove", "preset", "purge", "empty", "stats", "help", "?");
 	private final List<String> PLAYER_CMDS = Arrays.asList("rank", "pay", "grant", "set", "hide", "create", "remove",
 			"reset");
-	private final List<String> AMOUNT_CMDS = Arrays.asList("pay", "grant", "set");
 
 	@Nullable
 	@Override
@@ -204,18 +203,17 @@ public class MoneyCommand implements TabExecutor {
 
 		if (args.length == 1) {
 			return SUB_CMDS.stream().filter(s -> s.startsWith(subCmdArg)).collect(Collectors.toList());
-		} else if (args.length == 2 && PLAYER_CMDS.contains(subCmdArg)) {
-			return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
-		} else if (args.length == 3) {
-			if (AMOUNT_CMDS.contains(subCmdArg)) {
+		} else if (args.length == 2) {
+			if (PLAYER_CMDS.contains(subCmdArg))	
+				return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+			if (subCmdArg.equals("top"))
 				return Arrays.asList("amount");
-			} else {
-				return Arrays.asList("true", "false");
-			}
-		} else if (args.length == 4) {
+		} else if (args.length == 3) {
+			return Arrays.asList("amount");
+		} else if (args.length == 4 && (subCmdArg.equals("hide") || subCmdArg.equals("grant"))) {
 			return Arrays.asList("true", "false");
 		}
 
-		return null;
+		return Arrays.asList("");
 	}
 }
