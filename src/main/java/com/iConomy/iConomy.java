@@ -45,6 +45,7 @@ import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.scheduling.TaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.BukkitTaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.FoliaTaskScheduler;
+import com.palmergames.bukkit.util.Colors;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -664,8 +665,23 @@ public class iConomy extends JavaPlugin {
      * @return boolean
      */
     public static boolean hasPermissions(CommandSender sender, String node) {
-        if (sender instanceof Player) {
-            return ((Player) sender).hasPermission(node);
+        return hasPermissions(sender, node, false);
+    }
+
+    /**
+     * Check and see if the sender has the permission as designated by node.
+     *
+     * @param sender
+     * @param node
+     * @param silent
+     * @return boolean
+     */
+    public static boolean hasPermissions(CommandSender sender, String node, boolean silent) {
+        if (sender instanceof Player player) {
+            boolean hasPermission = player.hasPermission(node);
+            if (!hasPermission && !silent)
+                player.sendMessage(Colors.Red + "You do not have the permission to use that command.");
+            return hasPermission;
         }
         return true;
     }

@@ -62,52 +62,52 @@ public class Players implements Listener {
         
         Messaging.send(sender, "`G  /money `g? `y For help & Information");
 
-        if (iConomy.hasPermissions(sender, "iConomy.rank")) {
+        if (iConomy.hasPermissions(sender, "iConomy.rank", true)) {
             Messaging.send(sender, "`G  /money `grank `G(`wplayer`G) `y Rank on the topcharts.   ");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.list")) {
+        if (iConomy.hasPermissions(sender, "iConomy.list", true)) {
             Messaging.send(sender, "`G  /money `gtop `G(`wamount`G) `y Richest players listing.  ");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.payment")) {
+        if (iConomy.hasPermissions(sender, "iConomy.payment", true)) {
             Messaging.send(sender, "`G  /money `gpay `G[`wplayer`G] [`wamount`G] `y Send money to a player.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.grant")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.grant", true)) {
             Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] [`wamount`G] {`wsilent`G} `y Give money, optionally silent.");
             Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] -[`wamount`G] {`wsilent`G} `y Take money, optionally silent.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.set")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.set", true)) {
             Messaging.send(sender, "`G  /money `gset `G[`wplayer`G] [`wamount`G] `y Sets a players balance.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.hide")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.hide", true)) {
             Messaging.send(sender, "`G  /money `ghide `G[`wplayer`G] `wtrue`G/`wfalse `y Hide or show an account.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.account.create")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.account.create", true)) {
             Messaging.send(sender, "`G  /money `gcreate `G[`wplayer`G] `y Create player account.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.account.remove")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.account.remove", true)) {
             Messaging.send(sender, "`G  /money `gremove `G[`wplayer`G] `y Remove player account.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.reset")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.reset", true)) {
             Messaging.send(sender, "`G  /money `greset `G[`wplayer`G] `y Reset player account.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.purge")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.purge", true)) {
             Messaging.send(sender, "`G  /money `gpurge `y Remove all accounts with inital holdings.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.empty")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.empty", true)) {
             Messaging.send(sender, "`G  /money `gempty `y Empties database.");
         }
 
-        if (iConomy.hasPermissions(sender, "iConomy.admin.stats")) {
+        if (iConomy.hasPermissions(sender, "iConomy.admin.stats", true)) {
             Messaging.send(sender, "`G  /money `gstats `y Check all economic stats.");
         }
 
@@ -375,11 +375,9 @@ public class Players implements Listener {
     }
 
     /**
-     * Commands sent from in game to us.
+     * Listens to the PlayerJoinEvent in order to create new Accounts for players who have not logged in.
      *
-     * @param player The player who sent the command.
-     * @param split The input line split by spaces.
-     * @return <code>boolean</code> - True denotes that the command existed, false the command doesn't.
+     * @param event PlayerJoinEvent we listen to.
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -409,12 +407,12 @@ public class Players implements Listener {
 		if (split.length == 0) {
 			if (isPlayer)
 				showBalance(player.getName(), player, true);
-			else {
-				Messaging.send(sender, "`RCannot show balance without an organism.");
-			}
-			
+			else
+				Messaging.send(sender, "`RSpecify a player to view their balance.");
+
 			return;
 		}
+
 		String command = split[0].toLowerCase(Locale.ROOT);
 		split = StringMgmt.remFirstArg(split);
 		switch (command) {
@@ -551,8 +549,13 @@ public class Players implements Listener {
 	}
 
 	private void parseMoneyPayCommand(Player player, CommandSender sender, boolean isPlayer, String[] args) {
-		if (!iConomy.hasPermissions(sender, "iConomy.payment") || !isPlayer)
+		if (!iConomy.hasPermissions(sender, "iConomy.payment"))
 			return;
+
+		if (!isPlayer) {
+			Messaging.send(sender, "`rCommand unavailable from console. Try money grant {name} {amount}.");
+			return;
+		}
 
 		if (args.length == 0) {
 			getMoneyHelp(sender);
@@ -703,10 +706,15 @@ public class Players implements Listener {
 	}
 
 	private void parseMoneyRankCommand(Player player, CommandSender sender, boolean isPlayer, String[] args) {
-		if (!iConomy.hasPermissions(sender, "iConomy.rank") || (args.length == 0 && !isPlayer))
+		if (!iConomy.hasPermissions(sender, "iConomy.rank"))
 			return;
 
-		if (args.length == 0) {
+		if (args.length == 0 && !isPlayer) {
+			Messaging.send(sender, "`rTo use this command from the console you must specify a player name.");
+			return;
+		}
+
+		if (args.length == 0 && isPlayer) {
 			showRank(player, player.getName());
 			return;
 		}
