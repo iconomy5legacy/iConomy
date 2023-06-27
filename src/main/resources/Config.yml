@@ -9,15 +9,6 @@
 #   - Formatting
 #     Allows you to control the output of how you will
 #     see the currency in-game with the major/minor features.
-#   - Banking
-#     Allows users to store money in a seperate location as
-#     well as transfer from bank to bank between users
-#     - Multiple
-#       Allows users to create multiple accounts with banks
-#     - Q & A
-#       Q: Why?
-#       A: Money on hand can be lost, money in banks should not
-#           be altered upon plugin specifictions in iConomy 5.0
 #   - Interest amount is done in seconds.
 #     - Online
 #       If only true, only one bank / account will recieve money for that player.
@@ -25,9 +16,6 @@
 #     - Announce
 #       Sends message each time a player recieves money.
 #     - Amount
-#       - On
-#         Each time interest runs you can either deposit the money into a bank (Interest)
-#         or directly into a players holdings (Wage).
 #     - Interval
 #       - Seconds
 #         Basic Table:
@@ -54,23 +42,11 @@ System:
             Minor: [ 'Coin', 'Coins' ]                    # Minor (Major.[Minor]) 0.23 Coins  (With Seperate 0 Dollars, 23 Coins)
         Account:
             Holdings: 30.0                            # Default holdings on hand upon join / creation.
-        Bank:
-            Name: iConomy                             # Default Bank Name
-            Currency:
-                Major: [ 'Dollar', 'Dollars' ]
-                Minor: [ 'Coin', 'Coins' ]
-            Account:
-                Fee: 20.0                             # Default cost to register an account
-                Holdings: 30.0                        # Default initial account holdings
     Formatting:
         Minor: false                                  # Example (true) 0.23 Coins and 1.23 Dollars (false) 0.23 Dollars and 1.23 Dollars
         Seperate: false                               # Example (true) 1 Dollar, 23 Coins (false) 1.23 Dollars (Only if Minor is true)
     Logging:
         Enabled: false                                # Logs transactions done inside iConomy only, other plugins must utilize the api. (Logs to SQL)
-    Banking:
-        Enabled: false
-        Accounts:
-            Multiple: true
     Interest:
         Enabled: false
         Online: true                                  # Only give to players who are online?
@@ -80,7 +56,6 @@ System:
             Seconds: 60
         Amount:
             Cutoff: 0.0                               # Amount limit to be met until we stop giving interest. (0.0 for no limit)
-            On: 'Players'                             # Banks or Players
             Percent: 0.0                              # Percent of holdings to give / take (Negative to take) (Overrides Min/Max)
             Maximum: 1                                # (Range) Maximum amount for random in between. (Make Max/Min equal for a flat-rate amount ie: 5/5)
             Minimum: 2                                # (Range) Minimum amount for random in between.

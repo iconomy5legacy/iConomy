@@ -34,8 +34,6 @@ import com.iConomy.entity.Players;
 import com.iConomy.net.Database;
 import com.iConomy.system.Account;
 import com.iConomy.system.Accounts;
-import com.iConomy.system.Bank;
-import com.iConomy.system.Banks;
 import com.iConomy.system.Interest;
 import com.iConomy.system.Transactions;
 import com.iConomy.util.Constants;
@@ -73,7 +71,6 @@ import net.milkbowl.vault.economy.Economy;
  */
 public class iConomy extends JavaPlugin {
 	
-    public static Banks Banks = null;
     public static Accounts Accounts = null;
 
     private static Server Server = null;
@@ -140,10 +137,6 @@ public class iConomy extends JavaPlugin {
             Database = new Database();
             Database.setupAccountTable();
 
-            if (Constants.Banking) {
-                Database.setupBankTable();
-                Database.setupBankRelationTable();
-            }
         } catch (Exception e) {
             log.severe("Database initialization failed: " + e);
             Server.getPluginManager().disablePlugin(this);
@@ -163,10 +156,6 @@ public class iConomy extends JavaPlugin {
 
         // Initialize default systems
         Accounts = new Accounts();
-
-        // Initialize the banks
-        if (Constants.Banking)
-            Banks = new Banks();
 
         try {
             if (Constants.Interest) {
@@ -247,7 +236,6 @@ public class iConomy extends JavaPlugin {
             }
 
             Server = null;
-            Banks = null;
             Accounts = null;
             Database = null;
             Transactions = null;
@@ -264,14 +252,8 @@ public class iConomy extends JavaPlugin {
         boolean isPlayer = sender instanceof Player;
         
         switch (commandLabel.toLowerCase()) {
-        
-        case "bank":
-        	if (!Constants.Banking) {
-        		Messaging.send(sender, "`rBanking is disabled.");
-        		return true;
-        	}
 
-        case "money":	// Allow bank to fall through to this case.
+        case "money":
         	return playerListener.onPlayerCommand(sender, split);
         	
         case "icoimport":
@@ -622,18 +604,6 @@ public class iConomy extends JavaPlugin {
     }
 
     /**
-     * Formats the balance in a human readable form with the currency attached:<br /><br />
-     * 20000.53 = 20,000.53 Coin<br />
-     * 20000.00 = 20,000 Coin
-     *
-     * @param account The name of the account you wish to be formatted
-     * @return String
-     */
-    public static String format(String bank, String account) {
-        return new Bank(bank).getAccount(account).getHoldings().toString();
-    }
-
-    /**
      * Formats the money in a human readable form with the currency attached:<br /><br />
      * 20000.53 = 20,000.53 Coin<br />
      * 20000.00 = 20,000 Coin
@@ -667,24 +637,6 @@ public class iConomy extends JavaPlugin {
     }
 
     /**
-     * Grab the bank to modify and access bank accounts.
-     *
-     * @return Bank
-     */
-    public static Bank getBank(String name) {
-        return Banks.get(name);
-    }
-
-    /**
-     * Grab the bank to modify and access bank accounts.
-     *
-     * @return Bank
-     */
-    public static Bank getBank(int id) {
-        return Banks.get(id);
-    }
-
-    /**
      * Grabs Database controller.
      * @return iDatabase
      */
@@ -712,8 +664,23 @@ public class iConomy extends JavaPlugin {
      * @return boolean
      */
     public static boolean hasPermissions(CommandSender sender, String node) {
-        if (sender instanceof Player) {
-            return ((Player) sender).hasPermission(node);
+        return hasPermissions(sender, node, false);
+    }
+
+    /**
+     * Check and see if the sender has the permission as designated by node.
+     *
+     * @param sender
+     * @param node
+     * @param silent
+     * @return boolean
+     */
+    public static boolean hasPermissions(CommandSender sender, String node, boolean silent) {
+        if (sender instanceof Player player) {
+            boolean hasPermission = player.hasPermission(node);
+            if (!hasPermission && !silent)
+                Messaging.send(player, "RYou do not have the permission to use that command.");
+            return hasPermission;
         }
         return true;
     }

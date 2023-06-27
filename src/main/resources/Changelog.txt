@@ -1,3 +1,10 @@
+5.20:
+  - Refactor command parsing.
+  - Remove Bank feature, which likely did not work anyways.
+  - Fix missing/incorrect javadocs.
+  - Fix missing no-permissions feedback.
+  - Fix ops not receiving iConomy.list permission node.
+  - Switch to Java 17 and add Jabel.
 5.19:
   - Add support for Folia servers, iConomy now requires Towny 0.99.2.0 or newer to be installed.
 5.18:

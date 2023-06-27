@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -35,7 +34,6 @@ public class Interest extends TimerTask {
 
         DecimalFormat DecimalFormat = new DecimalFormat("#.##");
         List<String> players = new ArrayList<String>();
-        HashMap<String, Integer> bankPlayers = new HashMap<String, Integer>();
 
         if (Constants.InterestOnline) {
         	/*
@@ -43,38 +41,21 @@ public class Interest extends TimerTask {
              */
             Collection<? extends Player> player = iConomy.getBukkitServer().getOnlinePlayers();
 
-            if (Constants.InterestType.equalsIgnoreCase("players") || !Constants.Banking) {
-                for (Player p : player)
-                    players.add(p.getName());
-            } else {
-                for (Player p : player) {
-                    Account account = iConomy.getAccount(p.getName());
-
-                    if (account != null)
-                        for (BankAccount baccount : account.getBankAccounts())
-                            bankPlayers.put(p.getName(), Integer.valueOf(baccount.getBankId()));
-                }
-            }
+            for (Player p : player)
+                players.add(p.getName());
         } else {
         	/*
         	 * Select ALL players.
         	 */
             conn = iConomy.getiCoDatabase().getConnection();
             try {
-                if (Constants.InterestType.equalsIgnoreCase("players") || !Constants.Banking)
-                    ps = conn.prepareStatement("SELECT * FROM " + Constants.SQLTable);
-                else {
-                    ps = conn.prepareStatement("SELECT account_name,bank_id FROM " + Constants.SQLTable + "_BankRelations group by bank_id");
-                }
+            	ps = conn.prepareStatement("SELECT * FROM " + Constants.SQLTable);
 
                 rs = ps.executeQuery();
 
                 while (rs.next()) {
-                    if (Constants.InterestType.equalsIgnoreCase("players") || !Constants.Banking) {
-                        players.add(rs.getString("username"));
-                        continue;
-                    }
-                    bankPlayers.put(rs.getString("account_name"), Integer.valueOf(rs.getInt("bank_id")));
+                    players.add(rs.getString("username"));
+                    continue;
                 }
             } catch (Exception E) {
                 log.warning("Error executing query for interest: " + E.getMessage());
@@ -115,87 +96,43 @@ public class Interest extends TimerTask {
             conn = iConomy.getiCoDatabase().getConnection();
             conn.setAutoCommit(false);
 
-            if (Constants.InterestType.equalsIgnoreCase("players") || !Constants.Banking) {
-                String updateSQL = "UPDATE " + Constants.SQLTable + " SET balance = ? WHERE username = ?";
-                ps = conn.prepareStatement(updateSQL);
+            String updateSQL = "UPDATE " + Constants.SQLTable + " SET balance = ? WHERE username = ?";
+            ps = conn.prepareStatement(updateSQL);
 
-                for (String name : players) {
-                    Account account = iConomy.getAccount(name);
+            for (String name : players) {
+                Account account = iConomy.getAccount(name);
 
-                    if (account != null) {
-                        Holdings holdings = account.getHoldings();
+                if (account != null) {
+                    Holdings holdings = account.getHoldings();
 
-                        if (holdings != null) {
-                            double balance = holdings.balance();
-                            double original = balance;
+                    if (holdings != null) {
+                        double balance = holdings.balance();
+                        double original = balance;
 
-                            if (cutoff > 0.0D ? original >= cutoff : cutoff < 0.0D && original <= cutoff) {
-                                continue;
-                            }
-
-                            if (percentage) {
-                                amount = Math.round(Constants.InterestPercentage * balance / 100.0D);
-                            }
-
-                            ps.setDouble(1, balance + amount);
-                            ps.setString(2, name);
-                            ps.addBatch();
-
-                            if (Constants.InterestAnn) {
-                            	Player player = iConomy.getBukkitServer().getPlayer(name);
-                            	if (player != null)
-                            		Messaging.send(player, this.Template.parse("interest.announcement", new String[] { "+amount,+money,+interest,+a,+m,+i" }, new Object[] { iConomy.format(amount) }));
-                            }
-
-                            if (amount < 0.0D)
-                                iConomy.getTransactions().insert("[System Interest]", name, 0.0D, original, 0.0D, 0.0D, amount);
-                            else
-                                iConomy.getTransactions().insert("[System Interest]", name, 0.0D, original, 0.0D, amount, 0.0D);
+                        if (cutoff > 0.0D ? original >= cutoff : cutoff < 0.0D && original <= cutoff) {
+                            continue;
                         }
+
+                        if (percentage) {
+                            amount = Math.round(Constants.InterestPercentage * balance / 100.0D);
+                        }
+
+                        ps.setDouble(1, balance + amount);
+                        ps.setString(2, name);
+                        ps.addBatch();
+
+                        if (Constants.InterestAnn) {
+                        	Player player = iConomy.getBukkitServer().getPlayer(name);
+                        	if (player != null)
+                        		Messaging.send(player, this.Template.parse("interest.announcement", new String[] { "+amount,+money,+interest,+a,+m,+i" }, new Object[] { iConomy.format(amount) }));
+                        }
+
+                        if (amount < 0.0D)
+                            iConomy.getTransactions().insert("[System Interest]", name, 0.0D, original, 0.0D, 0.0D, amount);
+                        else
+                            iConomy.getTransactions().insert("[System Interest]", name, 0.0D, original, 0.0D, amount, 0.0D);
                     }
                 }
-            } else {
-                String updateSQL = "UPDATE " + Constants.SQLTable + "_BankRelations SET holdings = ? WHERE account_name = ? AND bank_id = ?";
-                ps = conn.prepareStatement(updateSQL);
-
-                for (String name : bankPlayers.keySet()) {
-                    Account account = iConomy.getAccount(name);
-
-                    if (account != null) {
-                        Holdings holdings = account.getBankHoldings(bankPlayers.get(name).intValue());
-
-                        if (holdings != null) {
-                            double balance = holdings.balance();
-                            double original = balance;
-
-                            if (cutoff > 0.0D ? original >= cutoff : cutoff < 0.0D && original <= cutoff) {
-                                continue;
-                            }
-
-                            if (percentage) {
-                                amount = Math.round(Constants.InterestPercentage * balance / 100.0D);
-                            }
-
-                            ps.setDouble(1, balance + amount);
-                            ps.setString(2, name);
-                            ps.setInt(3, bankPlayers.get(name).intValue());
-                            ps.addBatch();
-
-                            if (Constants.InterestAnn && Constants.InterestOnline) {
-                            	Player player = iConomy.getBukkitServer().getPlayer(name);
-                            	if (player != null)
-                            		Messaging.send(player, this.Template.parse("interest.announcement", new String[] { "+amount,+money,+interest,+a,+m,+i" }, new Object[] { iConomy.format(amount) }));
-                            }
-
-                            if (amount < 0.0D)
-                                iConomy.getTransactions().insert("[System Interest]", name, 0.0D, original, 0.0D, 0.0D, amount);
-                            else {
-                                iConomy.getTransactions().insert("[System Interest]", name, 0.0D, original, 0.0D, amount, 0.0D);
-                            }
-                        }
-                    }
-                }
-
             }
 
             ps.executeBatch();

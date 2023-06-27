@@ -15,9 +15,6 @@ commands:
     money:
         description: Controls account balances and more
         usage: /money
-    bank:
-        description: Control, list, create, and do various bank features.
-        usage: /bank    
     icoimport:
         description: Imports an Essentials Economy into iConomy.
         usage: /icoimport
@@ -64,25 +61,11 @@ permissions:
     iConomy.access:
         default: true
     iConomy.list:
-        default: false
+        default: op
     iConomy.payment:
         default: true
     iConomy.rank:
         default: true
-    
-#    iConomy.bank.list:
-#    iConomy.bank.main:
-#    iConomy.bank.access:
-#    iConomy.bank.list:
-#    iConomy.bank.main.view:
-#    iConomy.bank.join:
-#    iConomy.bank.leave:
-#    iConomy.bank.deposit:
-#    iConomy.bank.withdraw:
-#    iConomy.bank.transfer:
-#    iConomy.bank.main.change:
-#    iConomy.bank.admin.set:
-#    iConomy.bank.transfer.multiple:
     
     
     

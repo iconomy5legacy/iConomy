@@ -21,32 +21,10 @@ import java.util.logging.Logger;
 public class Holdings {
 	
     private String name = "";
-    private boolean bank = false;
-    private int bankId = 0;
     Logger log = iConomy.instance.getLogger();
 
     public Holdings(String name) {
         this.name = name;
-    }
-
-    public Holdings(int id, String name) {
-        this.bankId = id;
-        this.name = name;
-    }
-
-    public Holdings(int id, String name, boolean bank) {
-        this.bank = bank;
-        this.bankId = id;
-        this.name = name;
-    }
-
-    /**
-     * Is this a player or Bank Holding?
-     * 
-     * @return true if a Bank Holding.
-     */
-    public boolean isBank() {
-        return this.bank;
     }
     
     /**
@@ -56,15 +34,6 @@ public class Holdings {
      */
     public String getName() {
     	return this.name;
-    }
-    
-    /**
-     * Get the Holding Id.
-     * 
-     * @return Bank id or zero if a Player Holding.
-     */
-    public int getBankId() {
-    	return this.bankId;
     }
 
     /**
@@ -84,19 +53,13 @@ public class Holdings {
         try {
             conn = iConomy.getiCoDatabase().getConnection();
 
-            if (this.bankId == 0) {
-                ps = conn.prepareStatement("SELECT * FROM " + Constants.SQLTable + " WHERE username = ? LIMIT 1");
-                ps.setString(1, this.name);
-            } else {
-                ps = conn.prepareStatement("SELECT * FROM " + Constants.SQLTable + "_BankRelations WHERE account_name = ? AND bank_id = ? LIMIT 1");
-                ps.setString(1, this.name);
-                ps.setInt(2, this.bankId);
-            }
+            ps = conn.prepareStatement("SELECT * FROM " + Constants.SQLTable + " WHERE username = ? LIMIT 1");
+            ps.setString(1, this.name);
 
             rs = ps.executeQuery();
 
             if (rs.next())
-                balance = Double.valueOf(this.bankId == 0 ? rs.getDouble("balance") : rs.getDouble("holdings"));
+                balance = Double.valueOf(rs.getDouble("balance"));
         } catch (Exception ex) {
             log.warning("Failed to grab holdings: " + ex);
         } finally {
@@ -206,11 +169,6 @@ public class Holdings {
             formatted = formatted.substring(0, formatted.length() - 1);
         }
 
-        if (this.bankId == 0) {
-            return Misc.formatted(formatted, Constants.Major, Constants.Minor);
-        }
-
-        Bank b = new Bank(this.bankId);
-        return Misc.formatted(formatted, b.getMajor(), b.getMinor());
+        return Misc.formatted(formatted, Constants.Major, Constants.Minor);
     }
 }

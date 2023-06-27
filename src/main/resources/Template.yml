@@ -35,21 +35,9 @@
 #     Example using `: `GHi I'm green! `wNow White!?
 #     Example using all: `GI'm Green, &fWhite, <yellow>and Yellow!
 ##
-# Additional Tag for Interest Announcement
-#   +bank,+b = Shows bank name
-##
 
 tag:
     money: "<green>[<white>Money<green>] "
-    bank: "<green>[<white>Bank<green>] "
-
-banks:
-    create: "<green>Created bank <white>+name<green>."
-    remove: "<rose>Deleted bank <white>+name<rose>."
-    purge:
-      bank: "<rose>Bank <white>+name<rose> was purged of inactive accounts."
-      all: "<rose>All banks were purged of inactive accounts."
-    set: "<green>Changed <white>+key<green> on <white>+bank<green> to <white>+value<green>."
 
 personal:
     balance: "<green>Balance: <white>+balance"
@@ -58,16 +46,6 @@ personal:
     set: "<green>Your balance has been changed to <white>+amount"
     debit: "<rose>Your account had <white>+amount<rose> debited."
     credit: "<white>+amount<green> was credited into your account."
-    bank:
-        balance: "<green>+bank Balance: <white>+balance"
-        charge: "<green>You payed <white>+amount<green> for the account."
-        sent: "<green>You sent <white>+amount<green> from <white>+bank<green> to <white>+name<green>."
-        deposit: "<green>You deposited <white>+amount<green> into <white>+bank<green>."
-        withdraw: "<green>You withdrew <white>+amount<green> from <white>+bank<green>."
-        transfer: "<green>Transferred <white>+amount<green> from <white>+bank<green> to <white>+bankAlt<green>."
-        between: "<green>Transferred <white>+amount<green> from <white>+bank<green> to <white>+name<green> at <white>+bankAlt<green>."
-        change: "<green>Changed main bank to <white>+bank<green>."
-        recieved: "<green>Your account with <white>+bank<green> had <white>+amount<green> credited."
 
 player:
     balance: "<green>+name's Balance: <white>+balance"
@@ -76,9 +54,6 @@ player:
     set: "<green>+name's balance has been changed to <white>+amount"
     credit: "<white>+name's <green>account had <white>+amount<green> credited."
     debit: "<white>+name's <rose>account had <white>+amount<rose> debited."
-    bank:
-        balance: "<green>+name's Balance with +bank: <white>+balance"
-        recieved: "<white>+name's <green>account had <white>+amount<green> credited."
 
 payment:
     self: "<rose>Sorry, you cannot send money to yourself."
@@ -90,17 +65,6 @@ statistics:
     total:  "<gray>Total +currency: <white>+amount"
     average: "<gray>Average +currency: <white>+amount"
     accounts: "<gray>Total Accounts: <white>+amount"
-    bank:
-        accounts: "<gray>Total Bank Accounts: <white>+amount"
-
-list:
-    banks:
-        opening: "<green>Page #<white>+amount<green> of <white>+total<green> pages (<white>F: Fee<green>, <white>I: Initial Holdings<green>)"
-        empty: "<white>   No Banks Exist."
-        all-entry: "<green> +name [F: <white>+fee<green>] [I: <white>+initial<green>] [<white>+major<green>/<white>+minor<green>]"
-        fee-major-entry: "<green> +name [F: <white>+fee<green>] [I: <white>+initial<green>] [<white>+major<green>]"
-        major-entry: "<green> +name [I: <white>+initial<green>] [<white>+major<green>]"
-        entry: "<green> +name [I: <white>+initial<green>] [<white>+major<green>/<white>+minor<green>]"
 
 interest:
     announcement: "+amount <green>gained from interest."
@@ -112,9 +76,6 @@ accounts:
     remove: "<green>Deleted account: <white>+name<green>."
     remove-total: "<green>Fully deleted: <white>+name<green>."
     status: "<green>Account status is now <white>+status<green>."
-    bank:
-        create: "<green>Created account for <white>+name<green> with <white>+bank<green>."
-        remove: "<green>Deleted account <white>+name<green> from <white>+bank<green>."
 
 top:
     opening: "<green>Top <white>+amount<green> Richest Players:"
@@ -126,15 +87,3 @@ error:
     exists: "<rose>Account already exists."
     account: "<rose>Player <white>+name<rose> does not have account."
     funds: "<rose>Sorry, you do not have enough funds to do that."
-    bank:
-        fee: "<rose>Sorry, this banks fee is more than you are holding."
-        exists: "<rose>Sorry, that bank already exists."
-        doesnt: "<rose>Sorry, bank <white>+name <rose>doesn't exist."
-        couldnt: "<rose>Sorry, bank <white>+name <rose>couldn't be created."
-        account:
-            funds: "<rose>Sorry, your account doesn't have the funds."
-            maxed: "<rose>Sorry, you already have a bank account."
-            none: "<rose>Sorry, no accounts found."
-            doesnt: "<rose>Sorry, no account with the name <white>+name<rose> exists."
-            exists: "<rose>Sorry, an account like that already exists with us."
-            failed: "<rose>Sorry, failed to create account. Try again..."
