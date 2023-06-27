@@ -2,8 +2,6 @@ package com.iConomy;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -19,11 +17,8 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -106,7 +101,7 @@ public class iConomy extends JavaPlugin {
         }
 
         Locale.setDefault(Locale.US);
-       
+        
         MoneyCommand commandExec = new MoneyCommand();
         PluginCommand command = getCommand("money");
         command.setExecutor(commandExec);
@@ -252,176 +247,6 @@ public class iConomy extends JavaPlugin {
             playerListener = null;
             Interest_Timer = null;
         }
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        String[] split = new String[args.length + 1];
-        split[0] = cmd.getName().toLowerCase();
-        System.arraycopy(args, 0, split, 1, args.length);
-        boolean isPlayer = sender instanceof Player;
-        
-        switch (commandLabel.toLowerCase()) {
-
-        case "money":
-        	return playerListener.onPlayerCommand(sender, split);
-        	
-        case "icoimport":
-        	if (!isPlayer && !importEssEco()) {
-        		Messaging.send(sender, "`rImport failed.");
-        	}
-        	return true;
-        }
-        
-        return false;
-    }
-
-    /**
-     * Import any EssentialsEco data.
-     * 
-     * @return
-     */
-    private boolean importEssEco() {
-    	
-    	YamlConfiguration data = new YamlConfiguration();
-        File accountsFolder = null;
-        boolean hasTowny = false;
-        String townPrefix = "";
-        String nationPrefix = "";
-        String debtPrefix = "";
-        String essTownPrefix = "";
-        String essNationPrefix = "";
-        String essDebtPrefix = "";
-        /*
-         * Try to access essentials data.
-         */
-        try {
-            accountsFolder = new File("plugins/Essentials/userdata/");
-            if (!accountsFolder.isDirectory())
-                throw new Exception();
-
-        } catch (Exception e) {
-            log.warning("Essentials data not found or no permission to access.");
-            return false;
-        }
-        
-        /*
-         * Read Towny settings.
-         */
-        File townySettings = null;
-        try {
-        	townySettings = new File("plugins/Towny/settings/config.yml");
-        	
-        	if (townySettings.isFile()) {
-
-        		data.load(townySettings);
-                
-        		townPrefix = data.getString("economy.town_prefix", "town-");
-        		nationPrefix = data.getString("economy.nation_prefix", "nation-");
-        		debtPrefix = data.getString("economy.debt_prefix", "[Debt]-");
-        		/*
-        		 * Essentials handles all NPC accounts as lower case.
-        		 */
-        		essTownPrefix = townPrefix.replaceAll("-", "_").toLowerCase();
-        		essNationPrefix = nationPrefix.replaceAll("-", "_").toLowerCase();
-        		essDebtPrefix = debtPrefix.replaceAll("[\\[\\]-]", "_").toLowerCase();
-        		
-        		hasTowny = true;
-            }
-        	
-        } catch (Exception e) {
-            log.warning("Towny data not found or no permission to access.");
-        }
-
-        /*
-         * List all account files.
-         */
-        File[] accounts;
-        try {
-            accounts = accountsFolder.listFiles(new FilenameFilter() {
-                public boolean accept(File file, String name) {
-                    return name.toLowerCase().endsWith(".yml");
-                }
-            });
-        } catch (Exception e) {
-            log.warning("Error accessing account files.");
-            return false;
-        }
-
-        log.info("Amount of accounts found:" + accounts.length);
-        int i = 0;
-        
-        for (File account : accounts) {
-            String uuid = null;
-            String name = "";
-            double money = 0;
-            
-            try {
-            	data = new YamlConfiguration();
-    			data.load(account);
-    		} catch (IOException | InvalidConfigurationException e) {
-                continue;
-    		}
-            
-            if (account.getName().contains("-")) {
-                uuid = account.getName().replace(".yml", "");
-            }
-            
-            if (uuid != null) {
-            	name = data.getString("lastAccountName", "");
-            	try {
-            		money = Double.parseDouble(data.getString("money", "0"));
-	            } catch (NumberFormatException e) {
-	                money = 0;
-	            }
-                String actualName;
-                /*
-                 * Check for Town/Nation accounts.
-                 */
-                if (hasTowny) {
-                	if (name.startsWith(essTownPrefix)) {
-                        actualName = name.substring(essTownPrefix.length());
-                        log.info("Import: Town account found: " + actualName);
-                        name = townPrefix + actualName;
-                        
-                    } else if (name.startsWith(essNationPrefix)) {
-                        actualName = name.substring(essNationPrefix.length());
-                        log.info("Import: Nation account found: " + actualName);
-                        name = nationPrefix + actualName;
-                        
-                    } else if (name.startsWith(essDebtPrefix)) {
-                        actualName = name.substring(essDebtPrefix.length());
-                        log.info("Import: Debt account found: " + actualName);
-                        name = debtPrefix + actualName;
-                    }
-                }
-            }
-            
-            try {
-                if (money > 0) {
-                    if (Accounts.exists(name)) {
-                        if (Accounts.get(name).getHoldings().balance() == money) {
-                            continue;
-                        } else
-                            Accounts.get(name).getHoldings().set(money);
-                    } else {
-                        Accounts.create(name);
-                        Accounts.get(name).getHoldings().set(money);
-                    }
-                }
-                
-                if ((i > 0) && (i % 10 == 0)) {
-                    log.info(i + " accounts read...");
-                }
-                i++;
-                
-            } catch (Exception e) {
-                log.warning("Importer could not parse account for " + account.getName());
-            }
-        }
-
-        log.info(i + " accounts loaded.");
-        return true;
     }
 
     /**
