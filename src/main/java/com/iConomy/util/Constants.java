@@ -75,7 +75,6 @@ public class Constants {
             // System Interest
             Interest = config.getBoolean("System.Interest.Enabled", Interest);
             InterestOnline = config.getBoolean("System.Interest.Online", InterestOnline);
-//            InterestType = config.getString("System.Interest.Amount.On", InterestType);
             InterestAnn = config.getBoolean("System.Interest.Announce.Enabled", InterestAnn);
             InterestSeconds = config.getInt("System.Interest.Interval.Seconds", InterestSeconds);
             InterestPercentage = config.getDouble("System.Interest.Amount.Percent", InterestPercentage);
