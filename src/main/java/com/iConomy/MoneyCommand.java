@@ -193,6 +193,7 @@ public class MoneyCommand implements TabExecutor {
 			"remove", "preset", "purge", "empty", "stats", "help", "?");
 	private final List<String> PLAYER_CMDS = Arrays.asList("rank", "pay", "grant", "set", "hide", "create", "remove",
 			"reset");
+	private final List<String> AMOUNT_CMDS = Arrays.asList("pay","grant","set") ;
 
 	@Nullable
 	@Override
@@ -209,9 +210,12 @@ public class MoneyCommand implements TabExecutor {
 			if (subCmdArg.equals("top"))
 				return Arrays.asList("amount");
 		} else if (args.length == 3) {
-			return Arrays.asList("amount");
-		} else if (args.length == 4 && (subCmdArg.equals("hide") || subCmdArg.equals("grant"))) {
-			return Arrays.asList("true", "false");
+			if (AMOUNT_CMDS.contains(subCmdArg))
+				return Arrays.asList("amount");
+			if (subCmdArg.equals("hide"))
+				return Arrays.asList("true", "false");
+		} else if (args.length == 4 && subCmdArg.equals("grant")) {
+				return Arrays.asList("true", "false");
 		}
 
 		return Arrays.asList("");
