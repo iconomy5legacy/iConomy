@@ -214,7 +214,7 @@ public class MoneyCommand implements TabExecutor {
 			if (subCmdArg.equals("hide"))
 				return Arrays.asList("true", "false");
 		} else if (args.length == 4 && subCmdArg.equals("grant")) {
-				return Arrays.asList("<amount>");
+				return Arrays.asList("silent");
 		}
 
 		return Arrays.asList("");
