@@ -69,6 +69,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.github.TownyAdvanced</groupId>
+			<artifactId>CommentedConfiguration</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.bsideup.jabel</groupId>
 			<artifactId>jabel-javac-plugin</artifactId>
 			<version>0.4.2</version>

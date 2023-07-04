@@ -20,6 +20,7 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -28,6 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.iConomy.entity.Players;
 import com.iConomy.net.Database;
+import com.iConomy.settings.Settings;
 import com.iConomy.system.Account;
 import com.iConomy.system.Accounts;
 import com.iConomy.system.Interest;
@@ -38,6 +40,7 @@ import com.iConomy.util.Messaging;
 import com.iConomy.util.Misc;
 import com.iConomy.util.VaultConnector;
 import com.palmergames.bukkit.towny.Towny;
+import com.palmergames.bukkit.towny.exceptions.initialization.TownyInitException;
 import com.palmergames.bukkit.towny.scheduling.TaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.BukkitTaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.FoliaTaskScheduler;
@@ -88,6 +91,10 @@ public class iConomy extends JavaPlugin {
         this.scheduler = townyVersionCheck() ? isFoliaClassPresent() ? new FoliaTaskScheduler(this) : new BukkitTaskScheduler(this) : null;
     }
 
+    public static Plugin getPlugin() {
+        return instance;
+    }
+    
     public static Players getPlayerListener() {
         return playerListener;
     }
@@ -122,9 +129,13 @@ public class iConomy extends JavaPlugin {
         FileManager file = new FileManager(getDataFolder().getPath(), "VERSION", false);
 
         // Default Files
-        extract("Config.yml");
         extract("Template.yml");
-        
+
+        if (!loadConfig()) {
+            onDisable();
+            return;
+        }
+
         try {
             Constants.load(new File(getDataFolder(), "Config.yml"));
         } catch (Exception e) {
@@ -191,6 +202,18 @@ public class iConomy extends JavaPlugin {
 		command = getCommand("icoimport");
 		command.setExecutor(commandExec);
 		command.setTabCompleter(commandExec);
+	}
+
+	private boolean loadConfig() {
+		try {
+			Settings.loadConfig();
+		} catch (TownyInitException e) {
+			e.printStackTrace();
+			log.severe("Config.yml failed to load! Disabling!");
+			return false;
+		}
+		log.info("Config.yml loaded successfully.");
+		return true;
 	}
 
 	@Override
