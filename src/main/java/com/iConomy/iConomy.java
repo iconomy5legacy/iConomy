@@ -521,7 +521,7 @@ public class iConomy extends JavaPlugin {
         if (sender instanceof Player player) {
             boolean hasPermission = player.hasPermission(node);
             if (!hasPermission && !silent)
-                Messaging.send(player, "RYou do not have the permission to use that command.");
+                Messaging.send(player, "`RYou do not have the permission to use that command.");
             return hasPermission;
         }
         return true;

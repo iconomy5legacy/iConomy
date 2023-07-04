@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -215,7 +214,7 @@ public class MoneyCommand implements TabExecutor {
 			if (subCmdArg.equals("hide"))
 				return Arrays.asList("true", "false");
 		} else if (args.length == 4 && subCmdArg.equals("grant")) {
-				return Arrays.asList("true", "false");
+				return Arrays.asList("<amount>");
 		}
 
 		return Arrays.asList("");
