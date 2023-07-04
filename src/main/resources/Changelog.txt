@@ -1,6 +1,3 @@
-5.21:
-  - Add description to plugin.yml, courtesy of ImperialSam12 with PR #39.
-  - Add tab completion, courtesy of ewof and LlmDl with PR #37.
 5.20:
   - Refactor command parsing.
   - Remove Bank feature, which likely did not work anyways.
@@ -8,6 +5,8 @@
   - Fix missing no-permissions feedback.
   - Fix ops not receiving iConomy.list permission node.
   - Switch to Java 17 and add Jabel.
+  - Add description to plugin.yml, courtesy of ImperialSam12 with PR #39.
+  - Add tab completion, courtesy of ewof and LlmDl with PR #37.
 5.19:
   - Add support for Folia servers, iConomy now requires Towny 0.99.2.0 or newer to be installed.
 5.18:
