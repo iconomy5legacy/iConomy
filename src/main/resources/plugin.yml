@@ -1,6 +1,7 @@
 name: iConomy
 main: com.iConomy.iConomy
 version: ${project.version}
+description: A simple economy plugin designed with Towny servers in mind!
 api-version: ${project.bukkitAPIVersion}
 authors: [Nijikokun, ElgarL, LlmDl, graywolf336]
 depend: [Towny]
