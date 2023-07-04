@@ -1,3 +1,6 @@
+5.21:
+  - Add description to plugin.yml, courtesy of ImperialSam12 with PR #39.
+  - Add tab completion, courtesy of ewof and LlmDl with PR #37.
 5.20:
   - Refactor command parsing.
   - Remove Bank feature, which likely did not work anyways.
