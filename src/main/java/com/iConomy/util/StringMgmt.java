@@ -1,5 +1,10 @@
 package com.iConomy.util;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
 public class StringMgmt {
 	public static String[] remFirstArg(String[] arr) {
 
@@ -36,5 +41,19 @@ public class StringMgmt {
 			System.arraycopy(arr, start, newSplit, 0, length);
 			return newSplit;
 		}
+	}
+
+	/**
+	 * Returns strings that start with a string
+	 *
+	 * @param list strings to check
+	 * @param startingWith string to check with list
+	 * @return strings from list that start with startingWith
+	 */
+	public static List<String> filterByStart(List<String> list, String startingWith) {
+		if (list == null || startingWith == null) {
+			return Collections.emptyList();
+		}
+		return list.stream().filter(name -> name.toLowerCase(Locale.ROOT).startsWith(startingWith.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
 	}
 }

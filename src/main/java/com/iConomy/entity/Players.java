@@ -54,7 +54,7 @@ public class Players implements Listener {
         Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w iConomy (`r" + Constants.Codename + "`w)");
         Messaging.send(sender, "`y ");
-        Messaging.send(sender, "`w [] Required, () Optional");
+        Messaging.send(sender, "`w <> Required, [] Optional");
         Messaging.send(sender, " ");
         
         if(sender instanceof Player){
@@ -64,40 +64,40 @@ public class Players implements Listener {
         Messaging.send(sender, "`G  /money `g? `y For help & Information");
 
         if (iConomy.hasPermissions(sender, "iConomy.rank", true)) {
-            Messaging.send(sender, "`G  /money `grank `G(`wplayer`G) `y Rank on the topcharts.   ");
+            Messaging.send(sender, "`G  /money `grank `G[`wplayer`G] `y Rank on the topcharts.   ");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.list", true)) {
-            Messaging.send(sender, "`G  /money `gtop `G(`wamount`G) `y Richest players listing.  ");
+            Messaging.send(sender, "`G  /money `gtop `G[`wamount`G] `y Richest players listing.  ");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.payment", true)) {
-            Messaging.send(sender, "`G  /money `gpay `G[`wplayer`G] [`wamount`G] `y Send money to a player.");
+            Messaging.send(sender, "`G  /money `gpay `G<`wplayer`G> <`wamount`G> `y Send money to a player.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.grant", true)) {
-            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] [`wamount`G] {`wsilent`G} `y Give money, optionally silent.");
-            Messaging.send(sender, "`G  /money `ggrant `G[`wplayer`G] -[`wamount`G] {`wsilent`G} `y Take money, optionally silent.");
+            Messaging.send(sender, "`G  /money `ggrant `G<`wplayer`G> <`wamount`G> {`wsilent`G} `y Give money, optionally silent.");
+            Messaging.send(sender, "`G  /money `ggrant `G<`wplayer`G> -<`wamount`G> {`wsilent`G} `y Take money, optionally silent.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.set", true)) {
-            Messaging.send(sender, "`G  /money `gset `G[`wplayer`G] [`wamount`G] `y Sets a players balance.");
+            Messaging.send(sender, "`G  /money `gset `G<`wplayer`G> <`wamount`G> `y Sets a players balance.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.hide", true)) {
-            Messaging.send(sender, "`G  /money `ghide `G[`wplayer`G] `wtrue`G/`wfalse `y Hide or show an account.");
+            Messaging.send(sender, "`G  /money `ghide `G<`wplayer`G> `wtrue`G/`wfalse `y Hide or show an account.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.account.create", true)) {
-            Messaging.send(sender, "`G  /money `gcreate `G[`wplayer`G] `y Create player account.");
+            Messaging.send(sender, "`G  /money `gcreate `G<`wplayer`G> `y Create player account.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.account.remove", true)) {
-            Messaging.send(sender, "`G  /money `gremove `G[`wplayer`G] `y Remove player account.");
+            Messaging.send(sender, "`G  /money `gremove `G<`wplayer`G> `y Remove player account.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.reset", true)) {
-            Messaging.send(sender, "`G  /money `greset `G[`wplayer`G] `y Reset player account.");
+            Messaging.send(sender, "`G  /money `greset `G<`wplayer`G> `y Reset player account.");
         }
 
         if (iConomy.hasPermissions(sender, "iConomy.admin.purge", true)) {
