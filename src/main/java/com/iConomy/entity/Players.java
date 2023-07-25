@@ -55,7 +55,7 @@ public class Players implements Listener {
         Messaging.send(sender, "`w <> Required, [] Optional");
 
         if(sender instanceof Player){
-            Messaging.send(sender, "`G  /money [player] `y check someones balance.");
+            Messaging.send(sender, "`G /money `y Check your balance.");
         }
         
         Messaging.send(sender, "`G  /money `g? `y For help & Information");
