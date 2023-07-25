@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.iConomy.util.StringMgmt;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -189,7 +190,7 @@ public class MoneyCommand implements TabExecutor {
 	}
 
 	private final List<String> SUB_CMDS = Arrays.asList("?", "rank", "top", "pay", "grant", "set", "hide", "create",
-			"remove", "preset", "purge", "empty", "stats", "help", "?");
+			"remove", "preset", "purge", "empty", "stats");
 	private final List<String> PLAYER_CMDS = Arrays.asList("rank", "pay", "grant", "set", "hide", "create", "remove",
 			"reset");
 	private final List<String> AMOUNT_CMDS = Arrays.asList("pay","grant","set") ;
@@ -202,19 +203,23 @@ public class MoneyCommand implements TabExecutor {
 		String subCmdArg = args[0].toLowerCase(Locale.ROOT);
 
 		if (args.length == 1) {
-			return SUB_CMDS.stream().filter(s -> s.startsWith(subCmdArg)).collect(Collectors.toList());
+			if (StringMgmt.filterByStart(SUB_CMDS, subCmdArg).size() > 0) {
+				return SUB_CMDS.stream().filter(s -> s.startsWith(subCmdArg)).collect(Collectors.toList());
+			} else {
+				return null;
+			}
 		} else if (args.length == 2) {
 			if (PLAYER_CMDS.contains(subCmdArg))	
 				return null;
 			if (subCmdArg.equals("top"))
-				return Arrays.asList("<amount>");
+				return List.of("<amount>");
 		} else if (args.length == 3) {
 			if (AMOUNT_CMDS.contains(subCmdArg))
-				return Arrays.asList("<amount>");
+				return List.of("<amount>");
 			if (subCmdArg.equals("hide"))
 				return Arrays.asList("true", "false");
 		} else if (args.length == 4 && subCmdArg.equals("grant")) {
-				return Arrays.asList("silent");
+				return List.of("silent");
 		}
 
 		return Arrays.asList("");
