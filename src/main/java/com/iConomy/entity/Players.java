@@ -51,14 +51,11 @@ public class Players implements Listener {
      * instances of the same help lines.
      */
     private void getMoneyHelp(CommandSender sender) {
-        Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w iConomy (`r" + Constants.Codename + "`w)");
-        Messaging.send(sender, "`y ");
         Messaging.send(sender, "`w <> Required, [] Optional");
-        Messaging.send(sender, " ");
-        
+
         if(sender instanceof Player){
-            Messaging.send(sender, "`G  /money `y Check your balance");
+            Messaging.send(sender, "`G  /money [player] `y check someones balance.");
         }
         
         Messaging.send(sender, "`G  /money `g? `y For help & Information");
@@ -111,8 +108,6 @@ public class Players implements Listener {
         if (iConomy.hasPermissions(sender, "iConomy.admin.stats", true)) {
             Messaging.send(sender, "`G  /money `gstats `y Check all economic stats.");
         }
-
-        Messaging.send(sender, " ");
     }
 
     /**
@@ -325,17 +320,17 @@ public class Players implements Listener {
 
             iConomy.getTransactions().insert("[System]", name, 0.0D, balance.doubleValue(), amount, 0.0D, 0.0D);
 
-            if (online != null) {
+            if (online != null && controller != null) {
                 Messaging.send(online, this.Template.color("tag.money") + this.Template.parse("personal.set", new String[] { "+by", "+amount,+a" }, new String[] { console ? "Console" : controller.getName(), iConomy.format(amount) }));
 
                 showBalance(name, online, true);
             }
 
-            if (controller != null) {
+            if (controller == null) {
                 Messaging.send(sender, this.Template.color("tag.money") + this.Template.parse("player.set", new String[] { "+name,+n", "+amount,+a" }, new String[] { name, iConomy.format(amount) }));
             }
 
-            if (console)
+            if (console || controller == null)
                 log.info("Player " + account + "'s account had " + iConomy.format(amount) + " set to it.");
             else
                 log.info("Player " + account + "'s account had " + iConomy.format(amount) + " set to it by " + controller.getName() + ".");
