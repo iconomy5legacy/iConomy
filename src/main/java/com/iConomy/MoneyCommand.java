@@ -205,7 +205,7 @@ public class MoneyCommand implements TabExecutor {
 		if (args.length == 1) {
 			if (StringMgmt.filterByStart(SUB_CMDS, subCmdArg).size() > 0) {
 				return SUB_CMDS.stream().filter(s -> s.startsWith(subCmdArg)).collect(Collectors.toList());
-			} else{
+			} else {
 				return null;
 			}
 		} else if (args.length == 2) {
