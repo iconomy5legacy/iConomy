@@ -1,3 +1,5 @@
+5.21:
+  - Add playername tabcompleting to the root money command, courtesy of ewof with PR #41.
 5.20:
   - Refactor command parsing.
   - Remove Bank feature, which likely did not work anyways.
