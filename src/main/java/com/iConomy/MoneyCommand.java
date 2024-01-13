@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.iConomy.util.StringMgmt;
+import com.palmergames.bukkit.towny.TownySettings;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -51,13 +53,8 @@ public class MoneyCommand implements TabExecutor {
 
 		YamlConfiguration data = new YamlConfiguration();
 		File accountsFolder = null;
-		boolean hasTowny = false;
-		String townPrefix = "";
-		String nationPrefix = "";
-		String debtPrefix = "";
-		String essTownPrefix = "";
-		String essNationPrefix = "";
-		String essDebtPrefix = "";
+		String townPrefix = TownySettings.getTownAccountPrefix();
+		String nationPrefix = TownySettings.getNationAccountPrefix();
 		Logger log = iConomy.instance.getLogger();
 		/*
 		 * Try to access essentials data.
@@ -73,39 +70,11 @@ public class MoneyCommand implements TabExecutor {
 		}
 
 		/*
-		 * Read Towny settings.
-		 */
-		File townySettings = null;
-		try {
-			townySettings = new File("plugins/Towny/settings/config.yml");
-
-			if (townySettings.isFile()) {
-
-				data.load(townySettings);
-
-				townPrefix = data.getString("economy.town_prefix", "town-");
-				nationPrefix = data.getString("economy.nation_prefix", "nation-");
-				debtPrefix = data.getString("economy.debt_prefix", "[Debt]-");
-				/*
-				 * Essentials handles all NPC accounts as lower case.
-				 */
-				essTownPrefix = townPrefix.replaceAll("-", "_").toLowerCase();
-				essNationPrefix = nationPrefix.replaceAll("-", "_").toLowerCase();
-				essDebtPrefix = debtPrefix.replaceAll("[\\[\\]-]", "_").toLowerCase();
-
-				hasTowny = true;
-			}
-
-		} catch (Exception e) {
-			log.warning("Towny data not found or no permission to access.");
-		}
-
-		/*
 		 * List all account files.
 		 */
-		File[] accounts;
+		File[] userDataFiles;
 		try {
-			accounts = accountsFolder.listFiles(new FilenameFilter() {
+			userDataFiles = accountsFolder.listFiles(new FilenameFilter() {
 				public boolean accept(File file, String name) {
 					return name.toLowerCase().endsWith(".yml");
 				}
@@ -115,77 +84,66 @@ public class MoneyCommand implements TabExecutor {
 			return false;
 		}
 
-		log.info("Amount of accounts found:" + accounts.length);
+		log.info("Import: Amount of accounts found:" + userDataFiles.length);
 		int i = 0;
 
-		for (File account : accounts) {
+		for (File userDataFile : userDataFiles) {
 			String uuid = null;
 			String name = "";
 			double money = 0;
 
 			try {
 				data = new YamlConfiguration();
-				data.load(account);
+				data.load(userDataFile);
 			} catch (IOException | InvalidConfigurationException e) {
 				continue;
 			}
 
-			if (account.getName().contains("-")) {
-				uuid = account.getName().replace(".yml", "");
+			if (userDataFile.getName().contains("-")) {
+				uuid = userDataFile.getName().replace(".yml", "");
 			}
 
-			if (uuid != null) {
-				name = data.getString("lastAccountName", "");
-				try {
-					money = Double.parseDouble(data.getString("money", "0"));
-				} catch (NumberFormatException e) {
-					money = 0;
-				}
-				String actualName;
-				/*
-				 * Check for Town/Nation accounts.
-				 */
-				if (hasTowny) {
-					if (name.startsWith(essTownPrefix)) {
-						actualName = name.substring(essTownPrefix.length());
-						log.info("Import: Town account found: " + actualName);
-						name = townPrefix + actualName;
+			if (uuid == null || uuid.isEmpty())
+				continue;
 
-					} else if (name.startsWith(essNationPrefix)) {
-						actualName = name.substring(essNationPrefix.length());
-						log.info("Import: Nation account found: " + actualName);
-						name = nationPrefix + actualName;
+			name = data.getString("last-account-name", "");
+			try {
+				money = Double.parseDouble(data.getString("money", "0"));
+			} catch (NumberFormatException e) {
+				money = 0;
+			}
 
-					} else if (name.startsWith(essDebtPrefix)) {
-						actualName = name.substring(essDebtPrefix.length());
-						log.info("Import: Debt account found: " + actualName);
-						name = debtPrefix + actualName;
-					}
+			/*
+			 * Check for Town/Nation accounts.
+			 */
+			String npcName = data.getString("npc-name", "");
+			if (!npcName.isEmpty()) {
+				if (npcName.startsWith(townPrefix)) {
+					log.info("Import: Town account found: " + name.substring(townPrefix.length()));
+				} else if (npcName.startsWith(nationPrefix)) {
+					log.info("Import: Nation account found: " + name.substring(nationPrefix.length()));
 				}
+				name = npcName;
 			}
 
 			try {
-				if (iConomy.Accounts.exists(name)) {
-					if (iConomy.Accounts.get(name).getHoldings().balance() == money) {
-						continue;
-					} else
-						iConomy.Accounts.get(name).getHoldings().set(money);
+				if (iConomy.Accounts.exists(name) && iConomy.Accounts.get(name).getHoldings().balance() != money) {
+					iConomy.Accounts.get(name).getHoldings().set(money);
 				} else {
 					iConomy.Accounts.create(name);
 					iConomy.Accounts.get(name).getHoldings().set(money);
 				}
-
-				if ((i > 0) && (i % 10 == 0)) {
-					log.info(i + " accounts read...");
-				}
-				i++;
-
 			} catch (Exception e) {
-				log.warning("Importer could not parse account for " + account.getName());
+				log.warning("Importer could not parse account for " + userDataFile.getName());
 			}
+
+			if ((i > 0) && (i % 10 == 0)) {
+				log.info("Import: " + i + " accounts read...");
+			}
+			i++;
 		}
 
-		log.info(i + " accounts loaded.");
+		log.info("Import: " + i + " accounts loaded.");
 		return true;
 	}
 
