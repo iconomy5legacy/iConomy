@@ -70,3 +70,5 @@ System:
               Hostname: 'localhost'
               Port: 3306
               Flags: '?verifyServerCertificate=false&useSSL=false'
+    Towny:
+        hideBankAccounts: false                     # Set to true in order to hide town/nation accounts from the /money top command.

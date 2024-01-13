@@ -21,6 +21,9 @@ public class Constants {
     public static List<String> Minor = new LinkedList<String>();
     public static double Holdings = 30.0D;
 
+    // TownyAccount hiding
+    public static boolean hideTownyAccounts = false;
+
     // System formatting
     public static boolean FormatMinor = false;
     public static boolean FormatSeperated = false;
@@ -96,6 +99,8 @@ public class Constants {
             SQLPassword = config.getString("System.Database.Settings.MySQL.Password", SQLPassword);
             SQLFlags = config.getString("System.Database.Settings.MySQL.Flags", SQLFlags);
 
+            // TownyAccount hiding
+            hideTownyAccounts = config.getBoolean("System.Towny.hideBankAccounts", hideTownyAccounts);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
