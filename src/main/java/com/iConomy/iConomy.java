@@ -81,7 +81,7 @@ public class iConomy extends JavaPlugin {
 
     Logger log = this.getLogger();
     private final Object scheduler;
-    private static String requiredTownyVersion = "0.99.2.0";
+    private static String requiredTownyVersion = "0.100.1.0";
 
     public iConomy() {
         instance = this;

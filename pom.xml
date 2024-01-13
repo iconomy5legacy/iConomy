@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iConomy</groupId>
 	<artifactId>iConomy</artifactId>
-	<version>5.21</version>
+	<version>5.22</version>
 	<name>iConomy 5</name>
 	<description>The good ole iConomy 5</description>
 	<url>https://github.com/iconomy5legacy/iConomy</url>
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>com.github.TownyAdvanced</groupId>
 			<artifactId>Towny</artifactId>
-			<version>0.99.2.0</version>
+			<version>0.100.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 
