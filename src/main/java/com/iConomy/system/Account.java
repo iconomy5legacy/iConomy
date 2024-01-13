@@ -7,13 +7,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public class Account {
     private String name;
+    private UUID uuid;
 
-    public Account(String name) {
+    public Account(String name, UUID uuid) {
         this.name = name;
+        this.uuid = uuid;
     }
 
     Logger log = iConomy.instance.getLogger();
@@ -58,6 +61,15 @@ public class Account {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Get this Account UUID.
+     * 
+     * @return the UUID of this Account.
+     */
+    public UUID getUUID() {
+        return this.uuid;
     }
 
     /**

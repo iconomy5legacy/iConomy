@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 
@@ -55,20 +56,54 @@ public class Accounts {
         return exists;
     }
 
+	/**
+	 * Check if an Account exists with this UUID.
+	 * 
+	 * @param uuid the UUID to check
+	 * @return true if an Account exists.
+	 */
+    public boolean exists(UUID uuid) {
+    	
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        boolean exists = false;
+        try {
+            conn = iConomy.getiCoDatabase().getConnection();
+            ps = conn.prepareStatement("SELECT * FROM " + Constants.SQLTable + " WHERE uuid = ? LIMIT 1");
+            ps.setString(1, uuid.toString());
+            rs = ps.executeQuery();
+            exists = rs.next();
+        } catch (Exception ex) {
+            exists = false;
+        } finally {
+            if (ps != null)
+                try { ps.close(); } catch (SQLException ex) {}
+            
+            if (rs != null)
+                try { rs.close(); } catch (SQLException ex) {}
+            
+            if (conn != null)
+                try { conn.close(); } catch (SQLException ex) {}
+        }
+        return exists;
+    }
+
     /**
      * Create an Account.
      * 
      * @param name the Account name.
      * @return true if successful.
      */
-    public boolean create(String name) {
+    public boolean create(String name, UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = iConomy.getiCoDatabase().getConnection();
-            ps = conn.prepareStatement("INSERT INTO " + Constants.SQLTable + "(username, balance, hidden) VALUES (?, ?, 0)");
+            ps = conn.prepareStatement("INSERT INTO " + Constants.SQLTable + "(username, uuid, balance, hidden) VALUES (?, ?, 0)");
             ps.setString(1, name);
-            ps.setDouble(2, Constants.Holdings);
+            ps.setString(2, uuid.toString());
+            ps.setDouble(3, Constants.Holdings);
             ps.executeUpdate();
         } catch (Exception e) {
             return false;
@@ -81,6 +116,7 @@ public class Accounts {
         }
         return true;
     }
+
 
     /**
      * Remove the user Account with this name.
@@ -114,20 +150,15 @@ public class Accounts {
      * @param name the name of the Account (case sensitive)
      * @return true if successful.
      */
-    public boolean removeCompletely(String name) {
+    public boolean removeCompletely(UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = iConomy.getiCoDatabase().getConnection();
-            ps = conn.prepareStatement("DELETE FROM " + Constants.SQLTable + " WHERE username = ? LIMIT 1");
-            ps.setString(1, name);
+            ps = conn.prepareStatement("DELETE FROM " + Constants.SQLTable + " WHERE uuid = ? LIMIT 1");
+            ps.setString(1, uuid.toString());
             ps.executeUpdate();
-
             ps.close();
-
-            ps = conn.prepareStatement("DELETE FROM " + Constants.SQLTable + " WHERE account_name = ?");
-            ps.setString(1, name);
-            ps.executeUpdate();
         } catch (Exception e) {
             return false;
         } finally {
@@ -257,16 +288,20 @@ public class Accounts {
      * Creates one if it doesn't exist.
      * 
      * @param name the name of the Account.
+     * @param uuid the UUID of the Account.
      * @return an Account or null if unable.
      */
-    public Account get(String name) {
-        if (exists(name)) {
-            return new Account(name);
+    public Account get(String name, UUID uuid) {
+        if (uuid != null && exists(uuid)) {
+            return new Account(name, uuid);
         }
-        if (!create(name)) {
+        if (name != null && exists(name)) {
+            return new Account(name, uuid);
+        }
+        if (!create(name, uuid)) {
             return null;
         }
 
-        return new Account(name);
+        return new Account(name, uuid);
     }
 }

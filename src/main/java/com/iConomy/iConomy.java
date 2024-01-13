@@ -188,9 +188,6 @@ public class iConomy extends JavaPlugin {
 		PluginCommand command = getCommand("money");
 		command.setExecutor(commandExec);
 		command.setTabCompleter(commandExec);
-		command = getCommand("icoimport");
-		command.setExecutor(commandExec);
-		command.setTabCompleter(commandExec);
 	}
 
 	@Override
@@ -471,7 +468,7 @@ public class iConomy extends JavaPlugin {
      * @return Account or null
      */
     public static Account getAccount(String name) {
-        return Accounts.get(name);
+        return Accounts.get(name, null);
     }
 
     public static boolean hasAccount(String name) {
