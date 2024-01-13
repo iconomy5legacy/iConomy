@@ -15,9 +15,13 @@ If you use Towny older than 0.96.5.2 you will also need TownyNameUpdater.
 
 
 #### Conversion:
-Convert from other economy plugins using the Vault command:
+Convert from EssentialsEconomy using `/icoimport` (run this from the console.)
+  - This will convert player, town and nation accounts.
 
-`/vault-convert {economyplugin} iconomy5.11` (replace 5.11 with the iConomy version number.)
+Convert from other economy plugins using the Vault command:
+- Note that this will not convert town/nation accounts because Vault does not convert non-player accounts.
+
+- `/vault-convert {economyplugin} iconomy5.11` (replace 5.11 with the iConomy version number.)
 
 #### Commands:
 <img src=https://feen.us/gsffuk.png alt="showcase">
