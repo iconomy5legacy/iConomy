@@ -1,3 +1,8 @@
+5.23:
+  - Improve the /icoimport command with more feedback, and removing extra decimal places from esseco balances.
+5.22:
+  - Fix the icoimport command not working on modern essentials userdata files.
+  - Bump min. Towny Version to 0.100.1.0.
 5.21:
   - Add playername tabcompleting to the root money command, courtesy of ewof with PR #41.
 5.20:

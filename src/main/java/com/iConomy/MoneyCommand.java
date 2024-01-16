@@ -4,6 +4,7 @@ package com.iConomy;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +26,8 @@ import org.jetbrains.annotations.Nullable;
 import com.iConomy.util.Messaging;
 
 public class MoneyCommand implements TabExecutor {
+
+	DecimalFormat dFormat = new DecimalFormat("#.##"); 
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -106,11 +109,14 @@ public class MoneyCommand implements TabExecutor {
 			if (uuid == null || uuid.isEmpty())
 				continue;
 
+			log.info("Import: Attempting import from " + userDataFile.getName() + " file.");
 			name = data.getString("last-account-name", "");
 			try {
-				money = Double.parseDouble(data.getString("money", "0"));
+				money = Double.valueOf(dFormat.format(data.getDouble("money", 0.0)));
+				log.info("    Parsing balance " + data.getString("money") + " into double " + money);
 			} catch (NumberFormatException e) {
 				money = 0;
+				log.info("    Error parsing balance " + data.getString("money") + " into double.");
 			}
 
 			/*
@@ -119,9 +125,9 @@ public class MoneyCommand implements TabExecutor {
 			String npcName = data.getString("npc-name", "");
 			if (!npcName.isEmpty()) {
 				if (npcName.startsWith(townPrefix)) {
-					log.info("Import: Town account found: " + name.substring(townPrefix.length()));
+					log.info("    Town account found: " + name.substring(townPrefix.length()));
 				} else if (npcName.startsWith(nationPrefix)) {
-					log.info("Import: Nation account found: " + name.substring(nationPrefix.length()));
+					log.info("    Nation account found: " + name.substring(nationPrefix.length()));
 				}
 				name = npcName;
 			}
@@ -129,12 +135,14 @@ public class MoneyCommand implements TabExecutor {
 			try {
 				if (iConomy.Accounts.exists(name) && iConomy.Accounts.get(name).getHoldings().balance() != money) {
 					iConomy.Accounts.get(name).getHoldings().set(money);
+					log.info("    Existing account in ico5 named " + name + " being set with money " + money);
 				} else {
 					iConomy.Accounts.create(name);
 					iConomy.Accounts.get(name).getHoldings().set(money);
+					log.info("    New account named " + name + " being created with money " + money);
 				}
 			} catch (Exception e) {
-				log.warning("Importer could not parse account for " + userDataFile.getName());
+				log.warning("    Importer could not parse account for " + userDataFile.getName());
 			}
 
 			if ((i > 0) && (i % 10 == 0)) {
