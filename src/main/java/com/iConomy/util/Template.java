@@ -34,25 +34,6 @@ public class Template {
 
     public void upgrade(File file) throws IOException {
         LinkedHashMap<String, String> nodes = new LinkedHashMap<String, String>();
-
-        if (this.tpl.getString("error.bank.exists") == null) {
-            nodes.put("tag.money", "<green>[<white>Money<green>] ");
-            nodes.put("accounts.empty", "<rose>Deleted <white>all<rose> accounts.");
-            nodes.put("accounts.purge", "<rose>All inactive accounts were purged.");
-            nodes.put("accounts.remove-total", "<green>Fully deleted account <white>+name<green>.");
-        }
-
-        if (this.tpl.getString("accounts.create") == null) {
-            nodes.put("accounts.create", "<green>Created account with the name: <white>+name<green>.");
-            nodes.put("accounts.remove", "<green>Deleted account: <white>+name<green>.");
-            nodes.put("error.exists", "<rose>Account already exists.");
-        }
-
-        if (this.tpl.getString("accounts.status") == null) {
-            nodes.put("error.online", "<rose>Sorry, nobody else is online.");
-            nodes.put("accounts.status", "<green>Account status is now: <white>+status<green>.");
-        }
-
         if (this.tpl.getString("interest.announcement") == null) {
             nodes.put("interest.announcement", "+amount <green>interest gained.");
         }
