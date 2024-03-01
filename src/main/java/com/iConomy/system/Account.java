@@ -61,7 +61,7 @@ public class Account {
     }
 
     /**
-     * Get teh Holdings of this Account.
+     * Get the Holdings of this Account.
      * @return
      */
     public Holdings getHoldings() {
