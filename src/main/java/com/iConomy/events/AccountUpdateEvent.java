@@ -15,13 +15,12 @@ public class AccountUpdateEvent extends Event {
 	private double balance;
 	private double previous;
 	private double amount;
-	private boolean cancelled = false;
 	private static final HandlerList handlers = new HandlerList();
 
 	Logger log = iConomy.instance.getLogger();
 
 	public AccountUpdateEvent(Holdings account, double previous, double balance, double amount) {
-		super();
+		super(!Bukkit.isPrimaryThread());
 		this.account = account;
 		this.previous = previous;
 		this.balance = balance;
@@ -40,11 +39,6 @@ public class AccountUpdateEvent extends Event {
 		return this.amount;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-		this.balance = this.previous + amount;
-	}
-
 	public double getPrevious() {
 		return this.previous;
 	}
@@ -52,38 +46,31 @@ public class AccountUpdateEvent extends Event {
 	public double getBalance() {
 		return this.balance;
 	}
-
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
-
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
-
+	
 	public HandlerList getHandlers() {
 		return handlers;
 	}
-
+	
 	public static HandlerList getHandlerList() {
 		return handlers;
 	}
 
-	public void schedule(AccountUpdateEvent event) {
+	/**
+	 * @deprecated with no replacement.
+	 */
+	@Deprecated
+	public void setAmount(double amount) {}
 
-		if (Bukkit.isPrimaryThread()) {
-			update(event);
+	/**
+	 * @deprecated with no replacement.
+	 * @return false;
+	 */
+	@Deprecated
+	public boolean isCancelled() {return false;}
 
-		} else {
-			iConomy.instance.getScheduler().runLater(() -> update(event), 1);
-		}
-	}
-
-	private void update(AccountUpdateEvent event) {
-
-		iConomy.instance.getServer().getPluginManager().callEvent(event);
-
-		if (!event.isCancelled())
-			account.set(event.getBalance());
-	}
+	/**
+	 * @deprecated with no replacement.
+	 */
+	@Deprecated
+	public void setCancelled(boolean cancelled) {}
 }

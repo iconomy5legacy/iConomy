@@ -1,8 +1,5 @@
 package com.iConomy.events;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -11,7 +8,6 @@ import org.bukkit.event.HandlerList;
 
 import com.iConomy.iConomy;
 import com.iConomy.system.Holdings;
-import com.iConomy.util.Constants;
 
 public class AccountSetEvent extends Event {
 
@@ -22,7 +18,7 @@ public class AccountSetEvent extends Event {
 	Logger log = iConomy.instance.getLogger();
 
 	public AccountSetEvent(Holdings account, double balance) {
-		super();
+		super(!Bukkit.isPrimaryThread());
 		this.account = account;
 		this.balance = balance;
 	}
@@ -45,43 +41,5 @@ public class AccountSetEvent extends Event {
 
 	public static HandlerList getHandlerList() {
 		return handlers;
-	}
-
-	public void schedule(AccountSetEvent event) {
-
-		if (Bukkit.isPrimaryThread()) {
-			setBalance(event);
-
-		} else {
-			iConomy.instance.getScheduler().runLater(() -> setBalance(event), 1);
-		}
-	}
-
-	private void setBalance(AccountSetEvent event) {
-
-		iConomy.instance.getServer().getPluginManager().callEvent(event);
-
-		Connection conn = null;
-		PreparedStatement ps = null;
-		try {
-			conn = iConomy.getiCoDatabase().getConnection();
-
-			ps = conn.prepareStatement("UPDATE " + Constants.SQLTable + " SET balance = ? WHERE username = ?");
-			ps.setDouble(1, balance);
-			ps.setString(2, event.getAccountName());
-
-			ps.executeUpdate();
-		} catch (Exception ex) {
-			log.warning("Failed to set holdings: " + ex);
-		} finally {
-			if (ps != null)
-				try {
-					ps.close();
-				} catch (SQLException ex) {}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {}
-		}
 	}
 }

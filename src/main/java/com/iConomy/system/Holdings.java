@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+
 /**
  * Controls player Holdings, and Bank Account holdings.
  * 
@@ -21,6 +23,7 @@ import java.util.logging.Logger;
 public class Holdings {
 	
     private String name = "";
+    private Double balance = null;
     Logger log = iConomy.instance.getLogger();
 
     public Holdings(String name) {
@@ -42,10 +45,12 @@ public class Holdings {
      * @return the balance.
      */
     public double balance() {
-        return get();
+        if (balance == null)
+            balance = get();
+        return balance.doubleValue();
     }
 
-    private double get() {
+    private synchronized double get() {
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -75,51 +80,76 @@ public class Holdings {
         return balance.doubleValue();
     }
 
-    public void set(double balance) {
-        AccountSetEvent event = new AccountSetEvent(this, balance);
-        event.schedule(event);
+    public synchronized void set(double balance) {
+
+		this.balance = balance;
+		Bukkit.getPluginManager().callEvent(new AccountSetEvent(this, balance));
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = iConomy.getiCoDatabase().getConnection();
+
+			ps = conn.prepareStatement("UPDATE " + Constants.SQLTable + " SET balance = ? WHERE username = ?");
+			ps.setDouble(1, balance);
+			ps.setString(2, this.name);
+
+			ps.executeUpdate();
+
+		} catch (Exception ex) {
+			log.warning("Failed to set holdings: " + ex);
+		} finally {
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException ex) {}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (SQLException ex) {}
+		}
     }
 
     public synchronized void add(double amount) {
-        double balance = get();
+        double balance = balance();
         double ending = balance + amount;
 
-        math(amount, balance, ending);
+        callEventAndSetHoldings(amount, balance, ending);
     }
 
     public synchronized void subtract(double amount) {
-        double balance = get();
+        double balance = balance();
         double ending = balance - amount;
 
-        math(amount, balance, ending);
+        callEventAndSetHoldings(amount, balance, ending);
     }
 
     public synchronized void divide(double amount) {
-        double balance = get();
+        double balance = balance();
         double ending = balance / amount;
 
-        math(amount, balance, ending);
+        callEventAndSetHoldings(amount, balance, ending);
     }
 
     public synchronized void multiply(double amount) {
-        double balance = get();
+        double balance = balance();
         double ending = balance * amount;
 
-        math(amount, balance, ending);
+        callEventAndSetHoldings(amount, balance, ending);
     }
 
-    /**
-     * Reset Holdings to default, if the Event is not cancelled.
-     */
-    public void reset() {
-        AccountResetEvent event = new AccountResetEvent(this);
-        event.schedule(event);
-    }
+	/**
+	 * Reset Holdings to default, if the Event is not cancelled.
+	 */
+	public void reset() {
+		Bukkit.getPluginManager().callEvent(new AccountResetEvent(this));
+		set(Constants.Holdings);
+	}
 
-    private void math(double amount, double balance, double ending) {
-        AccountUpdateEvent event = new AccountUpdateEvent(this, balance, ending, amount);
-        event.schedule(event);
-    }
+	private void callEventAndSetHoldings(double amount, double previousBalance, double newBalance) {
+		Bukkit.getPluginManager().callEvent(new AccountUpdateEvent(this, previousBalance, newBalance, amount));
+		set(newBalance);
+	}
 
     /**
      * Is this balance negative?
