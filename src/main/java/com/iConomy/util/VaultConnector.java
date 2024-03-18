@@ -100,8 +100,8 @@ public class VaultConnector implements Economy {
         String errorMessage = null;
 
         Holdings holdings = iConomy.getAccount(playerName).getHoldings();
+        balance = holdings.balance() + amount;
         holdings.add(amount);
-        balance = getBalance(playerName);
         type = EconomyResponse.ResponseType.SUCCESS;
 
         iConomy.getTransactions().insert("[Vault]", playerName, 0.0D, balance, 0.0D, amount, 0.0D);
@@ -111,53 +111,17 @@ public class VaultConnector implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Holdings holdings = iConomy.getAccount(player.getName()).getHoldings();
-        holdings.add(amount);
-        balance = getBalance(player.getName());
-        type = EconomyResponse.ResponseType.SUCCESS;
-
-        iConomy.getTransactions().insert("[Vault]", player.getName(), 0.0D, balance, 0.0D, amount, 0.0D);
-
-        return new EconomyResponse(amount, balance, type, errorMessage);
+        return depositPlayer(player.getName(), amount);
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, String world, double amount) {
-
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Holdings holdings = iConomy.getAccount(playerName).getHoldings();
-        holdings.add(amount);
-        balance = getBalance(playerName);
-        type = EconomyResponse.ResponseType.SUCCESS;
-
-        iConomy.getTransactions().insert("[Vault]", playerName, 0.0D, balance, 0.0D, amount, 0.0D);
-
-        return new EconomyResponse(amount, balance, type, errorMessage);
+        return depositPlayer(playerName, amount);
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, String world, double amount) {
-
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Holdings holdings = iConomy.getAccount(player.getName()).getHoldings();
-        holdings.add(amount);
-        balance = getBalance(player.getName());
-        type = EconomyResponse.ResponseType.SUCCESS;
-
-        iConomy.getTransactions().insert("[Vault]", player.getName(), 0.0D, balance, 0.0D, amount, 0.0D);
-
-        return new EconomyResponse(amount, balance, type, errorMessage);
+        return depositPlayer(player.getName(), amount);
     }
 
     @Override
@@ -264,8 +228,9 @@ public class VaultConnector implements Economy {
 
         Holdings holdings = iConomy.getAccount(playerName).getHoldings();
         if (holdings.hasEnough(amount)) {
+        	double previousBalance = holdings.balance();
             holdings.subtract(amount);
-            balance = getBalance(playerName);
+            balance = previousBalance - amount;
             type = EconomyResponse.ResponseType.SUCCESS;
 
             iConomy.getTransactions().insert(playerName, "[Vault]", 0.0D, balance, 0.0D, 0.0D, amount);
@@ -282,77 +247,17 @@ public class VaultConnector implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Holdings holdings = iConomy.getAccount(player.getName()).getHoldings();
-        if (holdings.hasEnough(amount)) {
-            holdings.subtract(amount);
-            balance = getBalance(player.getName());
-            type = EconomyResponse.ResponseType.SUCCESS;
-
-            iConomy.getTransactions().insert(player.getName(), "[Vault]", 0.0D, balance, 0.0D, 0.0D, amount);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
-        } else {
-            amount = 0;
-            balance = getBalance(player.getName());
-            type = EconomyResponse.ResponseType.FAILURE;
-            errorMessage = "Insufficient funds";
-            return new EconomyResponse(amount, balance, type, errorMessage);
-        }
+        return withdrawPlayer(player.getName(), amount);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, String world, double amount) {
-
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Holdings holdings = iConomy.getAccount(playerName).getHoldings();
-        if (holdings.hasEnough(amount)) {
-            holdings.subtract(amount);
-            balance = getBalance(playerName);
-            type = EconomyResponse.ResponseType.SUCCESS;
-
-            iConomy.getTransactions().insert(playerName, "[Vault]", 0.0D, balance, 0.0D, 0.0D, amount);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
-        } else {
-            amount = 0;
-            balance = getBalance(playerName);
-            type = EconomyResponse.ResponseType.FAILURE;
-            errorMessage = "Insufficient funds";
-            return new EconomyResponse(amount, balance, type, errorMessage);
-        }
+        return withdrawPlayer(playerName, amount);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String world, double amount) {
-
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Holdings holdings = iConomy.getAccount(player.getName()).getHoldings();
-        if (holdings.hasEnough(amount)) {
-            holdings.subtract(amount);
-            balance = getBalance(player.getName());
-            type = EconomyResponse.ResponseType.SUCCESS;
-
-            iConomy.getTransactions().insert(player.getName(), "[Vault]", 0.0D, balance, 0.0D, 0.0D, amount);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
-        } else {
-            amount = 0;
-            balance = getBalance(player.getName());
-            type = EconomyResponse.ResponseType.FAILURE;
-            errorMessage = "Insufficient funds";
-            return new EconomyResponse(amount, balance, type, errorMessage);
-        }
+        return withdrawPlayer(player.getName(), amount);
     }
 
     @Override

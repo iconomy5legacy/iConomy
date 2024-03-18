@@ -21,7 +21,7 @@ public class AccountRemoveEvent extends Event {
 	Logger log = iConomy.instance.getLogger();
 
 	public AccountRemoveEvent(String account) {
-		super();
+		super(!Bukkit.isPrimaryThread());
 		this.account = account;
 	}
 

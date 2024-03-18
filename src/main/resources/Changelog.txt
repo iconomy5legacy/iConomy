@@ -1,5 +1,6 @@
 5.25:
   - Fix /iconomy:money not working.
+  - Fix /money pay and /money grant being able to error out when not enough arguments are given.
 5.24:
   - Remove old templates.yml upgrade code that was getting in the way.
 5.23:

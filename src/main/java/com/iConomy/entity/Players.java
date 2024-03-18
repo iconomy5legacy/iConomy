@@ -502,7 +502,7 @@ public class Players implements Listener {
 		if (!iConomy.hasPermissions(sender, "iConomy.admin.grant"))
 			return;
 
-		if (args.length == 0) {
+		if (args.length < 2) {
 			getMoneyHelp(sender);
 			return;
 		}
@@ -555,7 +555,7 @@ public class Players implements Listener {
 			return;
 		}
 
-		if (args.length == 0) {
+		if (args.length < 2) {
 			getMoneyHelp(sender);
 			return;
 		}

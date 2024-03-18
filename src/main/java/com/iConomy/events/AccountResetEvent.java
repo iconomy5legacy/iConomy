@@ -6,8 +6,6 @@ import org.bukkit.event.HandlerList;
 
 import com.iConomy.iConomy;
 import com.iConomy.system.Holdings;
-import com.iConomy.util.Constants;
-
 import java.util.logging.Logger;
 
 public class AccountResetEvent extends Event {
@@ -19,7 +17,7 @@ public class AccountResetEvent extends Event {
 	Logger log = iConomy.instance.getLogger();
 
 	public AccountResetEvent(Holdings account) {
-		super();
+		super(!Bukkit.isPrimaryThread());
 		this.account = account;
 	}
 
@@ -45,23 +43,5 @@ public class AccountResetEvent extends Event {
 
 	public static HandlerList getHandlerList() {
 		return handlers;
-	}
-
-	public void schedule(AccountResetEvent event) {
-
-		if (Bukkit.isPrimaryThread()) {
-			reset(event);
-
-		} else {
-			iConomy.instance.getScheduler().runLater(() -> reset(event), 1);
-		}
-	}
-
-	private void reset(AccountResetEvent event) {
-
-		iConomy.instance.getServer().getPluginManager().callEvent(event);
-
-		if (!event.isCancelled())
-			account.set(Constants.Holdings);
 	}
 }
