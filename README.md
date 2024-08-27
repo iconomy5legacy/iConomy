@@ -24,7 +24,8 @@ Convert from other economy plugins using the Vault command:
 - `/vault-convert {economyplugin} iconomy5.11` (replace 5.11 with the iConomy version number.)
 
 #### Commands:
-<img src=https://feen.us/gsffuk.png alt="showcase">
+![2024-08-27_12 38 41](https://github.com/user-attachments/assets/e05f8c49-df40-495a-ab02-8adcf5a5ec9d)
+
 
 #### Permission Nodes:
 Permission nodes can be gotten from the [plugin.yml](https://github.com/iconomy5legacy/iConomy/blob/master/src/main/resources/plugin.yml) They are already given out by default for the most part.
