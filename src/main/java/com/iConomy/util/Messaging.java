@@ -41,7 +41,6 @@ public class Messaging {
                 original = original.replace(String.valueOf(arguments[i]), String.valueOf(points[i]));
             }
         }
-
         return original;
     }
 
@@ -58,8 +57,7 @@ public class Messaging {
      * @return <code>String</code> - The parsed string after conversion.
      */
     public static String parse(String original) {
-        original = colorize(original);
-        return original.replaceAll("(&([a-z0-9]))", "�$2").replace("&&", "&");
+        return colorize(original);
     }
 
     /**
@@ -76,34 +74,7 @@ public class Messaging {
      * @return <code>String</code> - The parsed string after conversion.
      */
     public static String colorize(String original) {
-        original = original.replace("`r", ChatColor.RED.toString());
-        original = original.replace("`R", ChatColor.DARK_RED.toString());
-        original = original.replace("`y", ChatColor.YELLOW.toString());
-        original = original.replace("`Y", ChatColor.GOLD.toString());
-        original = original.replace("`g", ChatColor.GREEN.toString());
-        original = original.replace("`G", ChatColor.DARK_GREEN.toString());
-        original = original.replace("`a", ChatColor.AQUA.toString());
-        original = original.replace("`A", ChatColor.DARK_AQUA.toString());
-        original = original.replace("`b", ChatColor.BLUE.toString());
-        original = original.replace("`B", ChatColor.DARK_BLUE.toString());
-        original = original.replace("`p", ChatColor.LIGHT_PURPLE.toString());
-        original = original.replace("`P", ChatColor.DARK_PURPLE.toString());
-        original = original.replace("`k", ChatColor.BLACK.toString());
-        original = original.replace("`s", ChatColor.GRAY.toString());
-        original = original.replace("`S", ChatColor.DARK_GRAY.toString());
-        original = original.replace("`w", ChatColor.WHITE.toString());
-        return original.replace("<black>", ChatColor.BLACK.toString()).replace("<navy>", ChatColor.DARK_BLUE.toString()).replace("<green>", ChatColor.GREEN.toString()).replace("<teal>", ChatColor.DARK_AQUA.toString()).replace("<red>", ChatColor.DARK_RED.toString()).replace("<purple>", ChatColor.DARK_PURPLE.toString()).replace("<gold>", ChatColor.GOLD.toString()).replace("<silver>", ChatColor.GRAY.toString()).replace("<gray>", ChatColor.DARK_GRAY.toString()).replace("<blue>", ChatColor.BLUE.toString()).replace("<lime>", ChatColor.GREEN.toString()).replace("<aqua>", ChatColor.AQUA.toString()).replace("<rose>", ChatColor.RED.toString()).replace("<pink>", ChatColor.LIGHT_PURPLE.toString()).replace("<yellow>", ChatColor.YELLOW.toString()).replace("<white>", ChatColor.WHITE.toString());
-    }
-
-    /**
-     * Helper function to assist with making brackets. Why? Dunno, lazy.
-     *
-     * @param message The message inside of brackets.
-     *
-     * @return <code>String</code> - The message inside [brackets]
-     */
-    public static String bracketize(String message) {
-        return "[" + message + "]";
+        return ChatColor.translateAlternateColorCodes('&', original);
     }
 
     /**
