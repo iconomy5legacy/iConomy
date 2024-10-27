@@ -1,3 +1,6 @@
+### iConomy5 is now archived. For the same great plugin you've known all these years, check out [iConomyUnlocked](https://github.com/LlmDl/iConomyUnlocked)!
+
+----
 # iConomy 5
 
 The original iConomy 5 plugin revamped and updated. Many people have found this plugin to be very stable, lasting the test of time with less than a dozen updates being required.
