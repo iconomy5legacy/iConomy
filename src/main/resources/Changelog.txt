@@ -1,3 +1,5 @@
+5.26:
+  - Add ConversionAccount for use by future economy plugins & iConomyUnlocked.
 5.25:
   - Fix /iconomy:money not working.
   - Fix /money pay and /money grant being able to error out when not enough arguments are given.

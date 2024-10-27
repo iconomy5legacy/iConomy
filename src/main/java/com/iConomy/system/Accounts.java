@@ -1,15 +1,23 @@
 package com.iConomy.system;
 
+import com.iConomy.ConversionAccount;
 import com.iConomy.iConomy;
 import com.iConomy.util.Constants;
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.TownyEconomyHandler;
+import com.palmergames.bukkit.towny.object.Resident;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 
@@ -268,5 +276,44 @@ public class Accounts {
         }
 
         return new Account(name);
+    }
+
+    public Set<ConversionAccount> getAllAccountsForConversion() {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        Set<ConversionAccount> accounts = new HashSet<>();
+        try {
+            conn = iConomy.getiCoDatabase().getConnection();
+            ps = conn.prepareStatement("SELECT username,balance,hidden FROM " + Constants.SQLTable);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+            	String name = rs.getString("username");
+            	double balance = rs.getDouble("balance");
+            	boolean hidden = rs.getBoolean("hidden");
+            	UUID uuid = TownyEconomyHandler.getTownyObjectUUID(name);
+            	if (uuid == null) {
+            		// It could be a player.
+            		Resident res = TownyAPI.getInstance().getResident(name);
+            		if (res == null)
+            			continue;
+            		uuid = res.getUUID();
+            		if (uuid == null)
+            			continue;
+            	}
+            	accounts.add(new ConversionAccount(name, uuid.toString(), balance, hidden));
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            return null;
+        } finally {
+            if (ps != null)
+                try { ps.close(); } catch (SQLException ex) {}
+            
+            if (conn != null)
+                try { conn.close(); } catch (SQLException ex) {}
+        }
+        return accounts;
     }
 }

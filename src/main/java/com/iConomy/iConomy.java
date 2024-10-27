@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Set;
 import java.util.Timer;
 import java.util.logging.Logger;
 
@@ -554,5 +555,11 @@ public class iConomy extends JavaPlugin {
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
+	}
+
+	public static Set<ConversionAccount> getConversionAccounts() {
+		Set<ConversionAccount> allAccountsForConversion = Accounts.getAllAccountsForConversion();
+		instance.getLogger().info("Found " + allAccountsForConversion.size() + " accounts for conversion.");
+		return allAccountsForConversion;
 	}
 }
