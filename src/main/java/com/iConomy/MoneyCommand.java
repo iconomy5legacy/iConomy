@@ -133,12 +133,12 @@ public class MoneyCommand implements TabExecutor {
 			}
 
 			try {
-				if (iConomy.Accounts.exists(name) && iConomy.Accounts.get(name).getHoldings().balance() != money) {
-					iConomy.Accounts.get(name).getHoldings().set(money);
+				if (iConomy.accounts.exists(name) && iConomy.accounts.get(name).getHoldings().balance() != money) {
+					iConomy.accounts.get(name).getHoldings().set(money);
 					log.info("    Existing account in ico5 named " + name + " being set with money " + money);
 				} else {
-					iConomy.Accounts.create(name);
-					iConomy.Accounts.get(name).getHoldings().set(money);
+					iConomy.accounts.create(name);
+					iConomy.accounts.get(name).getHoldings().set(money);
 					log.info("    New account named " + name + " being created with money " + money);
 				}
 			} catch (Exception e) {

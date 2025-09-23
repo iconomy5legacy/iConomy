@@ -136,7 +136,7 @@ public class Players implements Listener {
      * Account Removal
      */
     private void removeAccount(CommandSender sender, String name) {
-        iConomy.Accounts.remove(name);
+        iConomy.accounts.remove(name);
         Messaging.send(sender, this.Template.color("tag.money") + this.Template.parse("accounts.remove", new String[] { "+name,+n" }, new String[] { name }));
     }
 
@@ -371,7 +371,7 @@ public class Players implements Listener {
      * @param amount
      */
     private void showTop(CommandSender viewing, int amount) {
-        LinkedHashMap<String, Double> Ranking = iConomy.Accounts.ranking(amount);
+        LinkedHashMap<String, Double> Ranking = iConomy.accounts.ranking(amount);
         int count = 1;
 
         Messaging.send(viewing, this.Template.parse("top.opening", new Object[] { "+amount,+a" }, new Object[] { Integer.valueOf(amount) }));
@@ -648,7 +648,7 @@ public class Players implements Listener {
 		if (!iConomy.hasPermissions(sender, "iConomy.admin.stats"))
 			return;
 
-		Collection<Double> accountHoldings = iConomy.Accounts.values();
+		Collection<Double> accountHoldings = iConomy.accounts.values();
 		Collection<Double> totalHoldings = accountHoldings;
 
 		double TCOH = 0.0D;
@@ -675,7 +675,7 @@ public class Players implements Listener {
 			return;
 
 		Confirmation.runOnAccept(()-> {
-			iConomy.Accounts.purge();
+			iConomy.accounts.purge();
 			Messaging.send(sender, this.Template.color("accounts.purge"));
 		}).sendTo(sender);
 	}
@@ -685,7 +685,7 @@ public class Players implements Listener {
 			return;
 
 		Confirmation.runOnAccept(()-> {
-			iConomy.Accounts.emptyDatabase();
+			iConomy.accounts.emptyDatabase();
 			Messaging.send(sender, this.Template.color("accounts.empty"));
 		}).sendTo(sender);
 	}

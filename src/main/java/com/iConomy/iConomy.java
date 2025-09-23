@@ -68,7 +68,7 @@ import net.milkbowl.vault.economy.Economy;
  */
 public class iConomy extends JavaPlugin {
 	
-    public static Accounts Accounts = null;
+    public static Accounts accounts = null;
 
     private static Server Server = null;
     private static Database Database = null;
@@ -103,7 +103,7 @@ public class iConomy extends JavaPlugin {
 
         Locale.setDefault(Locale.US);
 
-        registerCommands();
+//        registerCommands();
 
         // Get the server
         Server = getServer();
@@ -158,7 +158,12 @@ public class iConomy extends JavaPlugin {
         update(file, Double.valueOf(pdfFile.getVersion().split("-")[0]).doubleValue());
 
         // Initialize default systems
-        Accounts = new Accounts();
+        accounts = new Accounts();
+        
+        log.info("Accounts initialized!");
+        if (accounts== null) {
+        	log.severe("Accounts is somehow null!");
+        }
 
         try {
             if (Constants.Interest) {
@@ -194,14 +199,14 @@ public class iConomy extends JavaPlugin {
 		command.setTabCompleter(commandExec);
 	}
 
-	@Override
-    public void onLoad() {
-        // Register as a ServiceProvider and with Vault.
-        if (!registerEconomy()) {
-            this.getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-    }
+//	@Override
+//    public void onLoad() {
+//        // Register as a ServiceProvider and with Vault.
+//        if (!registerEconomy()) {
+//            this.getServer().getPluginManager().disablePlugin(this);
+//            return;
+//        }
+//    }
 
     /**
      * Register as a ServiceProvider, and with Vault.
@@ -249,7 +254,7 @@ public class iConomy extends JavaPlugin {
             }
 
             Server = null;
-            Accounts = null;
+            accounts = null;
             Database = null;
             Transactions = null;
             playerListener = null;
@@ -472,11 +477,11 @@ public class iConomy extends JavaPlugin {
      * @return Account or null
      */
     public static Account getAccount(String name) {
-        return Accounts.get(name);
+        return accounts.get(name);
     }
 
     public static boolean hasAccount(String name) {
-        return Accounts.exists(name);
+        return accounts.exists(name);
     }
 
     /**
@@ -558,7 +563,11 @@ public class iConomy extends JavaPlugin {
 	}
 
 	public static Set<ConversionAccount> getConversionAccounts() {
-		Set<ConversionAccount> allAccountsForConversion = Accounts.getAllAccountsForConversion();
+		if (accounts == null) {
+			instance.getLogger().info("Accounts is still null!");
+			return null;
+		}
+		Set<ConversionAccount> allAccountsForConversion = accounts.getAllAccountsForConversion();
 		instance.getLogger().info("Found " + allAccountsForConversion.size() + " accounts for conversion.");
 		return allAccountsForConversion;
 	}

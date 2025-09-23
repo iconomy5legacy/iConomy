@@ -1,3 +1,5 @@
+5.27:
+  - Fix conversion system used by iConomyUnlocked.
 5.26:
   - Add ConversionAccount for use by future economy plugins & iConomyUnlocked.
 5.25:
